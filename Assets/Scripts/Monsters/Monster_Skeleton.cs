@@ -137,4 +137,13 @@ public class Monster_Skeleton : Character
             anim.SetBool("Attack", false);
         }
     }
+
+    public override void Death()
+    {
+        isDead = true;
+        anim.SetTrigger("Die");
+
+        DropedItem.Drop(new Vector3(transform.position.x, 1.0f, transform.position.z), 0);
+        Destroy(gameObject, 3.0f);
+    }
 }

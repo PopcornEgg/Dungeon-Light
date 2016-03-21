@@ -8,6 +8,9 @@ public class QualityProperty {
 }
 public class EquipItem : BaseItem
 {
+    //装备位置
+    public ItemEquipType itemEquipType;
+
     //基本属性
     public int[] baseProperty = new int[(int)PropertyType.MAX];
 

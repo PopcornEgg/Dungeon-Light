@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using UnityEngine;
 
 public class TabReader
 {
@@ -15,14 +16,22 @@ public class TabReader
     private List<string[]> m_listRecord = new List<string[]>();
     private Dictionary<string, uint> m_dictField = new Dictionary<string, uint>();
 
-    public TabReader(string filename,out bool ok)
+    public TabReader(string filename, bool isU3dAsset)
     {
-        FileStream aFile = new FileStream(filename,FileMode.Open);
-        if (aFile == null)
-            ok = false;
-        else
-            ok = true;
-        if (ok) {
+        if (isU3dAsset)
+        {
+            readU3d(filename);
+        }
+        else {
+            readLocal(filename);
+        }
+    }
+
+    void readLocal(string filename)
+    {
+        FileStream aFile = new FileStream(filename, FileMode.Open);
+        if (aFile != null)
+        {
             StreamReader sr = new StreamReader(aFile);
             string line;
             while ((line = sr.ReadLine()) != null)
@@ -55,7 +64,43 @@ public class TabReader
             }
             sr.Close();
         }
-        
+    }
+    void readU3d(string filename)
+    {
+        TextAsset tasset = Resources.Load<TextAsset>(filename);
+        if (tasset == null)
+            return;
+
+        string[] lines = tasset.text.Split(new char[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+        for(int idx=0;idx< lines.Length;idx++)
+        {
+            string line = lines[idx];
+            if (line.StartsWith(FLAG_COMMENT) || line.Trim() == string.Empty)
+                continue;
+            else if (line.StartsWith(FLAG_FIELD))
+            {
+                line = line.Remove(0, 1);
+                string[] itemList = line.Split(new char[] { SPLIT_CHAR }, StringSplitOptions.None);
+                for (int i = 0; i < itemList.Length; ++i)
+                {
+                    string item = itemList[i];
+                    if (item == "")
+                        continue;
+
+                    if (m_dictField.ContainsKey(item))
+                    {
+                        continue;
+                    }
+                    m_dictField[item] = (uint)i;
+                }
+                continue;
+            }
+            else
+            {
+                string[] itemList = line.Split(new char[] { SPLIT_CHAR }, StringSplitOptions.None);
+                m_listRecord.Add(itemList);
+            }
+        }
     }
 
     public int recordCount { get { return m_listRecord.Count; } }

@@ -7,8 +7,6 @@ public class HUD_Canvas : MonoBehaviour {
     Canvas canvas;
     public Slider HP_Slider;
 
-    public Transform setUpCanvasTransform;
-
     void Awake()
     {
         StaticManager.sHUD_Canvas = this;
@@ -28,26 +26,45 @@ public class HUD_Canvas : MonoBehaviour {
     {
         if (StaticManager.sPlayer.isDead)
             return;
-        
-        Canvas _canvas = setUpCanvasTransform.GetComponent<Canvas>();
-        if(_canvas != null)
+
+        SetUp_Panel _setUpPanel = StaticManager.sSecond_Canvas.setUpPanel;
+        if (_setUpPanel != null)
         {
-            _canvas.enabled = !_canvas.enabled;
+            if (_setUpPanel.gameObject.activeSelf)
+                _setUpPanel.gameObject.SetActive(false);
+            else
+                _setUpPanel.gameObject.SetActive(true);
+
             Time.timeScale = Time.timeScale == 0 ? 1 : 0;
         }
     }
     public void DieSetUp()
     {
-        Canvas _canvas = setUpCanvasTransform.GetComponent<Canvas>();
-        if (_canvas != null)
+        SetUp_Panel _setUpPanel = StaticManager.sSecond_Canvas.setUpPanel;
+        if (_setUpPanel != null)
         {
-            _canvas.enabled = !_canvas.enabled;
+            if (_setUpPanel.gameObject.activeSelf)
+                _setUpPanel.gameObject.SetActive(false);
+            else
+                _setUpPanel.gameObject.SetActive(true);
 
-            Animator _canvasAni = _canvas.GetComponent<Animator>();
+            Animator _canvasAni = _setUpPanel.GetComponent<Animator>();
             if (_canvasAni != null)
             {
                 _canvasAni.SetTrigger("Die");
             }
+        }
+    }
+
+    public void OnClick_PlayerBag()
+    {
+        PlayerBag_Panel _playerBagPanel = StaticManager.sSecond_Canvas.playerBagPanel;
+        if (_playerBagPanel != null)
+        {
+            if (_playerBagPanel.gameObject.activeSelf)
+                _playerBagPanel.gameObject.SetActive(false);
+            else
+                _playerBagPanel.gameObject.SetActive(true);
         }
     }
 }

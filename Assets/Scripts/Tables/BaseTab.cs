@@ -5,8 +5,6 @@ using System;
 
 public class BaseTab<T>
 {
-    public int Name;
-
     public Dictionary<T, BaseTab<T>> dicTabs = new Dictionary<T, BaseTab<T>>();
 
     public List<BaseTab<T>> lsTabs = new List<BaseTab<T>>();

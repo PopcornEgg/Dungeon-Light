@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : Character
+//player逻辑处理部分
+public partial class Player : Character
 {
     //移动部分
     public float speed = 6f;            // The speed that the player will move at.
@@ -153,5 +154,34 @@ public class Player : Character
             isAttack = false;
             anim.SetBool("Attack", false);
         }
+    }
+
+    public override void TakeDamage(uint amount)
+    {
+        if (amount == 0)
+            return;
+
+        if (amount >= HP)
+            HP = 0;
+        else
+            HP -= amount;
+
+        StaticManager.sHUD_Canvas.SetHP_Slider((float)HP / (float)MaxHP);
+
+        if (HP == 0 && !isDead)
+        {
+            Death();
+        }
+    }
+
+    public override void Death()
+    {
+        isDead = true;
+        anim.SetTrigger("Die");
+        Invoke("ShowOver", 1.0f);
+    }
+    void ShowOver()
+    {
+        StaticManager.sHUD_Canvas.DieSetUp();
     }
 }

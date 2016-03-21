@@ -15,6 +15,7 @@ public class Character : MonoBehaviour {
     public String Name = "null";
     public CharacterType CType = CharacterType.Player;
     public UInt32 UID = 0;
+    public UInt32 TabID = 0;
 
     public UInt16 Level = 1;
     public UInt32 HP = 100;
@@ -114,13 +115,6 @@ public class Character : MonoBehaviour {
         else
             HP -= amount;
 
-        if (this.name == "Player")
-            StaticManager.sHUD_Canvas.SetHP_Slider((float)HP / (float)MaxHP);
-
-        // Play the hurt sound effect.
-        //playerAudio.Play();
-
-        // If the player has lost all it's health and the death flag hasn't been set yet...
         if (HP == 0 && !isDead)
         {
             Death();
@@ -128,31 +122,10 @@ public class Character : MonoBehaviour {
 
         //HPText.text = string.Format("{0}/{1}", currentHealth, startingHealth);
     }
+
     public virtual void Death()
     {
-        // Set the death flag so this function won't be called again.
         isDead = true;
-
-        // Turn off any remaining shooting effects.
-        //playerShooting.DisableEffects();
-
-        // Tell the animator that the player is dead.
         anim.SetTrigger("Die");
-
-        // Set the audiosource to play the death clip and play it (this will stop the hurt sound from playing).
-        //playerAudio.clip = deathClip;
-        //playerAudio.Play();
-
-        // Turn off the movement and shooting scripts.
-        //playerMovement.enabled = false;
-        //playerShooting.enabled = false;
-
-        if (this.name == "Player")
-            Invoke("ShowOver", 1.0f);
-    }
-
-    void ShowOver()
-    {
-        StaticManager.sHUD_Canvas.DieSetUp();
     }
 }
