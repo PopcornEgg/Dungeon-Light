@@ -18,4 +18,10 @@ public class Second_Canvas : MonoBehaviour {
         setUpPanel = transform.FindChild("SetUp_Panel").GetComponent<SetUp_Panel>();
         playerBagPanel = transform.FindChild("PlayerBag_Panel").GetComponent<PlayerBag_Panel>();
     }
+
+    public void RefreshPlayerBag()
+    {
+        if (playerBagPanel != null)
+            playerBagPanel.Refresh();
+    }
 }

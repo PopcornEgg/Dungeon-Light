@@ -21,7 +21,7 @@ public class Monster_Skeleton : Character
 
     void Start()
     {
-        StaticManager.sThird_Canvas.AddMonsterHeadInfo(this);
+        StaticManager.sHeadInfo_Canvas.AddMonsterHeadInfo(this);
     }
 
 	void Update ()
@@ -147,7 +147,7 @@ public class Monster_Skeleton : Character
         anim.SetTrigger("Die");
 
         DropedItem.Drop(new Vector3(transform.position.x, 0, transform.position.z), TabID);
-        StaticManager.sThird_Canvas.DelMonsterHeadInfo(this.UID);
+        StaticManager.sHeadInfo_Canvas.DelMonsterHeadInfo(this.UID);
         Destroy(gameObject, 3.0f);
     }
 }

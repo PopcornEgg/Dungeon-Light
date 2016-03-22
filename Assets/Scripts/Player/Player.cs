@@ -4,6 +4,8 @@ using System.Collections;
 //player逻辑处理部分
 public partial class Player : Character
 {
+    public static int dropedItemLayer = LayerMask.GetMask("DropedItem");
+
     //移动部分
     public float speed = 6f;            // The speed that the player will move at.
 
@@ -45,6 +47,30 @@ public partial class Player : Character
     public void ClearMoveDir()
     {
         moveDir = new Vector2(0, 0);
+    }
+    void Update()
+    {
+        //拾取道具
+        if (Input.GetMouseButton(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//从摄像机发出到点击坐标的射线
+            RaycastHit hitInfo;
+            if (Physics.Raycast(ray, out hitInfo, 100.0f, dropedItemLayer))
+            {
+                Debug.DrawLine(ray.origin, hitInfo.point);//划出射线，只有在scene视图中才能看到
+                GameObject gameObj = hitInfo.collider.gameObject;
+                /*
+                Debug.Log("click object name is " + gameObj.name);
+                if (gameObj.tag == "Player")//当射线碰撞目标为boot类型的物品 ，执行拾取操作
+                {
+                    Debug.Log("pick up!");
+                }
+                */
+                DropedItem _ditem = gameObj.GetComponent<DropedItem>();
+                if (_ditem != null )
+                    _ditem.OnPickuped();
+            }
+        }
     }
     void FixedUpdate()
     {

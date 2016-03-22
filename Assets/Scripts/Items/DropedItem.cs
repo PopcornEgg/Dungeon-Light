@@ -4,41 +4,28 @@ using System.Collections.Generic;
 
 public class DropedItem : MonoBehaviour
 {
-    public static int dropedItemLayer = LayerMask.GetMask("DropedItem");
-
     float rotationSpeed = 100.0f;
     public BaseItem itemData;
     void Start()
     {
-        StaticManager.sThird_Canvas.AddItemHeadInfo(this);
+        StaticManager.sHeadInfo_Canvas.AddItemHeadInfo(this);
     }
 
     void Update()
     {
-        if(itemData == null)
-        {
-//             Debug.LogError("BaseItem itemData == null");
-//             Destroy(gameObject);
-//             return;
-        }
-        if (Input.GetMouseButton(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//从摄像机发出到点击坐标的射线
-            RaycastHit hitInfo;
-            if (Physics.Raycast(ray, out hitInfo, 10.0f, dropedItemLayer))
-            {
-                Debug.DrawLine(ray.origin, hitInfo.point);//划出射线，只有在scene视图中才能看到
-                GameObject gameObj = hitInfo.collider.gameObject;
-                Debug.Log("click object name is " + gameObj.name);
-                if (gameObj.tag == "Player")//当射线碰撞目标为boot类型的物品 ，执行拾取操作
-                {
-                    Debug.Log("pick up!");
-                }
-            }
-        }
-
         //自旋转
         transform.Rotate(Vector3.up, Time.deltaTime * rotationSpeed);
+    }
+    public void OnPickuped()
+    {
+        if(itemData == null)
+            Debug.LogError("BaseItem itemData == null");
+        else
+            StaticManager.sPlayer.AddBagItem(itemData);
+
+        //先从headinfo里移除
+        StaticManager.sHeadInfo_Canvas.DelItemHeadInfo(itemData.UId);
+        DestroyImmediate(this.gameObject);
     }
 
 

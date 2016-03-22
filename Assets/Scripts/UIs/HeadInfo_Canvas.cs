@@ -34,7 +34,7 @@ public class UIPlayerHeadInfo
     public Text Level;
     public Character owner;
 }
-public class Third_Canvas : MonoBehaviour
+public class HeadInfo_Canvas : MonoBehaviour
 {
     public GameObject playerHeadinfoTemp;
     public GameObject monsterHeadinfoTemp;
@@ -45,7 +45,7 @@ public class Third_Canvas : MonoBehaviour
     Dictionary<UInt64, UIItemHeadInfo> dicItemHeadInfo = new Dictionary<UInt64, UIItemHeadInfo>();
     void Awake()
     {
-        StaticManager.sThird_Canvas = this;
+        StaticManager.sHeadInfo_Canvas = this;
     }
 	void Start () {
 

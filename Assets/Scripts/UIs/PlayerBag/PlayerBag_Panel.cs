@@ -1,7 +1,28 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
+//背包优化器
+public class PlayerBagOptimizer
+{
+    public UInt64[] itemUids = new UInt64[Player.bagSpace];
+
+    public PlayerBagOptimizer()
+    {
+        for (int i = 0; i < itemUids.Length; i++)
+            itemUids[i] = UInt64.MaxValue;
+    }
+    public bool IsChanged(int idx, UInt64 realUid)
+    {
+        if (itemUids[idx] != realUid)
+        {
+            itemUids[idx] = realUid;
+            return true;
+        }
+        return false;
+    }
+}
 public class PlayerBag_Panel : MonoBehaviour
 {
     public GameObject itemObj;
@@ -9,6 +30,9 @@ public class PlayerBag_Panel : MonoBehaviour
     GridLayoutGroup grid;
     ScrollRect scrollRect;
     Player _player = null;
+
+    PlayerBagOptimizer playerBagOptimizer = new PlayerBagOptimizer();
+    PlayerBag_Item[] playerBagItems = new PlayerBag_Item[Player.bagSpace];
 
     void Awake()
     {
@@ -37,9 +61,27 @@ public class PlayerBag_Panel : MonoBehaviour
         for (int i = 0; i < Player.bagSpace; i++)
         {
             GameObject cobj = Instantiate<GameObject>(itemObj);
-            cobj.SetActive(true);
+            playerBagItems[i] = cobj.AddComponent<PlayerBag_Item>();
             cobj.transform.SetParent(content, false);
+            cobj.SetActive(true);
         }
         itemObj.SetActive(false);
+
+        Refresh();
+    }
+
+    public void Refresh()
+    {
+        BaseItem[] bagItems = _player.bagItems;
+        for (int i = 0; i < bagItems.Length; i++)
+        {
+            if (bagItems[i] != null)
+            {
+                if(playerBagOptimizer.IsChanged(i, bagItems[i].UId))
+                {
+                    playerBagItems[i].baseItem = bagItems[i];
+                }
+            }
+        }
     }
 }

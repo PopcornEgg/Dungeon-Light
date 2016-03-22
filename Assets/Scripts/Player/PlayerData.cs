@@ -18,13 +18,17 @@ public partial class Player : Character
             return _count;
         }
     }
-    public void AddBagItem(BaseItem _item)
+    public bool AddBagItem(BaseItem _item)
     {
         for(int i=0;i< bagItems.Length; i++)
         {
             if (bagItems[i] == null)
+            {
                 bagItems[i] = _item;
+                return true;
+            }
         }
+        return false;
     }
     public void DelBagItem(int idx)
     {
