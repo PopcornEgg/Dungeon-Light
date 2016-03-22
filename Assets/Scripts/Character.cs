@@ -29,7 +29,7 @@ public class Character : MonoBehaviour {
 
     public String Name = "null";
     public CharacterType CType = CharacterType.Player;
-    public UInt32 UID = 0;
+    public UInt64 UID = 0;
     public UInt32 TabID = 0;
 
     public UInt16 Level = 1;
@@ -55,7 +55,7 @@ public class Character : MonoBehaviour {
 
     //头顶信息显示、、、、、、、、、、、、、、、
     //NPC模型高度
-    float modelHeight;
+    public float modelHeight;
     //主摄像机对象
     Camera maincamera = null;
     //红色血条贴图
@@ -88,6 +88,7 @@ public class Character : MonoBehaviour {
     {
     }
 
+    /*
     void OnGUI()
     {
         //得到NPC头顶在3D世界中的坐标
@@ -119,6 +120,7 @@ public class Character : MonoBehaviour {
 
         //Image
     }
+    */
 
     public virtual void TakeDamage(uint amount)
     {

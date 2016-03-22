@@ -32,18 +32,26 @@ public abstract class BaseItem
     int quality;
     public int Quality { get { return quality; } set { quality = value; } }
 
-    public void InitItem(uint tabId)
+    public void InitItem(ItemTab _tab)
     {
-        this.UId = tabId;
+        this.UId = Utils.GuidMaker.GenerateUInt64();
+        this.tabId = _tab.tabid;
+        this.type = _tab.type;
+        this.Name = _tab.name;
+        this.price = _tab.price;
+        this.level = _tab.level;
+        this.quality = _tab.quality;
     }
-    public virtual void InitItemEx() { }
-   
 
-    static public BaseItem newItem(uint tabId)
+    public virtual void InitItemEx(ItemTab _tab) { }
+
+    static public BaseItem newItem(ItemTab _tab)
     {
+        if (_tab == null)
+            return null;
+
         BaseItem _item = null;
-        ItemType _type = ItemType.EQUIP;
-        switch (_type)
+        switch (_tab.type)
         {
             case ItemType.EQUIP:
                 {
@@ -59,12 +67,17 @@ public abstract class BaseItem
                     break;
                 }
         }
-        if(_item != null)
+        if (_item != null)
         {
-            _item.InitItem(tabId);
-            _item.InitItemEx();
+            _item.InitItem(_tab);
+            _item.InitItemEx(_tab);
         }
         return _item;
+    }
+    static public BaseItem newItem(uint tabId)
+    {
+        ItemTab _tab = ItemTab.Get(tabId);
+        return newItem(_tab);
     }
    
 }

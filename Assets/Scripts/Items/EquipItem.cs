@@ -22,7 +22,7 @@ public class EquipItem : BaseItem
         Type = ItemType.EQUIP;
     }
 
-    override public void InitItemEx()
+    override public void InitItemEx(ItemTab _tab)
     {
 
     }

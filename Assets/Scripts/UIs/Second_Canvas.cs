@@ -9,11 +9,12 @@ public class Second_Canvas : MonoBehaviour {
     PlayerBag_Panel _playerBagPanel;
     public PlayerBag_Panel playerBagPanel { get { return _playerBagPanel; } set { _playerBagPanel = value; } }
     
-    // Use this for initialization
-    void Start ()
+    void Awake()
     {
         StaticManager.sSecond_Canvas = this;
-
+    }
+    void Start ()
+    {
         setUpPanel = transform.FindChild("SetUp_Panel").GetComponent<SetUp_Panel>();
         playerBagPanel = transform.FindChild("PlayerBag_Panel").GetComponent<PlayerBag_Panel>();
     }

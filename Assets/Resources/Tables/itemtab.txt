@@ -1,5 +1,5 @@
 #id	类型(0=金钱[0~9999]，1=药水[10000~19999],2=装备[20000~29999])	名字	售价	装备等级/需求等级	品质	掉落外观	掉落高度	掉落缩放
 $tabid	type	name	price	level	quality	dropmodel	dropheight	dropscale
-20000	1	杀猪刀	100	88	5	Broadsword	1	0.5
-20001	1	杀猪刀	101	89	6	normalsword	1	0.5
-20002	1	杀猪刀	102	90	7	RunicAxe	1	0.5
+20000	2	杀猪刀	100	88	5	Broadsword	1	0.5
+20001	2	杀猪刀	101	89	6	normalsword	1	0.5
+20002	2	杀猪刀	102	90	7	RunicAxe	1	0.5
