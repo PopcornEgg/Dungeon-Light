@@ -8,13 +8,11 @@ public class Monster_Skeleton : Character
     int attackAbleMask;
     BaseMonsterAI ai = null;
 
-    Monster_Skeleton()
-    {
-        CType = CharacterType.Monster;
-    }
-
     public override void AwakeEx()
     {
+        TabID = 2;
+        CType = CharacterType.Monster;
+
         nav = GetComponent<NavMeshAgent>();
         attackAbleMask = LayerMask.GetMask("Player");
 
@@ -143,7 +141,7 @@ public class Monster_Skeleton : Character
         isDead = true;
         anim.SetTrigger("Die");
 
-        DropedItem.Drop(new Vector3(transform.position.x, 1.0f, transform.position.z), 0);
+        DropedItem.Drop(new Vector3(transform.position.x, 0, transform.position.z), TabID);
         Destroy(gameObject, 3.0f);
     }
 }

@@ -70,26 +70,37 @@ public class DropedItem : MonoBehaviour
     }
     public static void Drop(Vector3 spawnPos, uint tid)
     {
-        string[] dropList = new string[] {
-            "Prefabs/DropItems/Broadsword",
-        };
-        int dropNum = Random.Range(1, dropPositions.Length + 1);
-        for (int i = 0; i < dropList.Length; i++)
+        MonsterTab _mtab = MonsterTab.Get(tid);
+        if (_mtab == null)
+            return;
+
+        int dropListIdx = _mtab.GetDropListIdx();
+        if (dropListIdx < 0)
+            return;
+
+        DropListTab _dltab = DropListTab.Get((uint)dropListIdx);
+        if (_dltab == null)
+            return;
+
+        for (int i = 0; i < _dltab.droplist.Length; i++)
         {
+            ItemTab _itab = ItemTab.Get((uint)_dltab.droplist[i]);
+            if (_itab == null)
+                continue;
+
             GameObject obj = null;
-            if (!dicDropItems.TryGetValue(dropList[i], out obj))
+            if (!dicDropItems.TryGetValue(_itab.dropModel, out obj))
             {
-                obj = Resources.Load<GameObject>(dropList[i]);
-                dicDropItems.Add(dropList[i], obj);
+                obj = Resources.Load<GameObject>("Prefabs/DropItems/" + _itab.dropModel);
+                dicDropItems.Add(_itab.dropModel, obj);
 
                 //Instantiate(dropList[Random.Range(0, dropList.Length)], transform.position, transform.rotation);
             }
 
             GameObject gameobj = GameObject.Instantiate<GameObject>(obj);
-            gameobj.transform.position = spawnPos + dropPositions[i];
+            gameobj.transform.position = spawnPos + dropPositions[i] + new Vector3(0, _itab.dropHeight, 0);
+            gameobj.transform.localScale = new Vector3(_itab.dropScale, _itab.dropScale, _itab.dropScale);
             gameobj.AddComponent<DropedItem>();
-            float lscale = 0.5f;
-            gameobj.transform.localScale = new Vector3(lscale, lscale, lscale);
         }
     }
 

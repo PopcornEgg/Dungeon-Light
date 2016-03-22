@@ -17,13 +17,10 @@ public partial class Player : Character
     float camRayLength = 100f;          // The length of the ray from the camera into the scene.
 #endif
 
-    Player()
-    {
-        CType = CharacterType.Player;
-    }
-
     public override void AwakeEx()
     {
+        CType = CharacterType.Player;
+
         StaticManager.sPlayer = this;
 
 #if !MOBILE_INPUT
@@ -92,8 +89,6 @@ public partial class Player : Character
 
     void Turning(float h, float v)
     {
-      
-
         movement.Set(h, 0f, v);
         Quaternion newRotatation = Quaternion.LookRotation(movement * Time.deltaTime);
         playerRigidbody.MoveRotation(newRotatation);

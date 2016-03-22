@@ -19,8 +19,6 @@ public class test : MonoBehaviour {
 
     public void DropItemTest()
     {
-        DropedItem.Drop(Vector3.zero, 0);
-
-        TabReader tr = new TabReader("Tables/test", true);
+        DropedItem.Drop(Vector3.zero, 2);
     }
 }

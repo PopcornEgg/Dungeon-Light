@@ -5,10 +5,25 @@ using System.Collections;
 
 public enum CharacterType
 {
-    Null = 0,
-    Player,
-    Monster,
+    Monster = 0,
     NPC,
+    //这里添加新的类型
+
+    Player,
+    Null,
+}
+public enum MonsterType
+{
+    //普通
+    Normal = 0,
+    //强化
+    Enchanted,
+    //精英
+    Elitist,
+    //终极
+    Boss,
+    //无
+    Null,
 }
 public class Character : MonoBehaviour {
 

@@ -11,5 +11,7 @@ public class PreloadModule : MonoBehaviour {
     void preloadTabs()
     {
         ItemTab.Read();
+        MonsterTab.Read();
+        DropListTab.Read();
     }
 }

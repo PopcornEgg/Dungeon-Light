@@ -11,9 +11,9 @@ public enum PropertyType
 
 public enum ItemType
 {
-    NULL = 0,
-    EQUIP,
+    MONEY = 0,
     MEDICINE,
+    EQUIP,
 
     MAX,
 }

@@ -13,7 +13,7 @@ public abstract class BaseItem
     public UInt64 UId { get { return uId; } set { uId = value; } }
 
     //类型
-    ItemType type = ItemType.NULL;
+    ItemType type = ItemType.MAX;
     public ItemType Type {get { return type; }set { type = value; }}
 
     //名字

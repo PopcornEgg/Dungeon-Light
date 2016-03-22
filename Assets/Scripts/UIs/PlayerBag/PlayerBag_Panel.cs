@@ -17,8 +17,6 @@ public class PlayerBag_Panel : MonoBehaviour
     }
     void Start()
     {
-       
-
         if (itemObj == null)
             return;
 
