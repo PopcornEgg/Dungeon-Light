@@ -13,5 +13,7 @@ public class PreloadModule : MonoBehaviour {
         ItemTab.Read();
         MonsterTab.Read();
         DropListTab.Read();
+
+        SpriteManager.Init(this.transform);
     }
 }

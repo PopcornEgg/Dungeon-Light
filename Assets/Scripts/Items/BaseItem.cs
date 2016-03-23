@@ -6,41 +6,36 @@ public abstract class BaseItem
 {
     //表索引ID
     uint tabId;
-    public uint TabId { get { return tabId; } set { tabId = value; } }
+    public uint TabId { get { return tabId; } }
 
     //唯一ID
     UInt64 uId;
-    public UInt64 UId { get { return uId; } set { uId = value; } }
+    public UInt64 UId { get { return uId; } }
+
+    //配置表中的数据
+    ItemTab tabData;
+    public ItemTab TabData { get { return tabData; } }
 
     //类型
-    ItemType type = ItemType.MAX;
-    public ItemType Type {get { return type; }set { type = value; }}
+    public ItemType Type {get { return tabData.type; }}
 
     //名字
-    String name;
-    public String Name { get { return name; } set { name = value; } }
+    public String Name { get { return tabData.name; }}
 
     //售价
-    int price;
-    public int Price{get { return price; }set { price = value; } }
+    public int Price{get { return tabData.price; }}
 
     //装备等级 / 需求等级
-    int level;
-    public int Level { get { return level; } set { level = value; } }
+    public int Level { get { return tabData.level; } }
 
     //品质
-    int quality;
-    public int Quality { get { return quality; } set { quality = value; } }
+    public int Quality { get { return tabData.quality; } }
 
     public void InitItem(ItemTab _tab)
     {
-        this.UId = Utils.GuidMaker.GenerateUInt64();
+        this.uId = Utils.GuidMaker.GenerateUInt64();
         this.tabId = _tab.tabid;
-        this.type = _tab.type;
-        this.Name = _tab.name;
-        this.price = _tab.price;
-        this.level = _tab.level;
-        this.quality = _tab.quality;
+        this.tabData = _tab;
     }
 
     public virtual void InitItemEx(ItemTab _tab) { }

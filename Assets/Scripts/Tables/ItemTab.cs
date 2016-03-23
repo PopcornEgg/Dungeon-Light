@@ -8,28 +8,44 @@ public class ItemTab
 {
     #region ***属性数据***
     //表索引ID
-    public uint tabid;
+    public readonly uint tabid;
     //类型
-    public ItemType type;
+    public readonly ItemType type;
     //名字
-    public String name;
+    public readonly String name;
     //售价
-    public int price;
+    public readonly int price;
     //装备等级 / 需求等级
-    public int level;
+    public readonly int level;
     //品质
-    public int quality;
+    public readonly int quality;
     #endregion
 
-    #region*** 外观数据***
+    #region*** 显示数据***
     //掉落外观
-    public string dropModel;
+    public readonly string icon;
+    //掉落外观
+    public readonly string dropModel;
     //掉落高度
-    public float dropHeight;
+    public readonly float dropHeight;
     //掉落缩放
-    public float dropScale;
+    public readonly float dropScale;
     #endregion
 
+    public ItemTab(int i, TabReader tr)
+    {
+        tabid = tr.GetItemUInt32(i, "tabid");
+        type = (ItemType)tr.GetItemUInt32(i, "type");
+        name = tr.GetString(i, "name");
+        price = tr.GetItemInt32(i, "price");
+        level = tr.GetItemInt32(i, "level");
+        quality = tr.GetItemInt32(i, "quality");
+        //显示数据
+        icon = tr.GetString(i, "icon");
+        dropModel = tr.GetString(i, "dropmodel");
+        dropHeight = tr.GetItemFloat(i, "dropheight");
+        dropScale = tr.GetItemFloat(i, "dropscale");
+    }
     public static Dictionary<uint, ItemTab> dicTabs = new Dictionary<uint, ItemTab>();
 
     public static void Read()
@@ -37,19 +53,7 @@ public class ItemTab
         TabReader tr = new TabReader("Tables/itemtab", true);
         for (int i = 0; i < tr.recordCount; i++)
         {
-            ItemTab _item = new ItemTab();
-            //属性数据
-            _item.tabid = tr.GetItemUInt32(i, "tabid");
-            _item.type = (ItemType)tr.GetItemUInt32(i, "type");
-            _item.name = tr.GetString(i, "name");
-            _item.price = tr.GetItemInt32(i, "price");
-            _item.level = tr.GetItemInt32(i, "level");
-            _item.quality = tr.GetItemInt32(i, "quality");
-            //外观数据
-            _item.dropModel = tr.GetString(i, "dropmodel");
-            _item.dropHeight = tr.GetItemFloat(i, "dropheight");
-            _item.dropScale = tr.GetItemFloat(i, "dropscale");
-
+            ItemTab _item = new ItemTab(i, tr);
             dicTabs.Add(_item.tabid, _item);
         }
     }

@@ -19,7 +19,6 @@ public class EquipItem : BaseItem
 
     public EquipItem()
     {
-        Type = ItemType.EQUIP;
     }
 
     override public void InitItemEx(ItemTab _tab)

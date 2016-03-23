@@ -8,13 +8,30 @@ public class DropListTab
 {
     #region ***属性数据***
     //表索引ID
-    public uint tabid;
+    public readonly uint tabid;
     //掉落列表
-    public int[] droplist;
+    public readonly int[] droplist;
     //掉落数量
-    public int[] dropcount;
+    public readonly int[] dropcount;
     #endregion
 
+    public DropListTab(int i, TabReader tr)
+    {
+        //属性数据
+        tabid = tr.GetItemUInt32(i, "tabid");
+
+        //读取列表
+        string[] sp;
+        sp = tr.GetString(i, "droplist").Split('|');
+        droplist = new int[sp.Length];
+        for (int j = 0; j < sp.Length; j++)
+            droplist[j] = Convert.ToInt32(sp[j]);
+
+        sp = tr.GetString(i, "dropcount").Split('|');
+        dropcount = new int[sp.Length];
+        for (int j = 0; j < sp.Length; j++)
+            dropcount[j] = Convert.ToInt32(sp[j]);
+    }
     //静态
     public static Dictionary<uint, DropListTab> dicTabs = new Dictionary<uint, DropListTab>();
 
@@ -23,22 +40,7 @@ public class DropListTab
         TabReader tr = new TabReader("Tables/droplisttab", true);
         for (int i = 0; i < tr.recordCount; i++)
         {
-            DropListTab _item = new DropListTab();
-            //属性数据
-            _item.tabid = tr.GetItemUInt32(i, "tabid");
-            
-            //读取列表
-            string[] sp;
-            sp = tr.GetString(i, "droplist").Split('|');
-            _item.droplist = new int[sp.Length];
-            for (int j = 0; j < sp.Length; j++)
-                _item.droplist[j] = Convert.ToInt32(sp[j]);
-
-            sp = tr.GetString(i, "dropcount").Split('|');
-            _item.dropcount = new int[sp.Length];
-            for (int j = 0; j < sp.Length; j++)
-                _item.dropcount[j] = Convert.ToInt32(sp[j]);
-
+            DropListTab _item = new DropListTab(i, tr);
             dicTabs.Add(_item.tabid, _item);
         }
     }
