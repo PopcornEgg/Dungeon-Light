@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Monster_Skeleton : Character
+public class Monster : Character
 {
     NavMeshAgent nav;               // Reference to the nav mesh agent.
     bool playerInRange;             // Whether player is within the trigger collider and can be attacked.
@@ -10,6 +10,8 @@ public class Monster_Skeleton : Character
 
     public override void AwakeEx()
     {
+        UID = Utils.GuidMaker.GenerateUInt64();
+
         TabID = 2;
         CType = CharacterType.Monster;
 
@@ -24,14 +26,22 @@ public class Monster_Skeleton : Character
         StaticManager.sHeadInfo_Canvas.AddMonsterHeadInfo(this);
     }
 
-	void Update ()
+    void SetAniBool(string _name)
+    {
+        anim.SetBool("Idle", _name == "Idle");
+        anim.SetBool("Walk", _name == "Walk");
+        anim.SetBool("Attack", _name == "Attack");
+    }
+
+    void Update ()
     {
         if (StaticManager.sPlayer == null)
             return;
 
         if (StaticManager.sPlayer.isDead)
         {
-            anim.SetBool("Idle", true);
+            //anim.SetBool("Idle", true);
+            SetAniBool("Idle");
             return;
         }
 
@@ -53,11 +63,14 @@ public class Monster_Skeleton : Character
                         transform.position.y,
                         StaticManager.sPlayer.transform.position.z);
                     nav.SetDestination(despos);
-                    anim.SetBool("Walk", true);
+                    //anim.SetBool("Walk", true);
+                    SetAniBool("Walk");
                 }
                 else
                 {
                     nav.enabled = false;
+                    //anim.SetBool("Idle", true);
+                    SetAniBool("Idle");
                 }
             }
         }
@@ -94,19 +107,19 @@ public class Monster_Skeleton : Character
         //攻击时停止移动
         nav.enabled = false;
 
-        if (StaticManager.sPlayer.HP > 0)
+        if (StaticManager.sPlayer.HP > 0 && Time.time >= nextAttackTime)
         {
-            Invoke("RealTakeDamage", 1.2f);
+            Invoke("DamageDelay", damageDelay);
 
             //播发动作
             isAttack = true;
-            anim.SetBool("Attack", true);
-
-            Invoke("AttackEnd", attackSpeed);
+            SetAniBool("Attack");
+            nextAttackTime = Time.time + attackSpeed;
+            Invoke("AttackEnd", attackLastTime);
         }
     }
    
-    void RealTakeDamage()
+    void DamageDelay()
     {
         Vector3 orgPos = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
         Ray shootRay = new Ray(orgPos, transform.forward);
@@ -137,7 +150,7 @@ public class Monster_Skeleton : Character
         if (isAttack)
         {
             isAttack = false;
-            anim.SetBool("Attack", false);
+            SetAniBool("Idle");
         }
     }
 

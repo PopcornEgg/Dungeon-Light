@@ -12,6 +12,13 @@ public enum CharacterType
     Player,
     Null,
 }
+public enum CharacterAniState
+{
+    Idle = 0,
+    Walk,
+    Attack,
+    Die,
+}
 public enum MonsterType
 {
     //普通
@@ -38,9 +45,16 @@ public class Character : MonoBehaviour {
     public UInt32 MP = 100;
     public UInt32 MaxMP = 100;
 
+    public CharacterAniState CAniType = CharacterAniState.Idle;
     public float moveSpeed = 1.0f;
-    public float attackSpeed = 1.0f;
-
+    public float attackLastTime = 2.0f;//攻击持续时间
+    public float attackSpaceTime = 20.5f;//攻击间隔时间
+    public float attackSpeed {
+        get { return attackSpaceTime + attackLastTime; }
+    }
+    public float nextAttackTime = 0;
+    public float damageDelay = 1.0f;
+    
     public UInt32 magicDamage = 1;
     public UInt32 physicalDamage = 1;
     public UInt32 magicDefense = 1;
@@ -49,7 +63,6 @@ public class Character : MonoBehaviour {
     //一些状态
     public bool isAttack = false;
     public bool isDead;
-
     
     public Animator anim;                      // Reference to the animator component.
 
@@ -58,10 +71,6 @@ public class Character : MonoBehaviour {
     public float modelHeight;
     //主摄像机对象
     Camera maincamera = null;
-    //红色血条贴图
-    public Texture2D blood_red = null;
-    //黑色血条贴图
-    public Texture2D blood_black = null;
 
     void Awake()
     {
@@ -77,9 +86,6 @@ public class Character : MonoBehaviour {
         float scal_y = transform.localScale.y;
         //它们的乘积就是高度
         modelHeight = (size_y * scal_y);
-
-        blood_red = Texture2D.whiteTexture;
-        blood_black = Texture2D.blackTexture;
 
         AwakeEx();
     }
