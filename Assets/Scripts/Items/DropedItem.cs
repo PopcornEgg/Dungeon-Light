@@ -21,7 +21,10 @@ public class DropedItem : MonoBehaviour
         if(itemData == null)
             Debug.LogError("BaseItem itemData == null");
         else
-            StaticManager.sPlayer.AddBagItem(itemData);
+        {
+            if (StaticManager.sPlayer.AddBagItem(itemData))
+                StaticManager.sSecond_Canvas.RefreshPlayerBag();
+        }
 
         //先从headinfo里移除
         StaticManager.sHeadInfo_Canvas.DelItemHeadInfo(itemData.UId);

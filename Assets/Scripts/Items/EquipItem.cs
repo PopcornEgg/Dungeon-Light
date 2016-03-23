@@ -17,11 +17,16 @@ public class EquipItem : BaseItem
     //品质属性
     public QualityProperty[] qualityPropertys = new QualityProperty[Config.QualityPropertyCount];
 
+    public override int GetCount()
+    {
+        return 1;
+    }
+
     public EquipItem()
     {
     }
 
-    override public void InitItemEx(ItemTab _tab)
+    override public void InitItemEx()
     {
 
     }

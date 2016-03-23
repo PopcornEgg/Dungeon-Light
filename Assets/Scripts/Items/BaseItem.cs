@@ -31,6 +31,8 @@ public abstract class BaseItem
     //品质
     public int Quality { get { return tabData.quality; } }
 
+   
+
     public void InitItem(ItemTab _tab)
     {
         this.uId = Utils.GuidMaker.GenerateUInt64();
@@ -38,7 +40,11 @@ public abstract class BaseItem
         this.tabData = _tab;
     }
 
-    public virtual void InitItemEx(ItemTab _tab) { }
+    public virtual int GetCount()
+    {
+        return 0;
+    }
+    public virtual void InitItemEx() { }
 
     static public BaseItem newItem(ItemTab _tab)
     {
@@ -65,7 +71,7 @@ public abstract class BaseItem
         if (_item != null)
         {
             _item.InitItem(_tab);
-            _item.InitItemEx(_tab);
+            _item.InitItemEx();
         }
         return _item;
     }

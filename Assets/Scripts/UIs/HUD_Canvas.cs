@@ -67,4 +67,15 @@ public class HUD_Canvas : MonoBehaviour {
                 _playerBagPanel.gameObject.SetActive(true);
         }
     }
+    public void OnClick_PlayerProperty()
+    {
+        PlayerBag_Panel _playerBagPanel = StaticManager.sSecond_Canvas.playerBagPanel;
+        if (_playerBagPanel != null)
+        {
+            if (_playerBagPanel.gameObject.activeSelf)
+                _playerBagPanel.gameObject.SetActive(false);
+            else
+                _playerBagPanel.gameObject.SetActive(true);
+        }
+    }
 }

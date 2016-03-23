@@ -12,11 +12,15 @@ public class SpriteManager
     public static void Init(Transform _root)
     {
         //初始化装备ICON
-        SpriteRenderer[] sp = _root.FindChild("Icons").FindChild("Equips").GetComponentsInChildren<SpriteRenderer>();
+        Transform Icons = _root.FindChild("Icons");
+        SpriteRenderer[] sp = Icons.FindChild("Equips").GetComponentsInChildren<SpriteRenderer>();
         for(int i = 0; i < sp.Length; i++)
         {
             dicIconEquips.Add(sp[i].name, sp[i]);
         }
+
+        //最后隐藏Icons
+        Icons.gameObject.SetActive(false);
     }
 
     public static Sprite GetIconEquip(String _name)

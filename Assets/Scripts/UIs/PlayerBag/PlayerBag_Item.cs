@@ -10,7 +10,8 @@ public class PlayerBag_Item : MonoBehaviour {
         set
         {
             _baseItem = value;
-            txtCount.text = "x80";
+            txtCount.text = string.Format("x{0}", _baseItem.GetCount());
+            imgIcon.sprite = SpriteManager.GetIconEquip(_baseItem.TabData.icon);
         }
     }
     Image imgIcon;

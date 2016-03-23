@@ -72,6 +72,9 @@ public class PlayerBag_Panel : MonoBehaviour
 
     public void Refresh()
     {
+        if (!gameObject.activeSelf)
+            return;
+
         BaseItem[] bagItems = _player.bagItems;
         for (int i = 0; i < bagItems.Length; i++)
         {
