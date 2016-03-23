@@ -124,10 +124,9 @@ public class Monster : Character
         Vector3 orgPos = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
         Ray shootRay = new Ray(orgPos, transform.forward);
         RaycastHit shootHit;
-        float range = 3.0f;
 
         // Perform the raycast against gameobjects on the shootable layer and if it hits something...
-        if (Physics.Raycast(shootRay, out shootHit, range, attackAbleMask))
+        if (Physics.Raycast(shootRay, out shootHit, attackDistance, attackAbleMask))
         {
             // Try and find an EnemyHealth script on the gameobject hit.
             Character health = shootHit.collider.GetComponent<Character>();

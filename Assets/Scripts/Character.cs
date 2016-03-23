@@ -54,7 +54,9 @@ public class Character : MonoBehaviour {
     }
     public float nextAttackTime = 0;
     public float damageDelay = 1.0f;
-    
+    public float attackDistance = 3.0f;
+
+
     public UInt32 magicDamage = 1;
     public UInt32 physicalDamage = 1;
     public UInt32 magicDefense = 1;
