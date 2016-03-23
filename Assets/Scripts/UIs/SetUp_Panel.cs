@@ -3,13 +3,6 @@ using System.Collections;
 
 public class SetUp_Panel : MonoBehaviour {
 
-    Canvas canvas;
-    // Use this for initialization
-    void Start () {
-
-        canvas = GetComponent<Canvas>();
-    }
-	
 	// Update is called once per frame
 	void Update () {
 	
@@ -17,19 +10,20 @@ public class SetUp_Panel : MonoBehaviour {
 
     public void OnGoOn()
     {
-        canvas.enabled = !canvas.enabled;
+        this.gameObject.SetActive(false);
         Time.timeScale = Time.timeScale == 0 ? 1 : 0;
     }
 
     public void OnReset()
     {
-        canvas.enabled = false;
+        this.gameObject.SetActive(false);
         Time.timeScale = 1;
         Application.LoadLevel(Application.loadedLevel);
     }
 
     public void OnExit()
     {
+        this.gameObject.SetActive(false);
         Time.timeScale = 1;
         Application.LoadLevel("Start");
     }
