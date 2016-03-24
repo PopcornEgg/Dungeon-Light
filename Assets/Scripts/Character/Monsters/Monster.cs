@@ -134,7 +134,7 @@ public class Monster : Character
             // If the EnemyHealth component exist...
             if (health != null)
             {
-                health.TakeDamage(this.physicalDamage);
+                health.TakeDamage(this.AD);
             }
         }
 

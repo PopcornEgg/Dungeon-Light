@@ -78,7 +78,7 @@ public class HeadInfo_Canvas : MonoBehaviour
             uhi.gobj.transform.position = new Vector3(position.x, position.y, 0);
 
             //显示数值
-            uhi.hpslider.value = (float)uhi.owner.HP / (float)uhi.owner.MaxHP;
+            uhi.hpslider.value = (float)uhi.owner.HP / (float)uhi.owner.MAXHP;
             uhi.Name.text = uhi.owner.Name;
             uhi.Level.text = uhi.owner.Level.ToString();
         }
@@ -93,7 +93,7 @@ public class HeadInfo_Canvas : MonoBehaviour
         uhiplayer.gobj.transform.position = new Vector3(position.x, position.y, 0);
 
         //显示数值
-        uhiplayer.hpslider.value = (float)uhiplayer.owner.HP / (float)uhiplayer.owner.MaxHP;
+        uhiplayer.hpslider.value = (float)uhiplayer.owner.HP / (float)uhiplayer.owner.MAXHP;
         uhiplayer.Name.text = uhiplayer.owner.Name;
         uhiplayer.Level.text = uhiplayer.owner.Level.ToString();
     }

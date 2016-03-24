@@ -3,8 +3,15 @@ using System.Collections;
 
 public enum PropertyType
 {
-    AD = 0,//attact damage（物理伤害）
+    HP = 0,
+    MAXHP,
+    MP,
+    MAXMP,
+    AD,//attact damage（物理伤害）
     AP, //Ability Power（技能力量）
+    ADD,//attact damage defense（物理伤害防御）
+    APD, //Ability Power defense（技能力量防御）
+    MOVESPEED,
 
     MAX,
 }

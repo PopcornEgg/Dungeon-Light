@@ -12,7 +12,7 @@ public class EquipItem : BaseItem
     public ItemEquipType itemEquipType;
 
     //基本属性
-    public int[] baseProperty = new int[(int)PropertyType.MAX];
+    public int[] property = new int[(int)PropertyType.MAX];
 
     //品质属性
     public QualityProperty[] qualityPropertys = new QualityProperty[Config.QualityPropertyCount];

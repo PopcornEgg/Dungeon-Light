@@ -32,21 +32,34 @@ public enum MonsterType
     //无
     Null,
 }
-public class Character : MonoBehaviour {
-
+public class Character : MonoBehaviour
+{
+    //基本信息(所有角色都具有的)
+    public UInt64 UID = 0;
+    public UInt32 TabID = 0;//对于player来说无用
     public String Name = "null";
     public CharacterType CType = CharacterType.Player;
-    public UInt64 UID = 0;
-    public UInt32 TabID = 0;
-
     public UInt16 Level = 1;
-    public UInt32 HP = 100;
-    public UInt32 MaxHP = 100;
-    public UInt32 MP = 100;
-    public UInt32 MaxMP = 100;
 
+    //属性信息
+    public int[] property = new int[(int)PropertyType.MAX];
+    public UInt32 HP {get { return (UInt32)property[(int)PropertyType.HP]; }set { property[(int)PropertyType.HP] = (int)value; }}
+    public UInt32 MAXHP {get { return (UInt32)property[(int)PropertyType.MAXHP]; }set { property[(int)PropertyType.MAXHP] = (int)value; }}
+    public UInt32 MP { get { return (UInt32)property[(int)PropertyType.MP]; } set { property[(int)PropertyType.MP] = (int)value; } }
+    public UInt32 MAXMP { get { return (UInt32)property[(int)PropertyType.MAXMP]; } set { property[(int)PropertyType.MAXMP] = (int)value; } }
+    public UInt32 AD { get { return (UInt32)property[(int)PropertyType.AD]; } set { property[(int)PropertyType.AD] = (int)value; } }
+    public UInt32 ADD { get { return (UInt32)property[(int)PropertyType.ADD]; } set { property[(int)PropertyType.ADD] = (int)value; } }
+    public UInt32 AP { get { return (UInt32)property[(int)PropertyType.AP]; } set { property[(int)PropertyType.AP] = (int)value; } }
+    public UInt32 APD { get { return (UInt32)property[(int)PropertyType.APD]; } set { property[(int)PropertyType.APD] = (int)value; } }
+    public float MOVESPEED { get { return (float)property[(int)PropertyType.MOVESPEED]/100.0f; } set { property[(int)PropertyType.MOVESPEED] = (int)(value * 100.0f); } }
+
+    //AI范畴
     public CharacterAniState CAniType = CharacterAniState.Idle;
-    public float moveSpeed = 1.0f;
+    public bool isAttack = false;
+    public bool isDead;
+    public Animator anim;
+
+    //技能范畴
     public float attackLastTime = 2.0f;//攻击持续时间
     public float attackSpaceTime = 20.5f;//攻击间隔时间
     public float attackSpeed {
@@ -56,30 +69,12 @@ public class Character : MonoBehaviour {
     public float damageDelay = 1.0f;
     public float attackDistance = 3.0f;
 
-
-    public UInt32 magicDamage = 1;
-    public UInt32 physicalDamage = 1;
-    public UInt32 magicDefense = 1;
-    public UInt32 physicalDefense = 1;
-
-    //一些状态
-    public bool isAttack = false;
-    public bool isDead;
-    
-    public Animator anim;                      // Reference to the animator component.
-
-    //头顶信息显示、、、、、、、、、、、、、、、
-    //NPC模型高度
-    public float modelHeight;
-    //主摄像机对象
-    Camera maincamera = null;
+    //头顶信息显示
+    public float modelHeight;//模型高度
 
     void Awake()
     {
         anim = GetComponent<Animator>();
-
-        //得到摄像机对象
-        maincamera = Camera.main;
 
         CapsuleCollider collider = GetComponent<CapsuleCollider>();
         //得到模型原始高度
@@ -144,8 +139,6 @@ public class Character : MonoBehaviour {
         {
             Death();
         }
-
-        //HPText.text = string.Format("{0}/{1}", currentHealth, startingHealth);
     }
 
     public virtual void Death()
