@@ -1,3 +1,3 @@
 #id	名字	范围类型	范围类型	冷却时间	持续时间(技能的动作播放时间)	释放技能期间能否移动	是否是持续伤害	最多能造成的伤害 =0表示无限制	造成伤害的次数 =0表示无限制	伤害间隔时间	产生伤害的延迟时间	能否暴击	暴击率 （百分比）	是否真实伤害	真实伤害数值 >0表示采用该数值 <=0表示按公式计算	伤害的计算公式数据	基数	系数			
 $tabid	name	srtype	srvalues	cdtime	lasttime	skillingcanmove	islastdamage	maxtakedamage	maxcountdamage	damagespacetime	damagedelaytime	cancritical	criticalrate	isrealcritical	realdamage	skilldamaget0	skilldamager0	skilldamagec0	skilldamaget1	skilldamager1	skilldamagec1
-0	普攻	3	0|10|0|0	1.5	1	0	0	0	0	0	0.5	1	50	0	0	4	10|20|30	1.1|1.2|1.3	-1	0	0
+0	普攻	3	0|10|0|0	1	0.8	0	0	0	0	0	0.4	1	50	0	0	4	10|20|30	1.1|1.2|1.3	-1	0	0

@@ -12,6 +12,7 @@ public class BaseInsSkill
     public readonly float insTime;//实例化时间
     public HasSkills.SkillData skillData;
     public SkillTab skillTab;
+    public int damageTimes = 0;//执行伤害此时
 
     public BaseInsSkill(Character _o, Character _t)
     {
@@ -23,7 +24,10 @@ public class BaseInsSkill
     {
         //生命周期到了
         if (skillTab.lastTime + insTime <= Time.time)
+        {
+            owner.SkillEnd(skillTab.tabid);
             return false;
+        }
 
         return OnTickEx();
     }
@@ -34,11 +38,12 @@ public class BaseInsSkill
         int idx = (int)skillData.level - 1;
 
         // CommonAttack
-        if (skillTab.isLastDamage) {
+        if (skillTab.isLastDamage)
+        {
         }
         else
         {
-            if (skillTab.damageDelayTime + insTime <= Time.time)
+            if (skillTab.damageDelayTime + insTime <= Time.time && damageTimes == 0)
             {
                 for (int i = 0; i < skillTab.skillDamage.Length; i++)
                 {
@@ -58,8 +63,7 @@ public class BaseInsSkill
                         targets[i].TakeDamage((UInt32)_damages);
                     }
                 }
-                owner.SkillEnd(skillTab.tabid);
-                return false;
+                damageTimes++;
             }
         }
         return true;

@@ -94,48 +94,16 @@ public partial class Player : Character
         //播放动作
         anim.SetBool("Run", h != 0f || v != 0f);
     }
-    
+
     public void Attack()
     {
         if (isAttack || isDead)
             return;
 
-        if(InsSkillRetType.OK == characterSkill.InstanceSkill(0, null))
+        if (InsSkillRetType.OK == characterSkill.InstanceSkill(0, null))
         {
             isAttack = true;
             anim.SetTrigger("Attack");
-            //Invoke("AttackEnd", attackSpeed);
-            //Invoke("DamageDelay", damageDelay);
-        }
-    }
-    void DamageDelay()
-    {
-        Vector3 orgPos = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-        Ray shootRay = new Ray(orgPos, transform.forward);
-        RaycastHit shootHit;
-        float range = 5.0f;
-
-        if (Physics.Raycast(shootRay, out shootHit, range, attackAbleMask))
-        {
-            Character enemyHealth = shootHit.collider.GetComponent<Character>();
-            if (enemyHealth != null)
-            {
-                enemyHealth.TakeDamage(this.AD);
-            }
-        }
-
-        //         LineRenderer gunLine = GetComponent<LineRenderer>();
-        //         gunLine.enabled = true;
-        //         gunLine.SetPosition(0, orgPos);
-        //         gunLine.SetPosition(1, shootRay.origin + shootRay.direction * range);
-    }
-    void AttackEnd()
-    {
-        //播发动作
-        if (isAttack)
-        {
-            isAttack = false;
-            anim.SetBool("Attack", false);
         }
     }
     public override void SkillEnd(uint _skillid)
