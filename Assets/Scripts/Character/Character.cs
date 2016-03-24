@@ -69,6 +69,7 @@ public class Character : MonoBehaviour
     public Animator anim;
 
     //技能范畴
+    public CharacterSkill characterSkill;
     public float attackLastTime = 2.0f;//攻击持续时间
     public float attackSpaceTime = 20.5f;//攻击间隔时间
     public float attackSpeed {
@@ -94,12 +95,21 @@ public class Character : MonoBehaviour
         modelHeight = (size_y * scal_y);
 
         AwakeEx();
+
+        characterSkill = new CharacterSkill(this);
     }
 
     public virtual void AwakeEx()
     {
     }
-
+    void Update()
+    {
+        characterSkill.OnTick();
+        UpdateEx();
+    }
+    public virtual void UpdateEx()
+    {
+    }
     /*
     void OnGUI()
     {
@@ -154,5 +164,10 @@ public class Character : MonoBehaviour
     {
         isDead = true;
         anim.SetTrigger("Die");
+    }
+
+    public virtual void AddSkillExp(UInt32 _skillid, UInt32 _exp)
+    {
+
     }
 }
