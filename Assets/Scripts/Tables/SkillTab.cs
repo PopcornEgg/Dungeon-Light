@@ -11,21 +11,23 @@ public enum SkillRangeType
     Circle,
     Sector,
 }
-public class SkillDamage
-{
-    public readonly PropertyType type;
-    public readonly int[] radix;//基数
-    public readonly float[] coefficient;// 系数
 
-    public SkillDamage(PropertyType _t, int[] _r, float[] _c)
-    {
-        type = _t;
-        radix = _r;
-        coefficient = _c;
-    }
-}
 public class SkillTab
 {
+    public class SkillDamage
+    {
+        public readonly PropertyType type;
+        public readonly int[] radix;//基数
+        public readonly float[] coefficient;// 系数
+
+        public SkillDamage(PropertyType _t, int[] _r, float[] _c)
+        {
+            type = _t;
+            radix = _r;
+            coefficient = _c;
+        }
+    }
+
     //基础属性
     public const int MaxSkillDamageCount = 2;
     public readonly uint tabid;

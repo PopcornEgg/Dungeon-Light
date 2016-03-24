@@ -12,7 +12,7 @@ public class Monster : Character
     {
         UID = Utils.GuidMaker.GenerateUInt64();
 
-        TabID = 2;
+        TabId = 2;
         CType = CharacterType.Monster;
 
         nav = GetComponent<NavMeshAgent>();
@@ -158,7 +158,7 @@ public class Monster : Character
         isDead = true;
         anim.SetTrigger("Die");
 
-        DropedItem.Drop(new Vector3(transform.position.x, 0, transform.position.z), TabID);
+        DropedItem.Drop(new Vector3(transform.position.x, 0, transform.position.z), TabId);
         StaticManager.sHeadInfo_Canvas.DelMonsterHeadInfo(this.UID);
         Destroy(gameObject, 3.0f);
     }

@@ -4,11 +4,8 @@ using System.Collections;
 //player逻辑处理部分
 public partial class Player : Character
 {
-    public readonly int dropedItemLayer = LayerMask.GetMask("DropedItem");
-    public readonly int attackAbleMask  = LayerMask.GetMask("Monster");
-
-    //移动部分
-    public float speed = 6f;
+    public static int dropedItemLayer;
+    public static int attackAbleMask;
 
     Vector3 movement;
     Rigidbody playerRigidbody;
@@ -19,6 +16,9 @@ public partial class Player : Character
 
     public override void AwakeEx()
     {
+        dropedItemLayer = LayerMask.GetMask("DropedItem");
+        attackAbleMask = LayerMask.GetMask("Monster");
+
         StaticManager.sPlayer = this;
         CType = CharacterType.Player;
 
@@ -82,7 +82,7 @@ public partial class Player : Character
         {
             //移动
             movement.Set(h, 0f, v);
-            movement = movement.normalized * speed * Time.deltaTime;
+            movement = movement.normalized * MOVESPEED * Time.deltaTime;
             playerRigidbody.MovePosition(transform.position + movement);
             //转向
             movement.Set(h, 0f, v);

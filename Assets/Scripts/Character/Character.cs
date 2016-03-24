@@ -35,11 +35,20 @@ public enum MonsterType
 public class Character : MonoBehaviour
 {
     //基本信息(所有角色都具有的)
-    public UInt64 UID = 0;
-    public UInt32 TabID = 0;//对于player来说无用
+    //GUID
+    UInt64 uId = 0;
+    public UInt64 UID { get { return uId; } set { uId = value; } }
+    //对于player来说无用
+    UInt32 tabId = 0;
+    public UInt32 TabId { get { return tabId; } set { tabId = value; } }
+    //名字
     public String Name = "null";
-    public CharacterType CType = CharacterType.Player;
-    public UInt16 Level = 1;
+    //类型
+    CharacterType cType = CharacterType.Player;
+    public CharacterType CType { get { return cType; } set { cType = value; } }
+    //等级
+    UInt32 level = 1;
+    public UInt32 Level { get { return level; } set { level = value; } }
 
     //属性信息
     public int[] property = new int[(int)PropertyType.MAX];
