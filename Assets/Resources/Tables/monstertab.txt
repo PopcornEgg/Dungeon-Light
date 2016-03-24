@@ -1,5 +1,5 @@
 #id	类型(0=怪物[0~9999]，1=NPC[10000~19999])	名字	怪物类型（0=普通，1=强化，2=精英，3=boss，NPC无效）	等级	掉落表索引id	掉落概率（综合1万）	外观	高度	缩放
 $tabid	type	name	mtype	level	droplist	droprate	model	height	scale
-0	2	骷髅1	0	1	0	8000	Monster_Skeleton	1	0.5
-1	2	骷髅2	1	2	0|1	3000|2000	Monster_Skeleton	1	0.5
-2	2	骷髅3	2	3	0|1|2	3000|2000|1000	Monster_Skeleton	1	0.5
+0	2	骷髅	0	1	0	8000	Monster_Skeleton	1	0.5
+1	2	鲶鱼校尉	1	2	0|1	3000|2000	Monster_Skeleton	1	0.5
+2	2	无	2	3	0|1|2	3000|2000|1000	Monster_Skeleton	1	0.5
