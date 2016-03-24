@@ -3,14 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public enum SkillRangeType
-{
-    Single = 0,
-    Ray,
-    Rect,
-    Circle,
-    Sector,
-}
 
 public class SkillTab
 {
@@ -32,7 +24,7 @@ public class SkillTab
     public const int MaxSkillDamageCount = 2;
     public readonly uint tabid;
     public readonly string name;
-    public readonly SkillRangeType SRType;//范围类型
+    public readonly BaseSkillRange skillRange;//技能范围
     public readonly float cdTime;//冷却时间
     public readonly float lastTime;//持续时间(技能的动作播放时间)
     public readonly bool skillingCanMove;//释放技能期间能否移动
@@ -62,10 +54,15 @@ public class SkillTab
         //基础属性
         tabid = tr.GetItemUInt32(i, "tabid");
         name = tr.GetString(i, "name");
-        SRType = (SkillRangeType)tr.GetItemUInt32(i, "srtype");
         cdTime = tr.GetItemFloat(i, "cdtime");
         lastTime = tr.GetItemFloat(i, "lasttime");
         skillingCanMove = tr.GetItemBoolean(i, "skillingcanmove");
+
+        SkillRangeType _srtype = (SkillRangeType)tr.GetItemUInt32(i, "srtype");
+        string[] sp = tr.GetString(i, "srvalues").Split('|');
+        if(sp != null && sp.Length == 4)
+            skillRange = BaseSkillRange.New(_srtype, 
+                Convert.ToSingle(sp[0]), Convert.ToSingle(sp[1]), Convert.ToSingle(sp[2]), Convert.ToSingle(sp[3]));
 
         //是否是持续伤害
         isLastDamage = tr.GetItemBoolean(i, "islastdamage");

@@ -16,6 +16,8 @@ public partial class Player : Character
 
     public override void AwakeEx()
     {
+        characterSkill.hasSkills.AddSkill(0);
+
         dropedItemLayer = LayerMask.GetMask("DropedItem");
         attackAbleMask = LayerMask.GetMask("Monster");
 
@@ -98,10 +100,13 @@ public partial class Player : Character
         if (isAttack || isDead)
             return;
 
-        isAttack = true;
-        anim.SetTrigger("Attack");
-        Invoke("AttackEnd", attackSpeed);
-        Invoke("DamageDelay", damageDelay);
+        if(InsSkillRetType.OK == characterSkill.InstanceSkill(0, null))
+        {
+            isAttack = true;
+            anim.SetTrigger("Attack");
+            //Invoke("AttackEnd", attackSpeed);
+            //Invoke("DamageDelay", damageDelay);
+        }
     }
     void DamageDelay()
     {
@@ -125,6 +130,15 @@ public partial class Player : Character
         //         gunLine.SetPosition(1, shootRay.origin + shootRay.direction * range);
     }
     void AttackEnd()
+    {
+        //播发动作
+        if (isAttack)
+        {
+            isAttack = false;
+            anim.SetBool("Attack", false);
+        }
+    }
+    public override void SkillEnd(uint _skillid)
     {
         //播发动作
         if (isAttack)

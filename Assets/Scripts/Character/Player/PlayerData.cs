@@ -46,9 +46,7 @@ public partial class Player : Character
     public EquipItem[] bodyEuiqpItems = new EquipItem[(int)ItemEquipType.MAX];
 
     //*********************************************************************************
-    //技能数据
-    
-
+    //技能
     public override void AddSkillExp(UInt32 _skillid, UInt32 _exp)
     {
         HasSkills.SkillData _csd = characterSkill.hasSkills.GetSkill(_skillid);

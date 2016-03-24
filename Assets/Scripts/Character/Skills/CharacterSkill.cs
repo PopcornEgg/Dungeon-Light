@@ -3,6 +3,16 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+public enum InsSkillRetType
+{
+    OK = 0,
+    NOTCOOLDOWN,//未冷却
+    NOTCONFIG,//未配置
+    NOTSTUDY,//未习得
+    NOTRULE,//未按规则
+    
+    UNKWON,
+}
 public class HasSkills
 {
     public class SkillData
@@ -69,16 +79,19 @@ public class CharacterSkill
     public Dictionary<UInt32, BaseInsSkill> dicInsSkills = new Dictionary<UInt32, BaseInsSkill>();
 
     //释放一个技能
-    public void InstanceSkill(UInt32 _skillid, Character _tag)
+    public InsSkillRetType InstanceSkill(UInt32 _skillid, Character _tag = null)
     {
         //位冷却完
         if (dicCoolDown.ContainsKey(_skillid))
-            return;
+            return InsSkillRetType.NOTCOOLDOWN;
 
         //技能表中存在
         SkillTab _stab = SkillTab.Get(_skillid);
         if (_stab == null)
-            return;
+            return InsSkillRetType.NOTCONFIG;
+
+        if (_tag == null && _stab.skillRange.SRType == SkillRangeType.Single)
+            return InsSkillRetType.NOTRULE;
 
         //自己拥有该技能
         HasSkills.SkillData _skilldata = hasSkills.GetSkill(_skillid);
@@ -89,7 +102,10 @@ public class CharacterSkill
             insSkill.skillTab = _stab;
             dicInsSkills.Add(_skillid, insSkill);
             AddCD(_skillid, _stab);
+            return InsSkillRetType.OK;
         }
+        else
+            return InsSkillRetType.NOTSTUDY;
     }
     public void OnTick()
     {

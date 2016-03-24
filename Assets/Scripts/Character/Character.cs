@@ -94,9 +94,9 @@ public class Character : MonoBehaviour
         //它们的乘积就是高度
         modelHeight = (size_y * scal_y);
 
-        AwakeEx();
-
         characterSkill = new CharacterSkill(this);
+
+        AwakeEx();
     }
 
     public virtual void AwakeEx()
@@ -167,6 +167,10 @@ public class Character : MonoBehaviour
     }
 
     public virtual void AddSkillExp(UInt32 _skillid, UInt32 _exp)
+    {
+
+    }
+    public virtual void SkillEnd(UInt32 _skillid)
     {
 
     }

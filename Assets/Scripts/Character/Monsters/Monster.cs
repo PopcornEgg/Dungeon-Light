@@ -152,6 +152,15 @@ public class Monster : Character
             SetAniBool("Idle");
         }
     }
+    public override void SkillEnd(uint _skillid)
+    {
+        //播发动作
+        if (isAttack)
+        {
+            isAttack = false;
+            SetAniBool("Idle");
+        }
+    }
 
     public override void Death()
     {
