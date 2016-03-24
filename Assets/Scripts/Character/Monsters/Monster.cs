@@ -33,7 +33,7 @@ public class Monster : Character
         anim.SetBool("Attack", _name == "Attack");
     }
 
-    void Update ()
+    public override void UpdateEx()
     {
         if (StaticManager.sPlayer == null)
             return;

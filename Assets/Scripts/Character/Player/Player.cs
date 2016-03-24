@@ -38,7 +38,7 @@ public partial class Player : Character
     {
         moveDir = new Vector2(0, 0);
     }
-    void Update()
+    public override void UpdateEx()
     {
         //拾取道具
         if (Input.GetMouseButton(0))
