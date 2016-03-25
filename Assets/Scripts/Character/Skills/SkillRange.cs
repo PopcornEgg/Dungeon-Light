@@ -94,14 +94,20 @@ public class CircleSkillRange : BaseSkillRange
     public override Character[] InRangeII()
     {
         List<Character> lsChar = new List<Character>();
-        Vector3 orgPos = new Vector3(owner.transform.position.x + startDistance, owner.transform.position.y + 0.5f, owner.transform.position.z + startDistance);
-        RaycastHit[] shootHits = Physics.SphereCastAll(orgPos, radius, owner.transform.forward, radius * 2, Player.attackAbleMask);
+        Vector3 orgPos = new Vector3(owner.transform.position.x, owner.transform.position.y, owner.transform.position.z) + 
+            owner.transform.forward * startDistance;
+        RaycastHit[] shootHits = Physics.SphereCastAll(orgPos, radius, owner.transform.forward, 0, Player.attackAbleLayer);
 
         if (shootHits != null)
         {
             for(int i = 0; i < shootHits.Length; i++)
             {
+                //Debug.Log("shootHits[i].collider : " + shootHits[i].collider.name);
+                if (shootHits[i].collider.isTrigger)//排除用来范围检测的collider
+                    continue;
                 Character _tag = shootHits[i].collider.GetComponent<Character>();
+                if (owner == _tag )//排除自己
+                    continue;
                 if (_tag != null)
                 {
                     lsChar.Add(_tag);

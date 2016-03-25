@@ -5,7 +5,7 @@ using System.Collections;
 public partial class Player : Character
 {
     public static int dropedItemLayer;
-    public static int attackAbleMask;
+    public static int attackAbleLayer;
 
     Vector3 movement;
     Rigidbody playerRigidbody;
@@ -19,7 +19,7 @@ public partial class Player : Character
         characterSkill.hasSkills.AddSkill(0);
 
         dropedItemLayer = LayerMask.GetMask("DropedItem");
-        attackAbleMask = LayerMask.GetMask("Monster");
+        attackAbleLayer = LayerMask.GetMask("AttackAble");
 
         StaticManager.sPlayer = this;
         CType = CharacterType.Player;
