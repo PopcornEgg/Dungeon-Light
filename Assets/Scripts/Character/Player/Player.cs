@@ -4,9 +4,6 @@ using System.Collections;
 //player逻辑处理部分
 public partial class Player : Character
 {
-    public static int dropedItemLayer;
-    public static int attackAbleLayer;
-
     Vector3 movement;
     Vector2 moveDir;
 
@@ -15,14 +12,11 @@ public partial class Player : Character
 
     public override void AwakeEx()
     {
-        characterSkill.hasSkills.AddSkill(0);
-
-        dropedItemLayer = LayerMask.GetMask("DropedItem");
-        attackAbleLayer = LayerMask.GetMask("AttackAble");
-
+        characterSkill.hasSkills.AddSkill(0);//测试
+        
+        attackAbleLayer = LayerMask.GetMask("Monster");
         StaticManager.sPlayer = this;
         CType = CharacterType.Player;
-
         anim = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
     }
@@ -46,7 +40,7 @@ public partial class Player : Character
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//从摄像机发出到点击坐标的射线
             RaycastHit hitInfo;
-            if (Physics.Raycast(ray, out hitInfo, 100.0f, dropedItemLayer))
+            if (Physics.Raycast(ray, out hitInfo, 100.0f, DropedItem.dropedItemLayer))
             {
                 Debug.DrawLine(ray.origin, hitInfo.point);//划出射线，只有在scene视图中才能看到
                 GameObject gameObj = hitInfo.collider.gameObject;
@@ -73,7 +67,7 @@ public partial class Player : Character
         moveDir = new Vector2(h, v);
 #endif
 
-        if(moveDir != null && !isAttack && !isDead)
+        if (moveDir != null && AIState == CharacterAnimState.Idle || AIState == CharacterAnimState.Walk)
             OnMoving(moveDir.x, moveDir.y);
     }
 
@@ -97,21 +91,21 @@ public partial class Player : Character
 
     public void Attack()
     {
-        if (isAttack || isDead)
+        if (AIState == CharacterAnimState.Die || AIState == CharacterAnimState.Attack)
             return;
 
         if (InsSkillRetType.OK == characterSkill.InstanceSkill(0, null))
         {
-            isAttack = true;
+            AIState = CharacterAnimState.Attack;
             anim.SetTrigger("Attack");
         }
     }
     public override void SkillEnd(uint _skillid)
     {
         //播发动作
-        if (isAttack)
+        if (AIState == CharacterAnimState.Attack)
         {
-            isAttack = false;
+            AIState = CharacterAnimState.Walk;
             anim.SetBool("Attack", false);
         }
     }
@@ -128,7 +122,7 @@ public partial class Player : Character
 
         StaticManager.sHUD_Canvas.SetHP_Slider((float)HP / (float)MAXHP);
 
-        if (HP == 0 && !isDead)
+        if (HP == 0 && CharacterAnimState.Die != AIState)
         {
             Death();
         }
@@ -136,7 +130,7 @@ public partial class Player : Character
 
     public override void Death()
     {
-        isDead = true;
+        AIState = CharacterAnimState.Die;
         anim.SetTrigger("Die");
         Invoke("ShowOver", 1.0f);
     }

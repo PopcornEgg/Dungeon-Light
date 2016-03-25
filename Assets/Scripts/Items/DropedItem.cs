@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class DropedItem : MonoBehaviour
 {
+    public static int dropedItemLayer;
+
     float rotationSpeed = 100.0f;
     public BaseItem itemData;
     void Start()

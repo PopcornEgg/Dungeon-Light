@@ -24,7 +24,7 @@ public class HUD_Canvas : MonoBehaviour {
 
     public void SetUp( )
     {
-        if (StaticManager.sPlayer.isDead)
+        if (StaticManager.sPlayer.AIState == CharacterAnimState.Die)
             return;
 
         SetUp_Panel _setUpPanel = StaticManager.sSecond_Canvas.setUpPanel;

@@ -98,7 +98,7 @@ public class CharacterSkill
     public InsSkillRetType InstanceSkill(SkillTab _stab, Character _tag = null)
     {
         //未冷却完
-        if (IsCoolDown(_stab.tabid))
+        if (!IsCoolDown(_stab.tabid))
             return InsSkillRetType.NOTCOOLDOWN;
 
         if (_tag == null && _stab.skillRange.SRType == SkillRangeType.Single)

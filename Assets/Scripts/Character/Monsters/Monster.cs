@@ -1,28 +1,30 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+
+
 
 public class Monster : Character
 {
-    NavMeshAgent nav;               // Reference to the nav mesh agent.
-    bool playerInRange;             // Whether player is within the trigger collider and can be attacked.
-    int attackAbleMask;
-    BaseMonsterAI ai = null;
-    BoxCollider boxCollider;
-
+    NavMeshAgent nav;
+    
+    Character target = null;
+    UInt32 scanRange = 5;//扫描范围
+    UInt32 followRange = 7;//扫描范围
 
     public override void AwakeEx()
     {
         UID = Utils.GuidMaker.GenerateUInt64();
+        attackAbleLayer = LayerMask.GetMask("Player");
 
         TabId = 2;
         CType = CharacterType.Monster;
 
         nav = GetComponent<NavMeshAgent>();
-        attackAbleMask = LayerMask.GetMask("Player");
 
-        ai = gameObject.AddComponent<BaseMonsterAI>();
+        characterSkill.hasSkills.AddSkill(0);//测试
+        //ai = gameObject.AddComponent<BaseMonsterAI>();
 
-        boxCollider = GetComponent<BoxCollider>();
         //AddRigidbody();
     }
 
@@ -41,6 +43,7 @@ public class Monster : Character
 
     void Start()
     {
+        target = StaticManager.sPlayer;
         StaticManager.sHeadInfo_Canvas.AddMonsterHeadInfo(this);
     }
 
@@ -56,135 +59,134 @@ public class Monster : Character
         if (StaticManager.sPlayer == null)
             return;
 
-        if (StaticManager.sPlayer.isDead)
+        if (StaticManager.sPlayer.AIState == CharacterAnimState.Die)
         {
-            //anim.SetBool("Idle", true);
+            nav.enabled = false;
             SetAniBool("Idle");
             return;
         }
 
-        if (isDead)
-            return;
-
-        if (!isAttack)
+        switch (AIState)
         {
-            if ( playerInRange )
-            {
-                Attack();
-            }
-            else
-            {
-                if (this.HP > 0 && StaticManager.sPlayer.HP > 0 && ai.aiState == AIState.Follow)
-                {
-                    nav.enabled = true;
-                    Vector3 despos = new Vector3(StaticManager.sPlayer.transform.position.x,
-                        transform.position.y,
-                        StaticManager.sPlayer.transform.position.z);
-                    nav.SetDestination(despos);
-                    //anim.SetBool("Walk", true);
-                    SetAniBool("Walk");
-                }
-                else
+            case CharacterAnimState.Idle:
                 {
                     nav.enabled = false;
-                    //anim.SetBool("Idle", true);
                     SetAniBool("Idle");
+                    if (target.CType == ScanTarget())
+                    {
+                        AIState = CharacterAnimState.Walk;
+                    }
                 }
-            }
+                break;
+            case CharacterAnimState.Walk:
+                {
+                    SetAniBool("Walk");
+                    if (IsOutRange())
+                    {
+                        AIState = CharacterAnimState.Idle;
+                    }
+                    else
+                    {
+                        AutoFollow();
+                    }
+                }
+                break;
+            case CharacterAnimState.Attack:
+                {
+                    SetAniBool("Attack");
+                    nav.enabled = false;
+                    AutoAttack();
+                }
+                break;
+            case CharacterAnimState.Die:
+                {
+                    anim.SetTrigger("Die");
+                    AIState = CharacterAnimState.Null;
+                    break;
+                }
+                
+            default:
+                break;
         }
-    }
 
-    void OnTriggerEnter(Collider other)
+        
+    }
+    CharacterType ScanTarget()
     {
-        if (StaticManager.sPlayer == null && !isDead)
-            return;
-
-        // If the entering collider is the player...
-        if (other.gameObject.name == StaticManager.sPlayer.name)
+        CharacterType type = CharacterType.Null;
+        if (Vector3.Distance(transform.position, target.transform.position) < scanRange)
         {
-            // ... the player is in range.
-            playerInRange = true;
+            return target.CType;
         }
+        return type;
     }
-
-    void OnTriggerExit(Collider other)
+    bool IsOutRange()
     {
-        if (StaticManager.sPlayer == null)
-            return;
-
-        // If the exiting collider is the player...
-        if (other.gameObject.name == StaticManager.sPlayer.name)
+        if (Vector3.Distance(transform.position, target.transform.position) > followRange)
         {
-            // ... the player is no longer in range.
-            playerInRange = false;
+            return true;
         }
+        return false;
     }
 
-    void Attack()
+    void AutoFollow()
     {
-        //攻击时停止移动
-        nav.enabled = false;
-
-        if (StaticManager.sPlayer.HP > 0 && Time.time >= nextAttackTime)
+        if (!CheckAttack())
         {
-            Invoke("DamageDelay", damageDelay);
-
-            //播发动作
-            isAttack = true;
-            SetAniBool("Attack");
-            nextAttackTime = Time.time + attackSpeed;
-            Invoke("AttackEnd", attackLastTime);
+            nav.enabled = true;
+            Vector3 despos = new Vector3(StaticManager.sPlayer.transform.position.x,
+                transform.position.y,
+                StaticManager.sPlayer.transform.position.z);
+            nav.SetDestination(despos);
+            //anim.SetBool("Walk", true);
+        }
+        else
+        {
+            AIState = CharacterAnimState.Attack;
         }
     }
-   
-    void DamageDelay()
+    
+    bool CheckAttack()
     {
-        Vector3 orgPos = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-        Ray shootRay = new Ray(orgPos, transform.forward);
-        RaycastHit shootHit;
-
-        // Perform the raycast against gameobjects on the shootable layer and if it hits something...
-        if (Physics.Raycast(shootRay, out shootHit, attackDistance, attackAbleMask))
+        GenerateNextSkill();
+        if(nextSkillTab.skillRange.CheckInRange(this, target))
         {
-            // Try and find an EnemyHealth script on the gameobject hit.
-            Character health = shootHit.collider.GetComponent<Character>();
-
-            // If the EnemyHealth component exist...
-            if (health != null)
-            {
-                health.TakeDamage(this.AD);
-            }
+            return true;
         }
-
-//         LineRenderer gunLine = GetComponent<LineRenderer>();
-//         gunLine.enabled = true;
-//         gunLine.SetPosition(0, orgPos);
-//         gunLine.SetPosition(1, shootRay.origin + shootRay.direction * range);
+        return false;
     }
-    void AttackEnd()
+    SkillTab nextSkillTab;
+    void GenerateNextSkill()
     {
-        //播发动作
-        if (isAttack)
+        if (nextSkillTab == null || characterSkill.IsCoolDown(nextSkillTab.tabid))
         {
-            isAttack = false;
-            SetAniBool("Idle");
+            int idx = UnityEngine.Random.Range(0, characterSkill.hasSkills.lsHasSkills.Count);
+            nextSkillTab = SkillTab.Get(characterSkill.hasSkills.lsHasSkills[idx].skillId);
         }
     }
+
+    void AutoAttack()
+    {
+        if (InsSkillRetType.OK == characterSkill.InstanceSkill(nextSkillTab, null))
+        {
+            //isAttack = true;
+            
+        }
+    }
+
     public override void SkillEnd(uint _skillid)
     {
         //播发动作
-        if (isAttack)
+        if (AIState == CharacterAnimState.Attack)
         {
-            isAttack = false;
-            SetAniBool("Idle");
+            //   isAttack = false;
+            AIState = CharacterAnimState.Idle;
         }
     }
 
     public override void Death()
     {
-        isDead = true;
-        anim.SetTrigger("Die");
-
+        AIState = CharacterAnimState.Die;
         DropedItem.Drop(new Vector3(transform.position.x, 0, transform.position.z), TabId);
         StaticManager.sHeadInfo_Canvas.DelMonsterHeadInfo(this.UID);
         Destroy(gameObject, 3.0f);

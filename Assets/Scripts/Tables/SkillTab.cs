@@ -61,8 +61,8 @@ public class SkillTab
         SkillRangeType _srtype = (SkillRangeType)tr.GetItemUInt32(i, "srtype");
         string[] sp = tr.GetString(i, "srvalues").Split('|');
         if(sp != null && sp.Length == 4)
-            skillRange = BaseSkillRange.New(_srtype, 
-                Convert.ToSingle(sp[0]), Convert.ToSingle(sp[1]), Convert.ToSingle(sp[2]), Convert.ToSingle(sp[3]));
+            skillRange = BaseSkillRange.New(_srtype, tr.GetItemFloat(i, "maxrange"),
+        Convert.ToSingle(sp[0]), Convert.ToSingle(sp[1]), Convert.ToSingle(sp[2]), Convert.ToSingle(sp[3]));
 
         //是否是持续伤害
         isLastDamage = tr.GetItemBoolean(i, "islastdamage");

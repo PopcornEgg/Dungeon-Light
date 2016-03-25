@@ -12,13 +12,6 @@ public enum CharacterType
     Player,
     Null,
 }
-public enum CharacterAniState
-{
-    Idle = 0,
-    Walk,
-    Attack,
-    Die,
-}
 public enum MonsterType
 {
     //普通
@@ -32,6 +25,15 @@ public enum MonsterType
     //无
     Null,
 }
+public enum CharacterAnimState
+{
+    Null = 0,
+    Idle,
+    Walk,
+    Attack,
+    Die,
+}
+
 public class Character : MonoBehaviour
 {
     //基本信息(所有角色都具有的)
@@ -63,9 +65,9 @@ public class Character : MonoBehaviour
     public float MOVESPEED { get { return (float)property[(int)PropertyType.MOVESPEED]/100.0f; } set { property[(int)PropertyType.MOVESPEED] = (int)(value * 100.0f); } }
 
     //AI范畴
-    public CharacterAniState CAniType = CharacterAniState.Idle;
-    public bool isAttack = false;
-    public bool isDead;
+    CharacterAnimState aiState = CharacterAnimState.Idle;
+    public CharacterAnimState AIState { get { return aiState; } set { aiState = value; } }
+
     public Animator anim;
 
     //技能范畴
@@ -82,6 +84,7 @@ public class Character : MonoBehaviour
     //头顶信息显示
     public float modelHeight;//模型高度
     public Rigidbody rigidbody;
+    public int attackAbleLayer = -1;
 
     void Awake()
     {
@@ -155,24 +158,13 @@ public class Character : MonoBehaviour
         else
             HP -= amount;
 
-        if (HP == 0 && !isDead)
+        if (HP == 0 && AIState != CharacterAnimState.Die)
         {
             Death();
         }
     }
 
-    public virtual void Death()
-    {
-        isDead = true;
-        anim.SetTrigger("Die");
-    }
-
-    public virtual void AddSkillExp(UInt32 _skillid, UInt32 _exp)
-    {
-
-    }
-    public virtual void SkillEnd(UInt32 _skillid)
-    {
-
-    }
+    public virtual void Death(){ }
+    public virtual void AddSkillExp(UInt32 _skillid, UInt32 _exp) { }
+    public virtual void SkillEnd(UInt32 _skillid){ }
 }

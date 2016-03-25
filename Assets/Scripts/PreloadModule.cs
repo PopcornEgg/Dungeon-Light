@@ -5,6 +5,7 @@ public class PreloadModule : MonoBehaviour {
 
     void Awake()
     {
+        DropedItem.dropedItemLayer = LayerMask.GetMask("DropedItem");
         preloadTabs();
     }
     
