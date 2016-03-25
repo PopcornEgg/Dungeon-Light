@@ -193,8 +193,7 @@ public class Monster : Character
     {
         if (InsSkillRetType.OK == characterSkill.InstanceSkill(nextSkillTab, null))
         {
-            //isAttack = true;
-            
+            transform.LookAt(target.transform.position);
         }
     }
 

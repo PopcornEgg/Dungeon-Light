@@ -106,6 +106,8 @@ public class Character : MonoBehaviour
     //可攻击layer
     public int attackAbleLayer = -1;
 
+    public Vector3 bornPosition;
+
     void Awake()
     {
         UID = Utils.GuidMaker.GenerateUInt64();
