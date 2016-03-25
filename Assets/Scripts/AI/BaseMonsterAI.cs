@@ -7,6 +7,7 @@ public enum AIState
     Null = 0,
     Idle,
     Follow,
+    Attack,
 }
 public class BaseMonsterAI : MonoBehaviour
 {
@@ -32,7 +33,7 @@ public class BaseMonsterAI : MonoBehaviour
         followCircle = gameObject.AddComponent<DebugDrawCircle>();
         followCircle.SetRadius(followRange);
     }
-    void FixedUpdate()
+    void Update()
     {
         if (target == null || self == null)
             return;
@@ -52,6 +53,15 @@ public class BaseMonsterAI : MonoBehaviour
                     {
                         aiState = AIState.Idle;
                     }
+                    else
+                    {
+                        AutoAttack();
+                    }
+                }
+                break;
+            case AIState.Attack:
+                {
+                   
                 }
                 break;
             default:
@@ -79,5 +89,34 @@ public class BaseMonsterAI : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    bool canDoNextSkill = true;
+    SkillTab nextSkillTab;
+    public SkillTab NextSkillTab
+    {
+        get { return nextSkillTab; }
+        set
+        {
+
+        }
+    }
+    public void GenerateNextSkill()
+    {
+        if (NextSkillTab == null || self.characterSkill.IsCoolDown(NextSkillTab.tabid))
+        {
+            int idx = UnityEngine.Random.Range(0, self.characterSkill.hasSkills.lsHasSkills.Count);
+            NextSkillTab = SkillTab.Get(self.characterSkill.hasSkills.lsHasSkills[idx].skillId);
+        }
+    }
+
+    public void AutoAttack()
+    {
+        GenerateNextSkill();
+        if (canDoNextSkill)
+        {
+            self.characterSkill.InstanceSkill(nextSkillTab);
+            canDoNextSkill = false;
+        }
     }
 }

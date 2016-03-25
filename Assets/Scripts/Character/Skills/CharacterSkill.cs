@@ -23,7 +23,9 @@ public class HasSkills
 
         public void AddExp(UInt32 _ecp) { }
     }
+
     public Dictionary<UInt32, SkillData> dicHasSkills = new Dictionary<uint, SkillData>();
+    public List<SkillData> lsHasSkills = new List< SkillData>();
 
     public int AddSkill(UInt32 _skillid)
     {
@@ -31,6 +33,7 @@ public class HasSkills
         {
             SkillData _sd = new SkillData();
             dicHasSkills.Add(_skillid, _sd);
+            lsHasSkills.Add(_sd);
             return 1;
         }
         return -1;
@@ -73,6 +76,10 @@ public class CharacterSkill
                 dicCoolDown.Add(_skillid, Time.time + _stab.cdTime);
         }
     }
+    public bool IsCoolDown(UInt32 _skillid)
+    {
+        return !dicCoolDown.ContainsKey(_skillid);
+    }
 
     //*********************************************************************************
     //逻辑部分
@@ -81,27 +88,31 @@ public class CharacterSkill
     //释放一个技能
     public InsSkillRetType InstanceSkill(UInt32 _skillid, Character _tag = null)
     {
-        //位冷却完
-        if (dicCoolDown.ContainsKey(_skillid))
-            return InsSkillRetType.NOTCOOLDOWN;
-
         //技能表中存在
         SkillTab _stab = SkillTab.Get(_skillid);
         if (_stab == null)
             return InsSkillRetType.NOTCONFIG;
 
+        return InstanceSkill(_stab, _tag);
+    }
+    public InsSkillRetType InstanceSkill(SkillTab _stab, Character _tag = null)
+    {
+        //未冷却完
+        if (IsCoolDown(_stab.tabid))
+            return InsSkillRetType.NOTCOOLDOWN;
+
         if (_tag == null && _stab.skillRange.SRType == SkillRangeType.Single)
             return InsSkillRetType.NOTRULE;
 
         //自己拥有该技能
-        HasSkills.SkillData _skilldata = hasSkills.GetSkill(_skillid);
-        if(_skilldata != null)
+        HasSkills.SkillData _skilldata = hasSkills.GetSkill(_stab.tabid);
+        if (_skilldata != null)
         {
             BaseInsSkill insSkill = new BaseInsSkill(owner, _tag);
             insSkill.skillData = _skilldata;
             insSkill.skillTab = _stab;
-            dicInsSkills.Add(_skillid, insSkill);
-            AddCD(_skillid, _stab);
+            dicInsSkills.Add(_stab.tabid, insSkill);
+            AddCD(_stab.tabid, _stab);
             return InsSkillRetType.OK;
         }
         else

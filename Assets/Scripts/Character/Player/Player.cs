@@ -8,7 +8,6 @@ public partial class Player : Character
     public static int attackAbleLayer;
 
     Vector3 movement;
-    Rigidbody playerRigidbody;
     Vector2 moveDir;
 
 #if !MOBILE_INPUT
@@ -25,7 +24,7 @@ public partial class Player : Character
         CType = CharacterType.Player;
 
         anim = GetComponent<Animator>();
-        playerRigidbody = GetComponent<Rigidbody>();
+        rigidbody = GetComponent<Rigidbody>();
     }
 
     public void SetMoveDir(Vector2 v)
@@ -85,11 +84,12 @@ public partial class Player : Character
             //移动
             movement.Set(h, 0f, v);
             movement = movement.normalized * MOVESPEED * Time.deltaTime;
-            playerRigidbody.MovePosition(transform.position + movement);
-            //转向
+            rigidbody.MovePosition(transform.position + movement);
+
+            //转向movement
             movement.Set(h, 0f, v);
             Quaternion newRotatation = Quaternion.LookRotation(movement * Time.deltaTime);
-            playerRigidbody.MoveRotation(newRotatation);
+            rigidbody.MoveRotation(newRotatation);
         }
         //播放动作
         anim.SetBool("Run", h != 0f || v != 0f);

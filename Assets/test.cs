@@ -7,6 +7,8 @@ public class test : MonoBehaviour {
     public GameObject testTag1;
     public GameObject testTag2;
     public GameObject testTag3;
+
+    public Rigidbody rigidbody;
     // Use this for initialization
     void Start () {
 
@@ -18,8 +20,19 @@ public class test : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+
+        Vector3 movement = new Vector3(1, 0, 0);
+        movement = movement.normalized * 1 * Time.deltaTime;
+        transform.position += movement;
+        //rigidbody.MovePosition(transform.position + movement);
+    }
+    void sFixedUpdate()
+    {
+        Vector3 movement = new Vector3(1,0,0);
+        movement = movement.normalized * 1 * Time.deltaTime;
+        rigidbody.MovePosition(transform.position + movement);
+        //rigidbody.MovePosition(transform.position + movement);
+    }
 
     public void OnClickTest()
     {

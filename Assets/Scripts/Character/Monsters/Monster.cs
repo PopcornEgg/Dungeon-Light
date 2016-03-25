@@ -7,6 +7,8 @@ public class Monster : Character
     bool playerInRange;             // Whether player is within the trigger collider and can be attacked.
     int attackAbleMask;
     BaseMonsterAI ai = null;
+    BoxCollider boxCollider;
+
 
     public override void AwakeEx()
     {
@@ -19,6 +21,22 @@ public class Monster : Character
         attackAbleMask = LayerMask.GetMask("Player");
 
         ai = gameObject.AddComponent<BaseMonsterAI>();
+
+        boxCollider = GetComponent<BoxCollider>();
+        //AddRigidbody();
+    }
+
+    void AddRigidbody()
+    {
+        rigidbody = gameObject.AddComponent<Rigidbody>();
+        rigidbody.mass = 1.0f;
+        rigidbody.drag = 0;
+        rigidbody.angularDrag = 0.05f;
+        rigidbody.useGravity = true;
+        rigidbody.isKinematic = false;
+        rigidbody.interpolation = RigidbodyInterpolation.None;
+        rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        rigidbody.constraints = (RigidbodyConstraints)(2 | 8 | 112);
     }
 
     void Start()

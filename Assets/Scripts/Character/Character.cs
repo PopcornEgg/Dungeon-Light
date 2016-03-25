@@ -81,6 +81,7 @@ public class Character : MonoBehaviour
 
     //头顶信息显示
     public float modelHeight;//模型高度
+    public Rigidbody rigidbody;
 
     void Awake()
     {
