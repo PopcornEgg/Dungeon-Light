@@ -8,4 +8,5 @@ public class StaticManager {
     public static HUD_Canvas sHUD_Canvas = null;
     public static Second_Canvas sSecond_Canvas = null;
     public static HeadInfo_Canvas sHeadInfo_Canvas = null;
+    public static SceneManager sSceneManager = null;
 }

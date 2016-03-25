@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum CharacterType
 {
@@ -24,6 +25,7 @@ public enum CharacterAnimState
 
 public class Character : MonoBehaviour
 {
+    static Dictionary<string, GameObject> dicLoadedCharacter = new Dictionary<string, GameObject>();
     public static Character New(UInt32 id)
     {
         MonsterTab _mtab = MonsterTab.Get(id);
@@ -35,9 +37,17 @@ public class Character : MonoBehaviour
     {
         if(_mtab.type == CharacterType.Monster)
         {
-          //  GameObject.Instantiate(Transform);
-            Monster _monster = new Monster();
-            return null;
+            GameObject obj = null;
+            if (!dicLoadedCharacter.TryGetValue(_mtab.model, out obj))
+            {
+                obj = Resources.Load<GameObject>("Prefabs/Monsters/" + _mtab.model);
+                dicLoadedCharacter.Add(_mtab.model, obj);
+            }
+            GameObject gameobj = GameObject.Instantiate<GameObject>(obj);
+            gameobj.SetActive(false);
+            Monster _monster = gameobj.AddComponent<Monster>();
+            _monster.monsterTab = _mtab;
+            return _monster;
         }
         else if(_mtab.type == CharacterType.NPC)
         {
@@ -45,7 +55,6 @@ public class Character : MonoBehaviour
         }
         return null;
     }
-
     public static Character NewPlayer()
     {
         return null;
@@ -61,7 +70,7 @@ public class Character : MonoBehaviour
     //名字
     public String Name = "null";
     //类型
-    CharacterType cType = CharacterType.Player;
+    CharacterType cType = CharacterType.Null;
     public CharacterType CType { get { return cType; } set { cType = value; } }
     //等级
     UInt32 level = 1;
@@ -101,7 +110,7 @@ public class Character : MonoBehaviour
     {
         UID = Utils.GuidMaker.GenerateUInt64();
 
-        InitTab();
+        InitProperty();
 
         anim = GetComponent<Animator>();
 
@@ -118,7 +127,7 @@ public class Character : MonoBehaviour
         AwakeEx();
     }
 
-    public virtual void InitTab() { }
+    public virtual void InitProperty() { }
     public virtual void AwakeEx(){}
 
     void Update()

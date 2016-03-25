@@ -19,6 +19,16 @@ public class MonsterTab
     public readonly MonsterType mtype;
     //装备等级/需求等级
     public readonly int level;
+
+    //攻防属性
+    public readonly int maxhp;
+    public readonly int maxmp;
+    public readonly int ad;
+    public readonly int ap;
+    public readonly int add;
+    public readonly int apd;
+    public readonly int movespeed;
+
     //掉落列表id
     public readonly int[] droplist;
     //掉落概率（综合1万）
@@ -43,6 +53,15 @@ public class MonsterTab
         mtype = (MonsterType)tr.GetItemUInt32(i, "mtype");
         level = tr.GetItemInt32(i, "level");
 
+        //攻防属性
+        maxhp = tr.GetItemInt32(i, "maxhp");
+        maxmp = tr.GetItemInt32(i, "maxmp");
+        ad = tr.GetItemInt32(i, "ad");
+        ap = tr.GetItemInt32(i, "ap");
+        add = tr.GetItemInt32(i, "add");
+        apd = tr.GetItemInt32(i, "apd");
+        movespeed = tr.GetItemInt32(i, "movespeed");
+
         //读取列表
         string[] sp;
         sp = tr.GetString(i, "droplist").Split('|');
@@ -52,11 +71,11 @@ public class MonsterTab
 
         sp = tr.GetString(i, "droprate").Split('|');
         droprate = new int[sp.Length];
-        int add = 0;
+        int sum = 0;
         for (int j = 0; j < sp.Length; j++)
         {
-            add += Convert.ToInt32(sp[j]);
-            droprate[j] = add;
+            sum += Convert.ToInt32(sp[j]);
+            droprate[j] = sum;
         }
 
         //外观数据

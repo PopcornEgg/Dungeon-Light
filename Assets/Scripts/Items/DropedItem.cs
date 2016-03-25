@@ -93,7 +93,7 @@ public class DropedItem : MonoBehaviour
             GameObject gameobj = GameObject.Instantiate<GameObject>(obj);
             gameobj.transform.position = spawnPos + dropPositions[i] + new Vector3(0, _itab.dropHeight, 0);
             gameobj.transform.localScale = new Vector3(_itab.dropScale, _itab.dropScale, _itab.dropScale);
-            gameobj.AddComponent<DropedItem>().itemData = BaseItem.newItem(_itab); ;
+            gameobj.AddComponent<DropedItem>().itemData = BaseItem.newItem(_itab); 
         }
     }
 

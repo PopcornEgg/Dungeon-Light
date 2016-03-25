@@ -18,7 +18,7 @@ public enum MonsterType
 
 public class Monster : Character
 {
-    MonsterTab monsterTab;
+    public MonsterTab monsterTab;
 
     NavMeshAgent nav;
     Character target = null;
@@ -35,7 +35,6 @@ public class Monster : Character
 
     void AddNavMeshAgent()
     {
-        MOVESPEED = 2.0f;
         CapsuleCollider collider = gameObject.GetComponent<CapsuleCollider>();
         nav = gameObject.AddComponent<NavMeshAgent>();
         nav.radius = collider.radius;
@@ -46,8 +45,8 @@ public class Monster : Character
         nav.acceleration = MOVESPEED * 2.0f;
         nav.stoppingDistance = 1;
         nav.autoBraking = true;
-
     }
+
     void AddRigidbody()
     {
         rigidBody = gameObject.AddComponent<Rigidbody>();
@@ -79,6 +78,9 @@ public class Monster : Character
     public override void UpdateEx()
     {
         if (StaticManager.sPlayer == null)
+            return;
+
+        if (AIState == CharacterAnimState.Die)
             return;
 
         if (StaticManager.sPlayer.AIState == CharacterAnimState.Die)
@@ -120,12 +122,7 @@ public class Monster : Character
                     AutoAttack();
                 }
                 break;
-            case CharacterAnimState.Die:
-                {
-                    anim.SetTrigger("Die");
-                    AIState = CharacterAnimState.Null;
-                    break;
-                }
+          
                 
             default:
                 break;
@@ -209,19 +206,27 @@ public class Monster : Character
     public override void Death()
     {
         AIState = CharacterAnimState.Die;
+        anim.SetTrigger("Die");
         DropedItem.Drop(new Vector3(transform.position.x, 0, transform.position.z), TabId);
         StaticManager.sHeadInfo_Canvas.DelMonsterHeadInfo(this.UID);
+        StaticManager.sSceneManager.MonsterDie(this);
         Destroy(gameObject, 3.0f);
     }
 
-    public override void InitTab()
+    public override void InitProperty()
     {
-        TabId = 2;
-        MonsterTab _mtab = MonsterTab.Get(TabId);
-        if(_mtab != null)
+        if(monsterTab != null)
         {
-            Name = _mtab.name;
-            Level = (UInt32)_mtab.level;
+            Name = monsterTab.name;
+            Level = (UInt32)monsterTab.level;
+            TabId = monsterTab.tabid;
+            HP = MAXHP = (uint)monsterTab.maxhp;
+            MP = MAXMP = (uint)monsterTab.maxmp;
+            AD = (uint)monsterTab.ad;
+            AP = (uint)monsterTab.ap;
+            ADD = (uint)monsterTab.add;
+            APD = (uint)monsterTab.apd;
+            MOVESPEED = (uint)monsterTab.movespeed;
         }
     }
 }

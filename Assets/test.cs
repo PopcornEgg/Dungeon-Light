@@ -8,7 +8,7 @@ public class test : MonoBehaviour {
     public GameObject testTag2;
     public GameObject testTag3;
 
-    public Rigidbody rigidbody;
+    public Rigidbody rigidBody;
     // Use this for initialization
     void Start () {
 
@@ -30,7 +30,7 @@ public class test : MonoBehaviour {
     {
         Vector3 movement = new Vector3(1,0,0);
         movement = movement.normalized * 1 * Time.deltaTime;
-        rigidbody.MovePosition(transform.position + movement);
+        rigidBody.MovePosition(transform.position + movement);
         //rigidbody.MovePosition(transform.position + movement);
     }
 
