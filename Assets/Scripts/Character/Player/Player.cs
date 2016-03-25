@@ -18,7 +18,7 @@ public partial class Player : Character
         StaticManager.sPlayer = this;
         CType = CharacterType.Player;
         anim = GetComponent<Animator>();
-        rigidbody = GetComponent<Rigidbody>();
+        rigidBody = GetComponent<Rigidbody>();
     }
 
     public void SetMoveDir(Vector2 v)
@@ -78,12 +78,12 @@ public partial class Player : Character
             //移动
             movement.Set(h, 0f, v);
             movement = movement.normalized * MOVESPEED * Time.deltaTime;
-            rigidbody.MovePosition(transform.position + movement);
+            rigidBody.MovePosition(transform.position + movement);
 
             //转向movement
             movement.Set(h, 0f, v);
             Quaternion newRotatation = Quaternion.LookRotation(movement * Time.deltaTime);
-            rigidbody.MoveRotation(newRotatation);
+            rigidBody.MoveRotation(newRotatation);
         }
         //播放动作
         anim.SetBool("Run", h != 0f || v != 0f);

@@ -14,14 +14,9 @@ public class Monster : Character
 
     public override void AwakeEx()
     {
-        UID = Utils.GuidMaker.GenerateUInt64();
         attackAbleLayer = LayerMask.GetMask("Player");
-
-        TabId = 2;
         CType = CharacterType.Monster;
-
         nav = GetComponent<NavMeshAgent>();
-
         characterSkill.hasSkills.AddSkill(0);//测试
         //ai = gameObject.AddComponent<BaseMonsterAI>();
 
@@ -30,15 +25,15 @@ public class Monster : Character
 
     void AddRigidbody()
     {
-        rigidbody = gameObject.AddComponent<Rigidbody>();
-        rigidbody.mass = 1.0f;
-        rigidbody.drag = 0;
-        rigidbody.angularDrag = 0.05f;
-        rigidbody.useGravity = true;
-        rigidbody.isKinematic = false;
-        rigidbody.interpolation = RigidbodyInterpolation.None;
-        rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
-        rigidbody.constraints = (RigidbodyConstraints)(2 | 8 | 112);
+        rigidBody = gameObject.AddComponent<Rigidbody>();
+        rigidBody.mass = 1.0f;
+        rigidBody.drag = 0;
+        rigidBody.angularDrag = 0.05f;
+        rigidBody.useGravity = true;
+        rigidBody.isKinematic = false;
+        rigidBody.interpolation = RigidbodyInterpolation.None;
+        rigidBody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        rigidBody.constraints = (RigidbodyConstraints)(2 | 8 | 112);
     }
 
     void Start()
@@ -190,5 +185,16 @@ public class Monster : Character
         DropedItem.Drop(new Vector3(transform.position.x, 0, transform.position.z), TabId);
         StaticManager.sHeadInfo_Canvas.DelMonsterHeadInfo(this.UID);
         Destroy(gameObject, 3.0f);
+    }
+
+    public override void InitTab()
+    {
+        TabId = 2;
+        MonsterTab _mtab = MonsterTab.Get(TabId);
+        if(_mtab != null)
+        {
+            Name = _mtab.name;
+            Level = (UInt32)_mtab.level;
+        }
     }
 }

@@ -72,22 +72,22 @@ public class Character : MonoBehaviour
 
     //技能范畴
     public CharacterSkill characterSkill;
-    public float attackLastTime = 2.0f;//攻击持续时间
-    public float attackSpaceTime = 20.5f;//攻击间隔时间
-    public float attackSpeed {
-        get { return attackSpaceTime + attackLastTime; }
-    }
-    public float nextAttackTime = 0;
-    public float damageDelay = 1.0f;
-    public float attackDistance = 3.0f;
 
     //头顶信息显示
     public float modelHeight;//模型高度
-    public Rigidbody rigidbody;
+
+    //刚体
+    public Rigidbody rigidBody = null;
+
+    //可攻击layer
     public int attackAbleLayer = -1;
 
     void Awake()
     {
+        UID = Utils.GuidMaker.GenerateUInt64();
+
+        InitTab();
+
         anim = GetComponent<Animator>();
 
         CapsuleCollider collider = GetComponent<CapsuleCollider>();
@@ -103,17 +103,15 @@ public class Character : MonoBehaviour
         AwakeEx();
     }
 
-    public virtual void AwakeEx()
-    {
-    }
+    public virtual void InitTab() { }
+    public virtual void AwakeEx(){}
+
     void Update()
     {
         characterSkill.OnTick();
         UpdateEx();
     }
-    public virtual void UpdateEx()
-    {
-    }
+    public virtual void UpdateEx(){ }
     /*
     void OnGUI()
     {
