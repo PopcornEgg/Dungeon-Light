@@ -12,19 +12,7 @@ public enum CharacterType
     Player,
     Null,
 }
-public enum MonsterType
-{
-    //普通
-    Normal = 0,
-    //强化
-    Enchanted,
-    //精英
-    Elitist,
-    //终极
-    Boss,
-    //无
-    Null,
-}
+
 public enum CharacterAnimState
 {
     Null = 0,
@@ -36,6 +24,33 @@ public enum CharacterAnimState
 
 public class Character : MonoBehaviour
 {
+    public static Character New(UInt32 id)
+    {
+        MonsterTab _mtab = MonsterTab.Get(id);
+        if (_mtab != null)
+            return New(_mtab);
+        return null;
+    }
+    public static Character New(MonsterTab _mtab)
+    {
+        if(_mtab.type == CharacterType.Monster)
+        {
+          //  GameObject.Instantiate(Transform);
+            Monster _monster = new Monster();
+            return null;
+        }
+        else if(_mtab.type == CharacterType.NPC)
+        {
+            return null;
+        }
+        return null;
+    }
+
+    public static Character NewPlayer()
+    {
+        return null;
+    }
+
     //基本信息(所有角色都具有的)
     //GUID
     UInt64 uId = 0;

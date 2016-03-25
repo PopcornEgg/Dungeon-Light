@@ -2,12 +2,25 @@
 using System.Collections;
 using System;
 
-
+public enum MonsterType
+{
+    //普通
+    Normal = 0,
+    //强化
+    Enchanted,
+    //精英
+    Elitist,
+    //终极
+    Boss,
+    //无
+    Max,
+}
 
 public class Monster : Character
 {
+    MonsterTab monsterTab;
+
     NavMeshAgent nav;
-    
     Character target = null;
     UInt32 scanRange = 5;//扫描范围
     UInt32 followRange = 7;//扫描范围
@@ -16,13 +29,25 @@ public class Monster : Character
     {
         attackAbleLayer = LayerMask.GetMask("Player");
         CType = CharacterType.Monster;
-        nav = GetComponent<NavMeshAgent>();
+        //nav = GetComponent<NavMeshAgent>();
         characterSkill.hasSkills.AddSkill(0);//测试
-        //ai = gameObject.AddComponent<BaseMonsterAI>();
-
-        //AddRigidbody();
     }
 
+    void AddNavMeshAgent()
+    {
+        MOVESPEED = 2.0f;
+        CapsuleCollider collider = gameObject.GetComponent<CapsuleCollider>();
+        nav = gameObject.AddComponent<NavMeshAgent>();
+        nav.radius = collider.radius;
+        nav.height = collider.height;
+        nav.baseOffset = 0;
+        nav.speed = MOVESPEED;
+        nav.angularSpeed = 360;
+        nav.acceleration = MOVESPEED * 2.0f;
+        nav.stoppingDistance = 1;
+        nav.autoBraking = true;
+
+    }
     void AddRigidbody()
     {
         rigidBody = gameObject.AddComponent<Rigidbody>();
@@ -40,6 +65,8 @@ public class Monster : Character
     {
         target = StaticManager.sPlayer;
         StaticManager.sHeadInfo_Canvas.AddMonsterHeadInfo(this);
+        AddNavMeshAgent();
+        //AddRigidbody();
     }
 
     void SetAniBool(string _name)

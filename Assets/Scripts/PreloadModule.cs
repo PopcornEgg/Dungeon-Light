@@ -3,14 +3,20 @@ using System.Collections;
 
 public class PreloadModule : MonoBehaviour {
 
+    static bool isPreloaded = false;
     void Awake()
     {
-        DropedItem.dropedItemLayer = LayerMask.GetMask("DropedItem");
-        preloadTabs();
+        if (!isPreloaded)
+        {
+            DropedItem.dropedItemLayer = LayerMask.GetMask("DropedItem");
+            preloadTabs();
+            isPreloaded = true;
+        }
     }
     
     void preloadTabs()
     {
+        SceneTab.Read();
         ItemTab.Read();
         MonsterTab.Read();
         DropListTab.Read();

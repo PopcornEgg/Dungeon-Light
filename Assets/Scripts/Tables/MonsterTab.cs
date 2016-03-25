@@ -15,7 +15,7 @@ public class MonsterTab
     public readonly CharacterType type;
     //名字
     public readonly String name;
-    //售价
+    //怪物类型
     public readonly MonsterType mtype;
     //装备等级/需求等级
     public readonly int level;
