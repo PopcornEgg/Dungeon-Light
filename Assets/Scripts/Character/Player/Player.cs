@@ -65,6 +65,10 @@ public partial class Player : Character
         float v = Input.GetAxisRaw("Vertical");
 
         moveDir = new Vector2(h, v);
+
+        if (Input.GetKeyUp(KeyCode.J)){
+            Attack();
+        }
 #endif
 
         if (moveDir != null && AIState == CharacterAnimState.Idle || AIState == CharacterAnimState.Walk)

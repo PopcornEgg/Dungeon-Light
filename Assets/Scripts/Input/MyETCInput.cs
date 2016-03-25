@@ -5,11 +5,14 @@ public class MyETCInput : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
+
+#if !MOBILE_INPUT
+        gameObject.SetActive(false);
+#endif
+    }
+
+    // Update is called once per frame
+    void Update () {
 	
 	}
 
