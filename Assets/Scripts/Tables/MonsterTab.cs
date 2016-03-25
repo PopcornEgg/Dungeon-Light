@@ -33,6 +33,9 @@ public class MonsterTab
     public readonly int apd;
     public readonly int movespeed;
 
+    //经验
+    public readonly int exp;
+
     //掉落列表id
     public readonly int[] droplist;
     //掉落概率（综合1万）
@@ -67,6 +70,8 @@ public class MonsterTab
         add = tr.GetItemInt32(i, "add");
         apd = tr.GetItemInt32(i, "apd");
         movespeed = tr.GetItemInt32(i, "movespeed");
+
+        exp = tr.GetItemInt32(i, "exp");
 
         //读取列表
         string[] sp;

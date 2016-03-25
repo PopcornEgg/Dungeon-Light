@@ -21,6 +21,7 @@ public class PreloadModule : MonoBehaviour {
         MonsterTab.Read();
         DropListTab.Read();
         SkillTab.Read();
+        PlayerLvTab.Read();
 
         SpriteManager.Init(this.transform);
     }

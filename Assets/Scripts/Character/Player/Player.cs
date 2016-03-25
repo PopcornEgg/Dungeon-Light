@@ -142,4 +142,29 @@ public partial class Player : Character
     {
         StaticManager.sHUD_Canvas.DieSetUp();
     }
+
+    PlayerLvTab currPlayerLvTab;
+
+    public PlayerLvTab CurrPlayerLvTab
+    {
+        get { return currPlayerLvTab; }
+        set {
+            currPlayerLvTab = value;
+            HP = MAXHP = (uint)currPlayerLvTab.maxhp;
+            MP = MAXMP = (uint)currPlayerLvTab.maxmp;
+            AD = (uint)currPlayerLvTab.ad;
+            AP = (uint)currPlayerLvTab.ap;
+            ADD = (uint)currPlayerLvTab.add;
+            APD = (uint)currPlayerLvTab.apd;
+            MOVESPEED = (uint)currPlayerLvTab.movespeed;
+        }
+    }
+    public override void InitProperty()
+    {
+        PlayerLvTab _pltab = PlayerLvTab.Get(Level);
+        if (_pltab != null)
+        {
+            CurrPlayerLvTab = _pltab;
+        }
+    }
 }

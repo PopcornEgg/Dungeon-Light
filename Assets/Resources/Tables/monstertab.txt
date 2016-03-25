@@ -1,5 +1,5 @@
-#id	类型(0=怪物[0~9999]，1=NPC[10000~19999])	名字	怪物类型（0=普通，1=强化，2=精英，3=boss，NPC无效）	等级	扫描范围	追踪范围	MAXHP	MAXMP	AD	AP	ADD	APD	MOVESPEED	掉落表索引id	掉落概率（综合1万）	外观	高度	缩放
-$tabid	type	name	mtype	level	scanrange	followrange	maxhp	maxmp	ad	ap	add	apd	movespeed	droplist	droprate	model	height	scale
-0	0	骷髅	0	1	5	7	100	100	2	2	2	2	2	0	8000	skeleton	1	0.5
-1	0	鲶鱼校尉	1	2	6	8	200	100	5	5	3	3	3	0|1	3000|2000	nianyuxiaowei	1	0.5
-2	0	鲶鱼将军	2	3	7	9	300	100	10	10	4	4	4	0|1|2	3000|2000|1000	nianyuxiaowei	1	0.5
+#id	类型(0=怪物[0~9999]，1=NPC[10000~19999])	名字	怪物类型（0=普通，1=强化，2=精英，3=boss，NPC无效）	等级	扫描范围	追踪范围	MAXHP	MAXMP	AD	AP	ADD	APD	MOVESPEED	经验	掉落表索引id	掉落概率（综合1万）	外观	高度	缩放
+$tabid	type	name	mtype	level	scanrange	followrange	maxhp	maxmp	ad	ap	add	apd	movespeed	exp	droplist	droprate	model	height	scale
+0	0	骷髅	0	1	5	7	100	100	2	2	2	2	2	10	0	8000	skeleton	1	0.5
+1	0	鲶鱼校尉	1	2	6	8	200	100	5	5	3	3	3	20	0|1	3000|2000	nianyuxiaowei	1	0.5
+2	0	鲶鱼将军	2	3	7	9	300	100	10	10	4	4	4	30	0|1|2	3000|2000|1000	nianyuxiaowei	1	0.5
