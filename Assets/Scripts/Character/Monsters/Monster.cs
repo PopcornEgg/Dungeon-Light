@@ -22,8 +22,8 @@ public class Monster : Character
 
     NavMeshAgent nav;
     Character target = null;
-    UInt32 scanRange = 5;//扫描范围
-    UInt32 followRange = 7;//扫描范围
+    DebugDrawCircle scanCircle = null;
+    DebugDrawCircle followCircle = null;
 
     public override void AwakeEx()
     {
@@ -66,6 +66,11 @@ public class Monster : Character
         StaticManager.sHeadInfo_Canvas.AddMonsterHeadInfo(this);
         AddNavMeshAgent();
         //AddRigidbody();
+
+        scanCircle = gameObject.AddComponent<DebugDrawCircle>();
+        scanCircle.SetRadius(monsterTab.scanrange);
+        followCircle = gameObject.AddComponent<DebugDrawCircle>();
+        followCircle.SetRadius(monsterTab.followrange);
     }
 
     void SetAniBool(string _name)
@@ -133,7 +138,7 @@ public class Monster : Character
     CharacterType ScanTarget()
     {
         CharacterType type = CharacterType.Null;
-        if (Vector3.Distance(transform.position, target.transform.position) < scanRange)
+        if (Vector3.Distance(transform.position, target.transform.position) < monsterTab.scanrange)
         {
             return target.CType;
         }
@@ -141,7 +146,7 @@ public class Monster : Character
     }
     bool IsOutRange()
     {
-        if (Vector3.Distance(transform.position, target.transform.position) > followRange)
+        if (Vector3.Distance(transform.position, target.transform.position) > monsterTab.followrange)
         {
             return true;
         }

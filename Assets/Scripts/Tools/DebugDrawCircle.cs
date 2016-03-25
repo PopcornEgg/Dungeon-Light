@@ -3,10 +3,9 @@ using System.Collections;
 
 public class DebugDrawCircle : MonoBehaviour
 {
-
     public float m_Radius = 1; // 圆环的半径
     public float m_Theta = 0.1f; // 值越低圆环越平滑
-    public Color m_Color = Color.yellow; // 线框颜色
+    public Color m_Color = Utils.Colors.GetRandColor();//
 
     void Update()
     {

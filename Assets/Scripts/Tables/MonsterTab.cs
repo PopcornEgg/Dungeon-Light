@@ -19,6 +19,10 @@ public class MonsterTab
     public readonly MonsterType mtype;
     //装备等级/需求等级
     public readonly int level;
+    //扫描范围
+    public readonly float scanrange;
+    //追踪范围
+    public readonly float followrange;
 
     //攻防属性
     public readonly int maxhp;
@@ -52,6 +56,8 @@ public class MonsterTab
         name = tr.GetString(i, "name");
         mtype = (MonsterType)tr.GetItemUInt32(i, "mtype");
         level = tr.GetItemInt32(i, "level");
+        scanrange = tr.GetItemFloat(i, "scanrange");
+        followrange = tr.GetItemFloat(i, "followrange");
 
         //攻防属性
         maxhp = tr.GetItemInt32(i, "maxhp");

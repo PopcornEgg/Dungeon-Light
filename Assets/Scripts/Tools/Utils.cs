@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 
 namespace Utils
@@ -26,5 +27,24 @@ namespace Utils
             return BitConverter.ToUInt64(buffer, 0);
         }
     }
+    public class Colors
+    {
+        static Color[] colors = new Color[]
+        {
+            Color.black,
+            Color.blue,
+            Color.cyan,
+            Color.gray,
+            Color.green,
+            Color.magenta,
+            Color.red,
+            Color.white,
+            Color.yellow,
+        };
+        public static Color GetRandColor()
+        {
+            int idx = UnityEngine.Random.Range(0, colors.Length);
+            return colors[idx];
+        }
+    }
 }
-
