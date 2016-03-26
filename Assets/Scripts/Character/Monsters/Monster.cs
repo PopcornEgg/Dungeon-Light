@@ -29,7 +29,6 @@ public class Monster : Character
     {
         attackAbleLayer = LayerMask.GetMask("Player");
         CType = CharacterType.Monster;
-        //nav = GetComponent<NavMeshAgent>();
         characterSkill.hasSkills.AddSkill(0);//测试
     }
 
@@ -57,7 +56,9 @@ public class Monster : Character
         rigidBody.isKinematic = false;
         rigidBody.interpolation = RigidbodyInterpolation.None;
         rigidBody.collisionDetectionMode = CollisionDetectionMode.Discrete;
-        rigidBody.constraints = (RigidbodyConstraints)(2 | 8 | 112);
+        //rigidBody.constraints = (RigidbodyConstraints)(2 | 8 | 112);
+        rigidBody.constraints = (RigidbodyConstraints)( 112);
+        //rigidBody.constraints = (RigidbodyConstraints)(16 | 64);
     }
 
     void Start()
@@ -65,7 +66,7 @@ public class Monster : Character
         target = StaticManager.sPlayer;
         StaticManager.sHeadInfo_Canvas.AddMonsterHeadInfo(this);
         AddNavMeshAgent();
-        //AddRigidbody();
+        AddRigidbody();
 
         scanCircle = gameObject.AddComponent<DebugDrawCircle>();
         scanCircle.SetRadius(monsterTab.scanrange);
