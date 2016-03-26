@@ -159,10 +159,10 @@ public class Monster : Character
         if (!CheckAttack())
         {
             nav.enabled = true;
-            Vector3 despos = new Vector3(StaticManager.sPlayer.transform.position.x,
-                transform.position.y,
-                StaticManager.sPlayer.transform.position.z);
-            nav.SetDestination(despos);
+//             Vector3 despos = new Vector3(StaticManager.sPlayer.transform.position.x,
+//                 transform.position.y,
+//                 StaticManager.sPlayer.transform.position.z);
+            nav.SetDestination(StaticManager.sPlayer.transform.position);
             //anim.SetBool("Walk", true);
         }
         else
