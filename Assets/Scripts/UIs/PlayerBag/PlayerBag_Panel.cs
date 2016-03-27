@@ -44,12 +44,13 @@ public class PlayerBag_Panel : MonoBehaviour
         if (itemObj == null)
             return;
 
-        scrollRect = GetComponent<ScrollRect>();
+        Transform list = transform.FindChild("List");
+        scrollRect = list.gameObject.GetComponent<ScrollRect>();
         content = scrollRect.content;
         grid = content.GetComponent<GridLayoutGroup>();
 
         //设置item高宽
-        RectTransform rtfViewport = transform.FindChild("Viewport").GetComponent<RectTransform>();
+        RectTransform rtfViewport = list.FindChild("Viewport").GetComponent<RectTransform>();
         float itemWH = (rtfViewport.rect.width - grid.spacing.x * (float)(grid.constraintCount - 1) - grid.padding.left - grid.padding.right) / grid.constraintCount;
         grid.cellSize = new Vector2(itemWH, itemWH);
 
