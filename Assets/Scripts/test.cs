@@ -1,7 +1,23 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.IO;
+using System;
+using System.Runtime.Serialization.Formatters.Binary;
 
+
+
+[Serializable]
+public class saveBinary
+{
+    public int[] aa = { 0, 1, 2 };
+    public string nama = "别天神";
+}
+[Serializable]
+public class TestSave
+{
+    public saveBinary[] tt = new saveBinary[5];
+}
 public class test : MonoBehaviour {
 
     public GameObject testTag1;
@@ -34,11 +50,12 @@ public class test : MonoBehaviour {
         //rigidbody.MovePosition(transform.position + movement);
     }
 
+    TestSave sb = new TestSave();
+
     public void OnClickTest()
     {
-        // DropedItem.Drop(Vector3.zero, 2);
-        testTag1.GetComponent<Image>().sprite = SpriteManager.GetIconEquip("weapon0");
-        testTag2.GetComponent<Image>().sprite = SpriteManager.GetIconEquip("weapon0");
-        testTag3.GetComponent<Image>().sprite = SpriteManager.GetIconEquip("weapon0");
+    }
+    public void OnClickTest2()
+    {
     }
 }

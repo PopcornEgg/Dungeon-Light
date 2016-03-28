@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Runtime.Serialization.Formatters.Binary;
 
+[Serializable]
 public abstract class BaseItem
 {
     //表索引ID
@@ -13,11 +15,15 @@ public abstract class BaseItem
     public UInt64 UId { get { return uId; } }
 
     //配置表中的数据
+    [NonSerialized]
     ItemTab tabData;
     public ItemTab TabData { get { return tabData; } }
 
     //类型
     public ItemType Type {get { return tabData.type; }}
+
+    //装备位置
+    public ItemEquipType EquipType { get { return TabData.ietype; } }
 
     //名字
     public String Name { get { return tabData.name; }}

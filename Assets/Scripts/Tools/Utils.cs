@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Utils
 {
@@ -45,6 +46,35 @@ namespace Utils
         {
             int idx = UnityEngine.Random.Range(0, colors.Length);
             return colors[idx];
+        }
+    }
+    public static class BinarySerialize
+    {
+        public static void Serialize<T>(T data, string strFile)
+        {
+            using (FileStream fs = new FileStream(strFile, FileMode.Create))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(fs, data);
+                fs.Close();
+            }
+        }
+
+        public static T DeSerialize<T>(string strFile)
+        {
+            T data = default(T);
+
+            if (File.Exists(strFile))
+            {
+                using (FileStream fs = new FileStream(strFile, FileMode.Open))
+                {
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    data = (T)formatter.Deserialize(fs);
+                    fs.Close();
+                }
+            }
+           
+            return data;
         }
     }
 }

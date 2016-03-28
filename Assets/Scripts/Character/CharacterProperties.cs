@@ -111,7 +111,7 @@ public class PlayerEquipProperty : CommonProperty
         if (IsDirty)
         {
             Clear();
-            EquipItem[] bodyItems = player.bodyEuiqpItems;
+            BaseItem[] bodyItems = player.bodyEuiqpItems;
             for (int i = 0; i < bodyItems.Length; i++)
             {
                 if(bodyItems[i] != null)

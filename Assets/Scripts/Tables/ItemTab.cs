@@ -11,6 +11,8 @@ public class ItemTab
     public readonly uint tabid;
     //类型
     public readonly ItemType type;
+    //类型
+    public readonly ItemEquipType ietype;
     //名字
     public readonly String name;
     //售价
@@ -39,6 +41,7 @@ public class ItemTab
     {
         tabid = tr.GetItemUInt32(i, "tabid");
         type = (ItemType)tr.GetItemUInt32(i, "type");
+        ietype = (ItemEquipType)tr.GetItemUInt32(i, "ietype");
         name = tr.GetString(i, "name");
         price = tr.GetItemInt32(i, "price");
         level = tr.GetItemInt32(i, "level");

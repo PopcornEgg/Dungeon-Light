@@ -3,6 +3,7 @@ using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
 
 //player数据处理部分
 public partial class Player : Character
@@ -60,8 +61,8 @@ public partial class Player : Character
     }
     public void UseBagEquip(EquipItem _item, int bagIdx)
     {
-        int bodyIdx = (int)_item.itemEquipType;
-        if (_item.itemEquipType == ItemEquipType.Accessory)//特殊处理
+        int bodyIdx = (int)_item.EquipType;
+        if (_item.EquipType == ItemEquipType.Accessory)//特殊处理
         {
             if (bodyEuiqpItems[bodyIdx - 1] == null)
             {
@@ -98,12 +99,25 @@ public partial class Player : Character
         StaticManager.sSecond_Canvas.RefreshPlayerProperty();
         playerEquipProperty.IsDirty = true;
     }
-
+    public void SaveBagItems()
+    {
+        Utils.BinarySerialize.Serialize<BaseItem[]>(bagItems, "c:/bagItems.data");
+    }
+    public void LoadBagItems()
+    {
+        BaseItem[] datas = Utils.BinarySerialize.DeSerialize<BaseItem[]>("c:/bagItems.data");
+        if (datas != null)
+            bagItems = datas;
+    }
     //*********************************************************************************
     //身上装备
     PlayerEquipProperty playerEquipProperty;
-    public EquipItem[] bodyEuiqpItems = new EquipItem[(int)ItemEquipType.MAX];
+    public BaseItem[] bodyEuiqpItems = new BaseItem[(int)ItemEquipType.MAX];
     public void UseBodyItem(EquipItem _eitem, int idx)
+    {
+
+    }
+    public void SaveBodyItems()
     {
 
     }

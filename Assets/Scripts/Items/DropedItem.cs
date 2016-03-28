@@ -25,7 +25,11 @@ public class DropedItem : MonoBehaviour
         else
         {
             if (StaticManager.sPlayer.AddBagItem(itemData))
+            {
+                StaticManager.sPlayer.SaveBagItems();
                 StaticManager.sSecond_Canvas.RefreshPlayerBag();
+            }
+                
         }
 
         //先从headinfo里移除

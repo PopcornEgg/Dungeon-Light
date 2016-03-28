@@ -148,6 +148,8 @@ public partial class Player : Character
     public PlayerLvTab CurrPlayerLvTab{get { return currPlayerLvTab; }set { currPlayerLvTab = value; playerBaseProperty.IsDirty = true; } }
     public override void InitProperty()
     {
+        LoadBagItems();
+
         //注册等级属性模块
         playerBaseProperty = new PlayerBaseProperty(this);
         characterProperties.AddProperty(playerBaseProperty);

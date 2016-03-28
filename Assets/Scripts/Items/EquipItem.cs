@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class QualityProperty {
@@ -6,14 +7,10 @@ public class QualityProperty {
     public PropertyTypeEx type = PropertyTypeEx.MAX;
     public uint value = 0;
 }
+
+[Serializable]
 public class EquipItem : BaseItem
 {
-    //装备位置
-    public ItemEquipType itemEquipType;
-
-    //基本属性
-    public float[] propertyRandom = new float[(int)PropertyTypeEx.MAX];
-
     //品质属性
     public QualityProperty[] qualityPropertys = new QualityProperty[Config.QualityPropertyCount];
 
@@ -24,5 +21,6 @@ public class EquipItem : BaseItem
 
     override public void InitItemEx()
     {
+        //生成品质属性
     }
 }
