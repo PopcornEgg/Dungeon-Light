@@ -23,14 +23,37 @@ public enum CharacterAnimState
     Die,
 }
 
+public enum PropertyType
+{
+    HP = 0,//当前HP
+    MP,//当前MP
+    SP,//当前体力
+    EXP,//当前经验
+    MONEY,//当前金钱
+
+    MAX,
+}
+public enum PropertyTypeEx
+{
+    MAXHP,
+    MAXMP,
+    MAXSP,
+    AD,//attact damage（物理伤害）
+    AP, //Ability Power（技能力量）
+    ADD,//attact damage defense（物理伤害防御）
+    APD, //Ability Power defense（技能力量防御）
+    MOVESPEED,
+
+    MAX,
+}
+
 public static class PropertyNames
 {
-    public static string[] Names = new string[(int)PropertyType.MAX]
+    public static string[] Names = new string[(int)PropertyTypeEx.MAX]
     {
-        "生命值",
         "生命值上限",
-        "魔法值",
         "魔法值上限",
+        "体力值上限",
         "物理伤害",
         "技能伤害",
         "物理防御",
@@ -92,17 +115,24 @@ public class Character : MonoBehaviour
     UInt32 level = 1;
     public UInt32 Level { get { return level; } set { level = value; } }
 
-    //属性信息
+    //基础属性信息
     public int[] property = new int[(int)PropertyType.MAX];
     public UInt32 HP {get { return (UInt32)property[(int)PropertyType.HP]; }set { property[(int)PropertyType.HP] = (int)value; }}
-    public UInt32 MAXHP {get { return (UInt32)property[(int)PropertyType.MAXHP]; }set { property[(int)PropertyType.MAXHP] = (int)value; }}
     public UInt32 MP { get { return (UInt32)property[(int)PropertyType.MP]; } set { property[(int)PropertyType.MP] = (int)value; } }
-    public UInt32 MAXMP { get { return (UInt32)property[(int)PropertyType.MAXMP]; } set { property[(int)PropertyType.MAXMP] = (int)value; } }
-    public UInt32 AD { get { return (UInt32)property[(int)PropertyType.AD]; } set { property[(int)PropertyType.AD] = (int)value; } }
-    public UInt32 ADD { get { return (UInt32)property[(int)PropertyType.ADD]; } set { property[(int)PropertyType.ADD] = (int)value; } }
-    public UInt32 AP { get { return (UInt32)property[(int)PropertyType.AP]; } set { property[(int)PropertyType.AP] = (int)value; } }
-    public UInt32 APD { get { return (UInt32)property[(int)PropertyType.APD]; } set { property[(int)PropertyType.APD] = (int)value; } }
-    public float MOVESPEED { get { return (float)property[(int)PropertyType.MOVESPEED]/100.0f; } set { property[(int)PropertyType.MOVESPEED] = (int)(value * 100.0f); } }
+    public UInt32 SP { get { return (UInt32)property[(int)PropertyType.SP]; } set { property[(int)PropertyType.SP] = (int)value; } }
+    public UInt32 EXP { get { return (UInt32)property[(int)PropertyType.EXP]; } set { property[(int)PropertyType.EXP] = (int)value; } }
+    public UInt32 MONEY { get { return (UInt32)property[(int)PropertyType.MONEY]; } set { property[(int)PropertyType.MONEY] = (int)value; } }
+
+    //附加属性信息
+    public CharacterProperties characterProperties = new CharacterProperties();
+    public float MAXHP { get {  return characterProperties.Get(PropertyTypeEx.MAXHP); } }
+    public float MAXMP { get {  return characterProperties.Get(PropertyTypeEx.MAXMP); } }
+    public float MAXSP { get {  return characterProperties.Get(PropertyTypeEx.MAXSP); } }
+    public float AD { get {  return characterProperties.Get(PropertyTypeEx.AD); } }
+    public float ADD { get {  return characterProperties.Get(PropertyTypeEx.ADD); } }
+    public float AP { get {  return characterProperties.Get(PropertyTypeEx.AP); } }
+    public float APD { get {  return characterProperties.Get(PropertyTypeEx.APD); } }
+    public float MOVESPEED { get {  return characterProperties.Get(PropertyTypeEx.MOVESPEED); } }
 
     //AI范畴
     CharacterAnimState aiState = CharacterAnimState.Idle;

@@ -96,10 +96,12 @@ public partial class Player : Character
         }
         StaticManager.sSecond_Canvas.RefreshPlayerBag();
         StaticManager.sSecond_Canvas.RefreshPlayerProperty();
+        playerEquipProperty.IsDirty = true;
     }
 
     //*********************************************************************************
     //身上装备
+    PlayerEquipProperty playerEquipProperty;
     public EquipItem[] bodyEuiqpItems = new EquipItem[(int)ItemEquipType.MAX];
     public void UseBodyItem(EquipItem _eitem, int idx)
     {
@@ -119,18 +121,18 @@ public partial class Player : Character
 
     //*********************************************************************************
     //人物属性
+    PlayerBaseProperty playerBaseProperty;
     public String GetPropertyString()
     {
         StringBuilder txt = new StringBuilder();
-        txt.Append(String.Format("{0}：{1}\n", PropertyNames.Names[(int)PropertyType.HP], HP));
-        txt.Append(String.Format("{0}：{1}\n", PropertyNames.Names[(int)PropertyType.MP], MP));
-        txt.Append(String.Format("{0}：{1}\n", PropertyNames.Names[(int)PropertyType.MAXHP], MAXHP));
-        txt.Append(String.Format("{0}：{1}\n", PropertyNames.Names[(int)PropertyType.MAXMP], MAXMP));
-        txt.Append(String.Format("{0}：{1}\n", PropertyNames.Names[(int)PropertyType.AD], AD));
-        txt.Append(String.Format("{0}：{1}\n", PropertyNames.Names[(int)PropertyType.AP], AP));
-        txt.Append(String.Format("{0}：{1}\n", PropertyNames.Names[(int)PropertyType.ADD], ADD));
-        txt.Append(String.Format("{0}：{1}\n", PropertyNames.Names[(int)PropertyType.APD], APD));
-        txt.Append(String.Format("{0}：{1}", PropertyNames.Names[(int)PropertyType.MOVESPEED], (int)(MOVESPEED * 100.0f)));
+        txt.Append(String.Format("{0}：{1}/{2}\n", PropertyNames.Names[(int)PropertyTypeEx.MAXHP], HP, MAXHP));
+        txt.Append(String.Format("{0}：{1}/{2}\n", PropertyNames.Names[(int)PropertyTypeEx.MAXMP], MP, MAXMP));
+        txt.Append(String.Format("{0}：{1}/{2}\n", PropertyNames.Names[(int)PropertyTypeEx.MAXSP], SP, MAXSP));
+        txt.Append(String.Format("{0}：{1}\n", PropertyNames.Names[(int)PropertyTypeEx.AD], AD));
+        txt.Append(String.Format("{0}：{1}\n", PropertyNames.Names[(int)PropertyTypeEx.AP], AP));
+        txt.Append(String.Format("{0}：{1}\n", PropertyNames.Names[(int)PropertyTypeEx.ADD], ADD));
+        txt.Append(String.Format("{0}：{1}\n", PropertyNames.Names[(int)PropertyTypeEx.APD], APD));
+        txt.Append(String.Format("{0}：{1}", PropertyNames.Names[(int)PropertyTypeEx.MOVESPEED], MOVESPEED));
 
         return txt.ToString();
     }

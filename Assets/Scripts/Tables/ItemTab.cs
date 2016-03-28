@@ -21,6 +21,9 @@ public class ItemTab
     public readonly int quality;
     #endregion
 
+    //攻防属性
+    public readonly float[] propertyEx = new float[(int)PropertyTypeEx.MAX];
+
     #region*** 显示数据***
     //掉落外观
     public readonly string icon;
@@ -40,6 +43,15 @@ public class ItemTab
         price = tr.GetItemInt32(i, "price");
         level = tr.GetItemInt32(i, "level");
         quality = tr.GetItemInt32(i, "quality");
+
+        propertyEx[(int)PropertyTypeEx.MAXHP] = tr.GetItemFloat(i, "maxhp");
+        propertyEx[(int)PropertyTypeEx.MAXMP] = tr.GetItemFloat(i, "maxmp");
+        propertyEx[(int)PropertyTypeEx.AD] = tr.GetItemFloat(i, "ad");
+        propertyEx[(int)PropertyTypeEx.AP] = tr.GetItemFloat(i, "ap");
+        propertyEx[(int)PropertyTypeEx.ADD] = tr.GetItemFloat(i, "add");
+        propertyEx[(int)PropertyTypeEx.APD] = tr.GetItemFloat(i, "apd");
+        propertyEx[(int)PropertyTypeEx.MOVESPEED] = tr.GetItemFloat(i, "movespeed");
+
         //显示数据
         icon = tr.GetString(i, "icon");
         dropModel = tr.GetString(i, "dropmodel");

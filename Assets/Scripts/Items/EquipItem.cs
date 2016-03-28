@@ -3,7 +3,7 @@ using System.Collections;
 
 public class QualityProperty {
 
-    public PropertyType type = PropertyType.MAX;
+    public PropertyTypeEx type = PropertyTypeEx.MAX;
     public uint value = 0;
 }
 public class EquipItem : BaseItem
@@ -12,7 +12,7 @@ public class EquipItem : BaseItem
     public ItemEquipType itemEquipType;
 
     //基本属性
-    public int[] property = new int[(int)PropertyType.MAX];
+    public float[] propertyRandom = new float[(int)PropertyTypeEx.MAX];
 
     //品质属性
     public QualityProperty[] qualityPropertys = new QualityProperty[Config.QualityPropertyCount];
@@ -22,12 +22,7 @@ public class EquipItem : BaseItem
         return 1;
     }
 
-    public EquipItem()
-    {
-    }
-
     override public void InitItemEx()
     {
-
     }
 }

@@ -222,16 +222,13 @@ public class Monster : Character
     {
         if(monsterTab != null)
         {
+            characterProperties.AddProperty(new MonsterBaseProperty(this));
             Name = monsterTab.name;
             Level = (UInt32)monsterTab.level;
             TabId = monsterTab.tabid;
-            HP = MAXHP = (uint)monsterTab.maxhp;
-            MP = MAXMP = (uint)monsterTab.maxmp;
-            AD = (uint)monsterTab.ad;
-            AP = (uint)monsterTab.ap;
-            ADD = (uint)monsterTab.add;
-            APD = (uint)monsterTab.apd;
-            MOVESPEED = (uint)monsterTab.movespeed;
+            HP = (uint)MAXHP;
+            MP = (uint)MAXMP;
+            SP = (uint)MAXSP;
         }
     }
 }

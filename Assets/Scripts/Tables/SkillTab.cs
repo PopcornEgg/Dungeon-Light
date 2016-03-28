@@ -8,11 +8,11 @@ public class SkillTab
 {
     public class SkillDamage
     {
-        public readonly PropertyType type;
+        public readonly PropertyTypeEx type;
         public readonly int[] radix;//基数
         public readonly float[] coefficient;// 系数
 
-        public SkillDamage(PropertyType _t, int[] _r, float[] _c)
+        public SkillDamage(PropertyTypeEx _t, int[] _r, float[] _c)
         {
             type = _t;
             radix = _r;
@@ -82,7 +82,7 @@ public class SkillTab
             int _t = tr.GetItemInt32(i, "skilldamaget" + j.ToString());
             if (_t < 0)
                 continue;
-            PropertyType _ptype = (PropertyType)_t;
+            PropertyTypeEx _ptype = (PropertyTypeEx)_t;
 
             string[] spradix = tr.GetString(i, "skilldamager" + j.ToString()).Split('|');
             string[] spcoefficient = tr.GetString(i, "skilldamagec" + j.ToString()).Split('|');

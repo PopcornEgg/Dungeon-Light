@@ -25,13 +25,7 @@ public class MonsterTab
     public readonly float followrange;
 
     //攻防属性
-    public readonly int maxhp;
-    public readonly int maxmp;
-    public readonly int ad;
-    public readonly int ap;
-    public readonly int add;
-    public readonly int apd;
-    public readonly int movespeed;
+    public readonly float[] propertyEx = new float[(int)PropertyTypeEx.MAX];
 
     //经验
     public readonly int exp;
@@ -63,13 +57,13 @@ public class MonsterTab
         followrange = tr.GetItemFloat(i, "followrange");
 
         //攻防属性
-        maxhp = tr.GetItemInt32(i, "maxhp");
-        maxmp = tr.GetItemInt32(i, "maxmp");
-        ad = tr.GetItemInt32(i, "ad");
-        ap = tr.GetItemInt32(i, "ap");
-        add = tr.GetItemInt32(i, "add");
-        apd = tr.GetItemInt32(i, "apd");
-        movespeed = tr.GetItemInt32(i, "movespeed");
+        propertyEx[(int)PropertyTypeEx.MAXHP] = tr.GetItemFloat(i, "maxhp");
+        propertyEx[(int)PropertyTypeEx.MAXMP] = tr.GetItemFloat(i, "maxmp");
+        propertyEx[(int)PropertyTypeEx.AD] = tr.GetItemFloat(i, "ad");
+        propertyEx[(int)PropertyTypeEx.AP] = tr.GetItemFloat(i, "ap");
+        propertyEx[(int)PropertyTypeEx.ADD] = tr.GetItemFloat(i, "add");
+        propertyEx[(int)PropertyTypeEx.APD] = tr.GetItemFloat(i, "apd");
+        propertyEx[(int)PropertyTypeEx.MOVESPEED] = tr.GetItemFloat(i, "movespeed");
 
         exp = tr.GetItemInt32(i, "exp");
 

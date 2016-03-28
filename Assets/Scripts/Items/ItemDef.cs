@@ -1,21 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum PropertyType
-{
-    HP = 0,
-    MAXHP,
-    MP,
-    MAXMP,
-    AD,//attact damage（物理伤害）
-    AP, //Ability Power（技能力量）
-    ADD,//attact damage defense（物理伤害防御）
-    APD, //Ability Power defense（技能力量防御）
-    MOVESPEED,
-
-    MAX,
-}
-
 public enum ItemType
 {
     MONEY = 0,

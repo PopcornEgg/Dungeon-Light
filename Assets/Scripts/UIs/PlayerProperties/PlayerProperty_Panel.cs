@@ -64,7 +64,6 @@ public class PlayerProperty_Panel : MonoBehaviour {
             if (!gameObject.activeSelf)
                 return;
             RefreshBodyEquip();
-            RefreshInformation();
         }
     }
     public void RefreshBodyEquip()
@@ -84,5 +83,10 @@ public class PlayerProperty_Panel : MonoBehaviour {
     public void RefreshInformation()
     {
         propertyInfo.text = player.GetPropertyString();
+    }
+
+    void Update()
+    {
+        RefreshInformation();
     }
 }
