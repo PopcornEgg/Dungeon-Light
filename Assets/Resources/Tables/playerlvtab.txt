@@ -1,5 +1,5 @@
 #等级	MAXHP	MAXMP	AD	AP	ADD	APD	MOVESPEED	升级所需经验
 $lv	maxhp	maxmp	ad	ap	add	apd	movespeed	exp
 0	0	0	0	0	0	0	0	0
-1	200	100	5	5	3	3	3	100
+1	500	100	50	5	30	3	3	100
 2	300	150	10	10	4	4	4	200

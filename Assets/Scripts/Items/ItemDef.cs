@@ -31,8 +31,8 @@ public enum ItemEquipType
     Head = 0,
     Body,
     Hand,
-    Ring,//戒指有两个
-    Leg = Ring + 2,
+    Leg,
+    Accessory = Leg + 2,//饰品两个
 
     MAX,
 }

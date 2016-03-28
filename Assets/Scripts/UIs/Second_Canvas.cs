@@ -9,8 +9,8 @@ public class Second_Canvas : MonoBehaviour {
     PlayerBag_Panel _playerBagPanel;
     public PlayerBag_Panel playerBagPanel { get { return _playerBagPanel; } set { _playerBagPanel = value; } }
 
-    Property_Panel _propertyPanel;
-    public Property_Panel PropertyPanel { get { return _propertyPanel; } set { _propertyPanel = value; } }
+    PlayerProperty_Panel _playerPropertyPanel;
+    public PlayerProperty_Panel playerPropertyPanel { get { return _playerPropertyPanel; } set { _playerPropertyPanel = value; } }
 
     void Awake()
     {
@@ -20,12 +20,19 @@ public class Second_Canvas : MonoBehaviour {
     {
         setUpPanel = transform.FindChild("SetUp_Panel").GetComponent<SetUp_Panel>();
         playerBagPanel = transform.FindChild("PlayerBag_Panel").GetComponent<PlayerBag_Panel>();
-        PropertyPanel = transform.FindChild("Property_Panel").GetComponent<Property_Panel>();
+        playerPropertyPanel = transform.FindChild("Property_Panel").GetComponent<PlayerProperty_Panel>();
     }
 
     public void RefreshPlayerBag()
     {
         if (playerBagPanel != null)
             playerBagPanel.Refresh();
+    }
+    public void RefreshPlayerProperty()
+    {
+        if (playerPropertyPanel != null)
+        {
+            playerPropertyPanel.OnEnable();
+        }
     }
 }

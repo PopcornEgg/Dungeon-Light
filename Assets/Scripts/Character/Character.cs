@@ -23,6 +23,22 @@ public enum CharacterAnimState
     Die,
 }
 
+public static class PropertyNames
+{
+    public static string[] Names = new string[(int)PropertyType.MAX]
+    {
+        "生命值",
+        "生命值上限",
+        "魔法值",
+        "魔法值上限",
+        "物理伤害",
+        "技能伤害",
+        "物理防御",
+        "技能防御",
+        "移动速度",
+    };
+}
+
 public class Character : MonoBehaviour
 {
     static Dictionary<string, GameObject> dicLoadedCharacter = new Dictionary<string, GameObject>();

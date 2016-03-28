@@ -31,8 +31,6 @@ public abstract class BaseItem
     //品质
     public int Quality { get { return tabData.quality; } }
 
-   
-
     public void InitItem(ItemTab _tab)
     {
         this.uId = Utils.GuidMaker.GenerateUInt64();

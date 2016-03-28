@@ -66,7 +66,7 @@ public class HUD_Canvas : MonoBehaviour {
     }
     public void OnClick_PlayerProperty()
     {
-        Property_Panel _propertyPanel = StaticManager.sSecond_Canvas.PropertyPanel;
+        PlayerProperty_Panel _propertyPanel = StaticManager.sSecond_Canvas.playerPropertyPanel;
         if (_propertyPanel != null)
         {
             _propertyPanel.gameObject.SetActive(_propertyPanel.gameObject.activeSelf ? false : true);

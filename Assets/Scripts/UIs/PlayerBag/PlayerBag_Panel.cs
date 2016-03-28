@@ -8,11 +8,6 @@ public class PlayerBagOptimizer
 {
     public UInt64[] itemUids = new UInt64[Player.bagSpace];
 
-    public PlayerBagOptimizer()
-    {
-        for (int i = 0; i < itemUids.Length; i++)
-            itemUids[i] = UInt64.MaxValue;
-    }
     public bool IsChanged(int idx, UInt64 realUid)
     {
         if (itemUids[idx] != realUid)
@@ -25,6 +20,8 @@ public class PlayerBagOptimizer
 }
 public class PlayerBag_Panel : MonoBehaviour
 {
+    bool isInited = false;
+
     public GameObject itemObj;
     RectTransform content;//内容
     GridLayoutGroup grid;
@@ -63,14 +60,20 @@ public class PlayerBag_Panel : MonoBehaviour
         {
             GameObject cobj = Instantiate<GameObject>(itemObj);
             playerBagItems[i] = cobj.AddComponent<PlayerBag_Item>();
+            playerBagItems[i].Idx = i;
             cobj.transform.SetParent(content, false);
             cobj.SetActive(true);
         }
         itemObj.SetActive(false);
 
-        Refresh();
+        isInited = true;
+        OnEnable();
     }
-
+    void OnEnable()
+    {
+        if (isInited)
+            Refresh();
+    }
     public void Refresh()
     {
         if (!gameObject.activeSelf)
@@ -79,12 +82,10 @@ public class PlayerBag_Panel : MonoBehaviour
         BaseItem[] bagItems = _player.bagItems;
         for (int i = 0; i < bagItems.Length; i++)
         {
-            if (bagItems[i] != null)
+            UInt64 _uid = bagItems[i] != null ? bagItems[i].UId : 0;
+            if(playerBagOptimizer.IsChanged(i, _uid))
             {
-                if(playerBagOptimizer.IsChanged(i, bagItems[i].UId))
-                {
-                    playerBagItems[i].baseItem = bagItems[i];
-                }
+                playerBagItems[i].baseItem = bagItems[i];
             }
         }
     }
