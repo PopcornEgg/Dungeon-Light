@@ -105,7 +105,9 @@ public class HeadInfo_Canvas : MonoBehaviour
         foreach (UIItemHeadInfo uhi in dicItemHeadInfo.Values)
         {
             //得到头顶的世界坐标
-            Vector3 position = new Vector3(uhi.owner.transform.position.x, uhi.owner.transform.position.y + 1.0f, uhi.owner.transform.position.z);
+            Vector3 position = new Vector3(uhi.owner.transform.position.x, 
+                uhi.owner.transform.position.y + uhi.owner.headInfoHeight, 
+                uhi.owner.transform.position.z);
             //根据头顶的3D坐标换算成它在2D屏幕中的坐标
             position = Camera.main.WorldToScreenPoint(position);
             //显示

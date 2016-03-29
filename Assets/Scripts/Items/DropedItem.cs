@@ -7,9 +7,11 @@ public class DropedItem : MonoBehaviour
     public static int dropedItemLayer;
 
     float rotationSpeed = 100.0f;
+    public float headInfoHeight = 0.0f;
     public BaseItem itemData;
     void Start()
     {
+        headInfoHeight = transform.FindChild("HeadInfoHeight").transform.position.y ;
         StaticManager.sHeadInfo_Canvas.AddItemHeadInfo(this);
     }
 
@@ -94,7 +96,9 @@ public class DropedItem : MonoBehaviour
             }
 
             GameObject gameobj = GameObject.Instantiate<GameObject>(obj);
-            gameobj.transform.position = spawnPos + dropPositions[i] + new Vector3(0, _itab.dropHeight, 0);
+            Vector3 realpos = spawnPos + dropPositions[i] + new Vector3(0, _itab.dropHeight, 0);
+            spawnPos.y = Terrain.activeTerrain.SampleHeight(realpos) + _itab.dropHeight;
+            gameobj.transform.position = realpos;
             gameobj.transform.localScale = new Vector3(_itab.dropScale, _itab.dropScale, _itab.dropScale);
             gameobj.AddComponent<DropedItem>().itemData = BaseItem.newItem(_itab); 
         }
