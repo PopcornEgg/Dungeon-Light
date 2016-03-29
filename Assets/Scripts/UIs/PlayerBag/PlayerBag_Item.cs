@@ -36,15 +36,10 @@ public class PlayerBag_Item : MonoBehaviour
 
     void Start()
     {
+        //windows点击鼠标右键
         Button btn = transform.GetComponent<Button>();
         btn.onClick.AddListener(delegate () {
-            this.OnExChange();
+            StaticManager.sPlayer.UseBagItem(Idx);
         });
-    }
-
-    //windows点击鼠标右键
-    public void OnExChange()
-    {
-        StaticManager.sPlayer.UseBagItem(Idx);
     }
 }

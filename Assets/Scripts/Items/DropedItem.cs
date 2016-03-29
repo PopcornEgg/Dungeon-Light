@@ -26,7 +26,6 @@ public class DropedItem : MonoBehaviour
         {
             if (StaticManager.sPlayer.AddBagItem(itemData))
             {
-                StaticManager.sPlayer.SaveBagItems();
                 StaticManager.sSecond_Canvas.RefreshPlayerBag();
             }
                 

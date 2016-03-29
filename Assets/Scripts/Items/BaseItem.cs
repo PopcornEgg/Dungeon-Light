@@ -17,7 +17,7 @@ public abstract class BaseItem
     //配置表中的数据
     [NonSerialized]
     ItemTab tabData;
-    public ItemTab TabData { get { return tabData; } }
+    public ItemTab TabData { get { return tabData; } set { tabData = value; } }
 
     //类型
     public ItemType Type {get { return tabData.type; }}

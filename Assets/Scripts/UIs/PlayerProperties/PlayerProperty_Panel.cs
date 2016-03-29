@@ -48,6 +48,7 @@ public class PlayerProperty_Panel : MonoBehaviour {
         {
             string idx = "Item" + i.ToString();
             equipItems[i] = Equips.FindChild(idx).gameObject.AddComponent<PropertyEquip_Item>();
+            equipItems[i].Idx = i;
         }
 
         //右边

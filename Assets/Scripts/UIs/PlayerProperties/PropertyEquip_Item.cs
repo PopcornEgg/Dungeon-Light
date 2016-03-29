@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
 using System.Collections;
 
 public class PropertyEquip_Item : MonoBehaviour
 {
+    public int Idx;
     PlayerProperty_Panel playerPropertyPanel;
     BaseItem _baseItem;
 
@@ -27,5 +29,14 @@ public class PropertyEquip_Item : MonoBehaviour
     {
         playerPropertyPanel = StaticManager.sSecond_Canvas.playerPropertyPanel;
         imgIcon = transform.FindChild("Icon").GetComponent<Image>();
+    }
+    void Start()
+    {
+        //windows点击鼠标右键
+        Button btn = transform.GetComponent<Button>();
+        btn.onClick.AddListener(delegate ()
+        {
+            StaticManager.sPlayer.UseBodyItem(Idx);
+        });
     }
 }

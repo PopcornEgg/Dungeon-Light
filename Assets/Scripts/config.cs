@@ -5,7 +5,8 @@ using System.Text;
 
 public class Config
 {
-    public static uint QualityPropertyCount = 5;
+    //自动保存间隔时间
+    public const float AutoSaveTime = 30.0f;
 
 }
 

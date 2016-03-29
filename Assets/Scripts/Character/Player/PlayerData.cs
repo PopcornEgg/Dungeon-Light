@@ -8,9 +8,24 @@ using System.Runtime.Serialization.Formatters.Binary;
 //player数据处理部分
 public partial class Player : Character
 {
-    //*********************************************************************************
-    //背包
-    public static int bagSpace = 50;//背包容量
+    #region 公用*********************************************************************************
+    public void SaveAll()
+    {
+        SaveBagItems();
+        SaveBodyItems();
+    }
+    public void LoadAll()
+    {
+        LoadBagItems();
+        LoadBodyItems();
+    }
+    #endregion
+
+    #region 背包*********************************************************************************
+
+    //"C:/Users/Administrator/AppData/LocalLow/DefaultCompany/Dungeon Light/bagitems.data"
+    static String bagItemsSavePath = Application.persistentDataPath + "/bagitems.data";
+    public const int bagSpace = 50;//背包容量
     public BaseItem[] bagItems = new BaseItem[bagSpace];
     public int CurrBagItemCount {
         get {
@@ -21,6 +36,13 @@ public partial class Player : Character
                     _count++;
             }
             return _count;
+        }
+    }
+    public bool IsBagFull
+    {
+        get
+        {
+            return CurrBagItemCount >= bagSpace;
         }
     }
     public bool AddBagItem(BaseItem _item)
@@ -101,29 +123,71 @@ public partial class Player : Character
     }
     public void SaveBagItems()
     {
-        Utils.BinarySerialize.Serialize<BaseItem[]>(bagItems, "c:/bagItems.data");
+        Utils.BinarySerialize.Serialize<BaseItem[]>(bagItems, bagItemsSavePath);
     }
     public void LoadBagItems()
     {
-        BaseItem[] datas = Utils.BinarySerialize.DeSerialize<BaseItem[]>("c:/bagItems.data");
+        BaseItem[] datas = Utils.BinarySerialize.DeSerialize<BaseItem[]>(bagItemsSavePath);
         if (datas != null)
+        {
             bagItems = datas;
+            for (int i = 0; i < bagItems.Length; i++)
+            {
+                if (bagItems[i] != null)
+                {
+                    bagItems[i].TabData = ItemTab.Get(bagItems[i].TabId);
+                }
+            }
+        }
     }
-    //*********************************************************************************
-    //身上装备
+    #endregion
+
+    #region 身上装备*********************************************************************************
+    static String bodyItemsSavePath = Application.persistentDataPath + "/bodyitems.data";
     PlayerEquipProperty playerEquipProperty;
     public BaseItem[] bodyEuiqpItems = new BaseItem[(int)ItemEquipType.MAX];
-    public void UseBodyItem(EquipItem _eitem, int idx)
+    public void UseBodyItem(int idx)
     {
+        //是否装备
+        if (bodyEuiqpItems[idx] == null)
+            return;
+        
+        //背包是否已满
+        if (IsBagFull)
+            return;
 
+        //取下
+        AddBagItem(bodyEuiqpItems[idx]);
+        bodyEuiqpItems[idx] = null;
+
+        StaticManager.sSecond_Canvas.RefreshPlayerBag();
+        StaticManager.sSecond_Canvas.RefreshPlayerProperty();
+        playerEquipProperty.IsDirty = true;
     }
     public void SaveBodyItems()
     {
-
+        Utils.BinarySerialize.Serialize<BaseItem[]>(bodyEuiqpItems, bodyItemsSavePath);
     }
+    public void LoadBodyItems()
+    {
+        BaseItem[] datas = Utils.BinarySerialize.DeSerialize<BaseItem[]>(bodyItemsSavePath);
+        if (datas != null)
+        {
+            bodyEuiqpItems = datas;
+            for (int i = 0; i < bodyEuiqpItems.Length; i++)
+            {
+                if (bodyEuiqpItems[i] != null)
+                {
+                    bodyEuiqpItems[i].TabData = ItemTab.Get(bodyEuiqpItems[i].TabId);
+                }
+            }
+        }
+        //PlayerPrefs
+    }
+    #endregion
 
-    //*********************************************************************************
-    //技能
+    #region 技能*********************************************************************************
+
     public override void AddSkillExp(UInt32 _skillid, UInt32 _exp)
     {
         HasSkills.SkillData _csd = characterSkill.hasSkills.GetSkill(_skillid);
@@ -132,9 +196,10 @@ public partial class Player : Character
             _csd.AddExp(_exp);
         }
     }
+    #endregion
 
-    //*********************************************************************************
-    //人物属性
+    #region 人物属性*********************************************************************************
+    
     PlayerBaseProperty playerBaseProperty;
     public String GetPropertyString()
     {
@@ -150,4 +215,5 @@ public partial class Player : Character
 
         return txt.ToString();
     }
+    #endregion
 }
