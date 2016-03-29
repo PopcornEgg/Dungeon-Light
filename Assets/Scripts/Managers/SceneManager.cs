@@ -19,6 +19,10 @@ public class SceneManager : MonoBehaviour
             {
                 _sceneTab = value;
                 spaces = new int[_sceneTab.levelTab.Count];
+                for (int i = 0; i < spaces.Length; i++)
+                {
+                    spaces[i] = Int32.MaxValue;
+                }
                 monsterCount[0] = _sceneTab.normal;
                 monsterCount[1] = _sceneTab.enchanted;
                 monsterCount[2] = _sceneTab.elitist;
