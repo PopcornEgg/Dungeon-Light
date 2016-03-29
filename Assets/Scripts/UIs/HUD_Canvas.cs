@@ -6,6 +6,7 @@ public class HUD_Canvas : MonoBehaviour {
 
     Canvas canvas;
     public Slider HP_Slider;
+    Text currHP;
 
     void Awake()
     {
@@ -15,11 +16,15 @@ public class HUD_Canvas : MonoBehaviour {
     void Start()
     {
         canvas = GetComponent<Canvas>();
+        currHP = HP_Slider.transform.FindChild("Text").GetComponent<Text>();
     }
-
-    public void SetHP_Slider(float per)
+    void FixedUpdate()
     {
-        HP_Slider.value = per;
+        Player player = StaticManager.sPlayer;
+        if (player == null)
+            return;
+        currHP.text = string.Format("{0}/{1}", (int)player.HP, (int)player.MAXHP);
+        HP_Slider.value = player.HP / player.MAXHP;
     }
 
     public void SetUp( )

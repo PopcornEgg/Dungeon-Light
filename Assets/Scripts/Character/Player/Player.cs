@@ -114,24 +114,6 @@ public partial class Player : Character
         }
     }
 
-    public override void TakeDamage(uint amount)
-    {
-        if (amount == 0)
-            return;
-
-        if (amount >= HP)
-            HP = 0;
-        else
-            HP -= amount;
-
-        StaticManager.sHUD_Canvas.SetHP_Slider((float)HP / (float)MAXHP);
-
-        if (HP == 0 && CharacterAnimState.Die != AIState)
-        {
-            Death();
-        }
-    }
-
     public override void Death()
     {
         AIState = CharacterAnimState.Die;
@@ -159,6 +141,8 @@ public partial class Player : Character
         characterProperties.AddProperty(playerEquipProperty);
 
         UpdateLevelProperty();
+
+       // StaticManager.sHUD_Canvas.SetHPInfo(HP, MAXHP);
     }
     public void UpdateLevelProperty()
     {

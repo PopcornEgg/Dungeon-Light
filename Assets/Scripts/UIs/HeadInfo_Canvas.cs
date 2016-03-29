@@ -89,6 +89,7 @@ public class HeadInfo_Canvas : MonoBehaviour
         Vector3 position = new Vector3(uhiplayer.owner.transform.position.x, 
             uhiplayer.owner.transform.position.y + uhiplayer.owner.modelHeight, 
             uhiplayer.owner.transform.position.z);
+
         //根据头顶的3D坐标换算成它在2D屏幕中的坐标
         position = Camera.main.WorldToScreenPoint(position);
         //显示
