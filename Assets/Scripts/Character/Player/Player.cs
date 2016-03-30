@@ -123,7 +123,7 @@ public partial class Player : Character
         }
     }
 
-    public override void Death()
+    public override void Death(Character killer)
     {
         AIState = CharacterAnimState.Die;
         anim.SetTrigger("Die");
@@ -132,35 +132,5 @@ public partial class Player : Character
     void ShowOver()
     {
         StaticManager.sHUD_Canvas.DieSetUp();
-    }
-    
-    PlayerLvTab currPlayerLvTab;
-    public PlayerLvTab CurrPlayerLvTab{get { return currPlayerLvTab; }set { currPlayerLvTab = value; playerBaseProperty.IsDirty = true; } }
-    public override void InitProperty()
-    {
-        //加载一些存档
-        LoadAll();
-
-        //注册等级属性模块
-        playerBaseProperty = new PlayerBaseProperty(this);
-        characterProperties.AddProperty(playerBaseProperty);
-        //注册装备属性模块
-        playerEquipProperty = new PlayerEquipProperty(this);
-        characterProperties.AddProperty(playerEquipProperty);
-
-        UpdateLevelProperty();
-
-       // StaticManager.sHUD_Canvas.SetHPInfo(HP, MAXHP);
-    }
-    public void UpdateLevelProperty()
-    {
-        PlayerLvTab _pltab = PlayerLvTab.Get(Level);
-        if (_pltab != null)
-        {
-            CurrPlayerLvTab = _pltab;
-            HP = (uint)MAXHP;
-            MP = (uint)MAXMP;
-            SP = (uint)MAXSP;
-        }
     }
 }

@@ -54,10 +54,10 @@ public class CommonProperty
         }
     }
 }
-public class PlayerBaseProperty : CommonProperty
+public class PlayerLevelProperty : CommonProperty
 {
     Player player;
-    public PlayerBaseProperty(Player _player)
+    public PlayerLevelProperty(Player _player)
     {
         player = _player;
     }

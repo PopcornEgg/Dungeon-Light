@@ -15,6 +15,7 @@ public enum InsSkillRetType
 }
 public class HasSkills
 {
+    [Serializable]
     public class SkillData
     {
         public UInt32 skillId;

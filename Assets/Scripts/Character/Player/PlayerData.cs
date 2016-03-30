@@ -5,17 +5,59 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 
+[Serializable]
+public class PlayerBaseDataSave
+{
+    [NonSerialized]
+    static String playerbasedatasave = Application.persistentDataPath + "/playerbasedatasave.data";
+
+    UInt64 uId;
+    String Name;
+    UInt32 level;
+    UInt32 sex;
+    public int[] property;
+
+    public static void Save(Player player)
+    {
+        PlayerBaseDataSave buffer = new PlayerBaseDataSave();
+        buffer.uId = player.UID;
+        buffer.Name = player.Name;
+        buffer.level = player.Level;
+        buffer.sex = player.Sex;
+        buffer.property = player.Property;
+
+        Utils.BinarySerialize.Serialize<PlayerBaseDataSave>(buffer, playerbasedatasave);
+    }
+    public static void Load(Player player)
+    {
+        PlayerBaseDataSave buffer = Utils.BinarySerialize.DeSerialize<PlayerBaseDataSave>(playerbasedatasave);
+        if (buffer != null)
+        {
+            player.UID = buffer.uId;
+            player.Name = buffer.Name;
+            player.Level = buffer.level;
+            player.Sex = buffer.sex;
+            player.Property = buffer.property;
+        }
+        else
+        {
+            player.CreatePlayer("李连杰");
+        }
+    }
+}
 //player数据处理部分
 public partial class Player : Character
 {
     #region 公用*********************************************************************************
     public void SaveAll()
     {
+        PlayerBaseDataSave.Save(this);
         SaveBagItems();
         SaveBodyItems();
     }
     public void LoadAll()
     {
+        PlayerBaseDataSave.Load(this);
         LoadBagItems();
         LoadBodyItems();
     }
@@ -199,8 +241,23 @@ public partial class Player : Character
     #endregion
 
     #region 人物属性*********************************************************************************
-    
-    PlayerBaseProperty playerBaseProperty;
+
+    public override void InitProperty()
+    {
+        //注册等级属性模块
+        playerLevelProperty = new PlayerLevelProperty(this);
+        characterProperties.AddProperty(playerLevelProperty);
+        //注册装备属性模块
+        playerEquipProperty = new PlayerEquipProperty(this);
+        characterProperties.AddProperty(playerEquipProperty);
+
+        //加载一些存档
+        LoadAll();
+
+        CurrPlayerLvTab = PlayerLvTab.Get(Level);
+
+        // StaticManager.sHUD_Canvas.SetHPInfo(HP, MAXHP);
+    }
     public String GetPropertyString()
     {
         StringBuilder txt = new StringBuilder();
@@ -214,6 +271,44 @@ public partial class Player : Character
         txt.Append(String.Format("{0}：{1}", PropertyNames.Names[(int)PropertyTypeEx.MOVESPEED], MOVESPEED));
 
         return txt.ToString();
+    }
+    public void CreatePlayer(String rolename)
+    {
+        CurrPlayerLvTab = PlayerLvTab.Get(Level);
+        UID = Utils.GuidMaker.GenerateUInt64();
+        Name = rolename;
+        Sex = 1;
+        Level = 1;
+        HP = (uint)MAXHP;
+        MP = (uint)MAXMP;
+        SP = (uint)MAXSP;
+        EXP = 0;
+        MONEY = 0;
+    }
+    //等级属性
+    PlayerLevelProperty playerLevelProperty;
+    PlayerLvTab currPlayerLvTab;
+    public PlayerLvTab CurrPlayerLvTab { get { return currPlayerLvTab; } set { currPlayerLvTab = value; playerLevelProperty.IsDirty = true; } }
+    public override void AddExp( UInt32 _exp)
+    {
+        //最大等级了
+        if (CurrPlayerLvTab == null)
+            return;
+        EXP += _exp;
+        uint oldLv = Level;
+        while (EXP >= CurrPlayerLvTab.exp)
+        {
+            Level++;
+            EXP -= (uint)CurrPlayerLvTab.exp;
+            CurrPlayerLvTab = PlayerLvTab.Get(Level);
+        }
+        //是否升级
+        if (Level > oldLv)
+        {
+            HP = (uint)MAXHP;
+            MP = (uint)MAXMP;
+            SP = (uint)MAXSP;
+        }
     }
     #endregion
 }

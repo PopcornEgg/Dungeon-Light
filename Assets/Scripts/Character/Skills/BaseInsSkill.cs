@@ -44,12 +44,6 @@ public class BaseInsSkill
         {
             if (skillTab.damageDelayTime + insTime <= Time.time && damageTimes == 0)
             {
-
-                if (owner.CType == CharacterType.Player)
-                {
-                    int ss = 0;
-                }
-              
                 Character[] targets = skillTab.skillRange.GetInRangeTargets(owner, target);
                 if (targets != null && targets.Length > 0)
                 {
@@ -65,7 +59,7 @@ public class BaseInsSkill
 
                     for (int i = 0; i < targets.Length; i++)
                     {
-                        targets[i].TakeDamage((UInt32)_damages);
+                        targets[i].TakeDamage(owner, (UInt32)_damages);
                     }
                 }
                 damageTimes++;

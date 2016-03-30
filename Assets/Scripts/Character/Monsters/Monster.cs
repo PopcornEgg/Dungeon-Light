@@ -204,13 +204,14 @@ public class Monster : Character
         }
     }
 
-    public override void Death()
+    public override void Death(Character killer)
     {
         AIState = CharacterAnimState.Die;
         anim.SetTrigger("Die");
         DropedItem.Drop(new Vector3(transform.position.x, 0, transform.position.z), TabId);
         StaticManager.sHeadInfo_Canvas.DelMonsterHeadInfo(this.UID);
         StaticManager.sSceneManager.MonsterDie(this);
+        killer.AddExp((uint)monsterTab.exp);
         Destroy(gameObject, 3.0f);
     }
 

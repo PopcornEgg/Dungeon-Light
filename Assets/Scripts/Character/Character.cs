@@ -107,7 +107,11 @@ public class Character : MonoBehaviour
     UInt32 tabId = 0;
     public UInt32 TabId { get { return tabId; } set { tabId = value; } }
     //名字
-    public String Name = "null";
+    String _name;
+    public String Name { get { return _name; } set { _name = value; } }
+    //0女 1男
+    UInt32 sex = 0;
+    public UInt32 Sex { get { return sex; } set { sex = value; } }
     //类型
     CharacterType cType = CharacterType.Null;
     public CharacterType CType { get { return cType; } set { cType = value; } }
@@ -117,6 +121,7 @@ public class Character : MonoBehaviour
 
     //基础属性信息
     int[] property = new int[(int)PropertyType.MAX];
+    public int[] Property { get { return property; } set { property = value; } }
     public UInt32 HP {get { return (UInt32)property[(int)PropertyType.HP]; }set { property[(int)PropertyType.HP] = (int)value; }}
     public UInt32 MP { get { return (UInt32)property[(int)PropertyType.MP]; } set { property[(int)PropertyType.MP] = (int)value; } }
     public UInt32 SP { get { return (UInt32)property[(int)PropertyType.SP]; } set { property[(int)PropertyType.SP] = (int)value; } }
@@ -156,9 +161,10 @@ public class Character : MonoBehaviour
 
     public void Awake()
     {
-        UID = Utils.GuidMaker.GenerateUInt64();
-
         InitProperty();
+
+        if (UID == 0)
+            UID = Utils.GuidMaker.GenerateUInt64();
 
         anim = GetComponent<Animator>();
 
@@ -181,7 +187,7 @@ public class Character : MonoBehaviour
         characterSkill.OnTick();
     }
 
-    public virtual void TakeDamage(uint amount)
+    public virtual void TakeDamage(Character attacker, uint amount)
     {
         if (amount == 0)
             return;
@@ -193,12 +199,13 @@ public class Character : MonoBehaviour
 
         if (HP == 0 && AIState != CharacterAnimState.Die)
         {
-            Death();
+            Death(attacker);
         }
     }
 
-    public virtual void Death(){ }
+    public virtual void Death(Character killer) { }
     public virtual void InitProperty() { }
+    public virtual void AddExp(UInt32 _exp) { }
     public virtual void AddSkillExp(UInt32 _skillid, UInt32 _exp) { }
     public virtual void SkillEnd(UInt32 _skillid){ }
 }
