@@ -5,8 +5,12 @@ using System.Collections;
 public class HUD_Canvas : MonoBehaviour {
 
     Canvas canvas;
-    public Slider HP_Slider;
+    Slider HP_Slider;
     Text currHP;
+    Slider MP_Slider;
+    Text currMP;
+    Slider Exp_Slider;
+    Text currEXP;
 
     void Awake()
     {
@@ -16,15 +20,27 @@ public class HUD_Canvas : MonoBehaviour {
     void Start()
     {
         canvas = GetComponent<Canvas>();
+
+        Transform MainInfo = transform.FindChild("MainInfo");
+        HP_Slider = MainInfo.FindChild("HP_Slider").GetComponent<Slider>();
         currHP = HP_Slider.transform.FindChild("Text").GetComponent<Text>();
+        MP_Slider = MainInfo.FindChild("MP_Slider").GetComponent<Slider>();
+        currMP = MP_Slider.transform.FindChild("Text").GetComponent<Text>();
+        Exp_Slider = MainInfo.FindChild("Exp_Slider").GetComponent<Slider>();
+        currEXP = Exp_Slider.transform.FindChild("Text").GetComponent<Text>();
     }
     void FixedUpdate()
     {
         Player player = StaticManager.sPlayer;
         if (player == null)
             return;
-        currHP.text = string.Format("{0}/{1}", (int)player.HP, (int)player.MAXHP);
+
+        currHP.text = string.Format("{0}/{1}", player.HP, (int)player.MAXHP);
         HP_Slider.value = player.HP / player.MAXHP;
+        currMP.text = string.Format("{0}/{1}", player.MP, (int)player.MAXMP);
+        MP_Slider.value = (float)player.MP / player.MAXMP;
+        currEXP.text = string.Format("{0}/{1}", player.EXP, player.CurrPlayerLvTab.exp);
+        Exp_Slider.value = (float)player.EXP / player.MAXHP;
     }
 
     public void SetUp( )
