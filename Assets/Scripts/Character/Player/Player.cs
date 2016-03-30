@@ -10,8 +10,10 @@ public partial class Player : Character
 #if !MOBILE_INPUT
 #endif
 
-    public override void AwakeEx()
+    new public void Awake()
     {
+        base.Awake();
+
         characterSkill.hasSkills.AddSkill(0);//测试
         
         attackAbleLayer = LayerMask.GetMask("Monster");
@@ -20,7 +22,12 @@ public partial class Player : Character
         anim = GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody>();
     }
-
+    new public void Start()
+    {
+        base.Start();
+        //测试坐标
+        transform.position = new Vector3(32, 0.5f, 18);
+    }
     public void SetMoveDir(Vector2 v)
     {
         moveDir = v;
@@ -33,8 +40,10 @@ public partial class Player : Character
     {
         moveDir = new Vector2(0, 0);
     }
-    public override void UpdateEx()
+    new public void Update()
     {
+        base.Update();
+
         //拾取道具
         if (Input.GetMouseButton(0))
         {
@@ -51,7 +60,7 @@ public partial class Player : Character
                     Debug.Log("pick up!");
                 }
                 */
-                DropedItem _ditem = gameObj.GetComponent<DropedItem>();
+                DropedItem _ditem = gameObj.GetComponentInParent<DropedItem>();
                 if (_ditem != null )
                     _ditem.OnPickuped();
             }
@@ -124,7 +133,6 @@ public partial class Player : Character
     {
         StaticManager.sHUD_Canvas.DieSetUp();
     }
-
     
     PlayerLvTab currPlayerLvTab;
     public PlayerLvTab CurrPlayerLvTab{get { return currPlayerLvTab; }set { currPlayerLvTab = value; playerBaseProperty.IsDirty = true; } }

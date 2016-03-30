@@ -154,7 +154,7 @@ public class Character : MonoBehaviour
 
     public Vector3 bornPosition;
 
-    void Awake()
+    public void Awake()
     {
         UID = Utils.GuidMaker.GenerateUInt64();
 
@@ -171,52 +171,15 @@ public class Character : MonoBehaviour
         modelHeight = (size_y * scal_y);
 
         characterSkill = new CharacterSkill(this);
-
-        AwakeEx();
     }
-
-    public virtual void InitProperty() { }
-    public virtual void AwakeEx(){}
-
-    void Update()
+    public void Start()
+    {
+        bornPosition = transform.position;
+    }
+    public void Update()
     {
         characterSkill.OnTick();
-        UpdateEx();
     }
-    public virtual void UpdateEx(){ }
-    /*
-    void OnGUI()
-    {
-        //得到NPC头顶在3D世界中的坐标
-        //默认NPC坐标点在脚底下，所以这里加上modelHeight它模型的高度即可
-        Vector3 worldPosition = new Vector3(transform.position.x, transform.position.y + modelHeight, transform.position.z);
-        //根据NPC头顶的3D坐标换算成它在2D屏幕中的坐标
-        Vector2 position = maincamera.WorldToScreenPoint(worldPosition);
-        //得到真实NPC头顶的2D坐标
-        position = new Vector2(position.x, Screen.height - position.y);
-
-        //计算出血条的宽高
-        Vector2 bloodSize = GUI.skin.label.CalcSize(new GUIContent(blood_red));
-
-        //通过血值计算红色血条显示区域
-        float bloodHeight = 5.0f;
-        float bloodWidth = 60.0f;
-        float currBloodWidth = bloodWidth * (float)HP / 100.0f;
-        //先绘制黑色血条
-        GUI.DrawTexture(new Rect(position.x - bloodWidth / 2.0f, position.y , bloodWidth, bloodHeight), blood_black);
-        //在绘制红色血条
-        GUI.DrawTexture(new Rect(position.x - bloodWidth / 2.0f, position.y , currBloodWidth, bloodHeight), blood_red);
-
-        //计算NPC名称的宽高
-        Vector2 nameSize = GUI.skin.label.CalcSize(new GUIContent(Name));
-        //设置显示颜色为黄色
-        GUI.color = Color.yellow;
-        //绘制NPC名称
-        GUI.Label(new Rect(position.x - (nameSize.x / 2), position.y - nameSize.y - bloodSize.y, nameSize.x, nameSize.y), Name);
-
-        //Image
-    }
-    */
 
     public virtual void TakeDamage(uint amount)
     {
@@ -235,6 +198,7 @@ public class Character : MonoBehaviour
     }
 
     public virtual void Death(){ }
+    public virtual void InitProperty() { }
     public virtual void AddSkillExp(UInt32 _skillid, UInt32 _exp) { }
     public virtual void SkillEnd(UInt32 _skillid){ }
 }

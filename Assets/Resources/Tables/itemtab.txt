@@ -1,5 +1,5 @@
 #id	类型(0=金钱[0~9999]，1=药水[10000~19999],2=装备[20000~29999])	装备类型	名字	售价	装备等级/需求等级	品质	MAXHP	MAXMP	AD	AP	ADD	APD	MOVESPEED	道具图标	掉落外观	掉落高度偏移	掉落缩放
 $tabid	type	ietype	name	price	level	quality	maxhp	maxmp	ad	ap	add	apd	movespeed	icon	dropmodel	dropheight	dropscale
-20000	2	0	杀猪刀1	100	88	5	0	0	50	2	2	2	0	weapon0	Broadsword	0.6	0.5
-20001	2	1	杀猪刀2	101	89	6	0	0	100	5	3	3	0	weapon1	normalsword	0.6	0.5
-20002	2	2	杀猪刀3	102	90	7	0	0	200	10	4	4	0	weapon2	RunicAxe	0.6	0.5
+20000	2	0	杀猪刀1	100	88	5	0	0	50	2	2	2	0	weapon0	Weapons/Blaster Sword	0.6	0.5
+20001	2	1	杀猪刀2	101	89	6	0	0	100	5	3	3	0	weapon1	Weapons/Blaster Sword	0.6	0.5
+20002	2	2	杀猪刀3	102	90	7	0	0	200	10	4	4	0	weapon2	Weapons/Blaster Sword	0.6	0.5

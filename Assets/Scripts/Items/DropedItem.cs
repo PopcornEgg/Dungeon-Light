@@ -11,7 +11,8 @@ public class DropedItem : MonoBehaviour
     public BaseItem itemData;
     void Start()
     {
-        headInfoHeight = transform.FindChild("HeadInfoHeight").transform.position.y ;
+        //HeadInfoHeight = HIH
+        headInfoHeight = transform.FindChild("HIH").transform.position.y ;
         StaticManager.sHeadInfo_Canvas.AddItemHeadInfo(this);
     }
 
@@ -89,7 +90,7 @@ public class DropedItem : MonoBehaviour
             GameObject obj = null;
             if (!dicDropItems.TryGetValue(_itab.dropModel, out obj))
             {
-                obj = Resources.Load<GameObject>("Prefabs/DropItems/" + _itab.dropModel);
+                obj = Resources.Load<GameObject>("Prefabs/Items/" + _itab.dropModel);
                 dicDropItems.Add(_itab.dropModel, obj);
 
                 //Instantiate(dropList[Random.Range(0, dropList.Length)], transform.position, transform.rotation);

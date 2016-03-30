@@ -25,44 +25,17 @@ public class Monster : Character
     DebugDrawCircle scanCircle = null;
     DebugDrawCircle followCircle = null;
 
-    public override void AwakeEx()
+    new public void Awake()
     {
+        base.Awake();
         attackAbleLayer = LayerMask.GetMask("Player");
         CType = CharacterType.Monster;
         characterSkill.hasSkills.AddSkill(0);//测试
     }
-
-    void AddNavMeshAgent()
+    new public void Start()
     {
-        CapsuleCollider collider = gameObject.GetComponent<CapsuleCollider>();
-        nav = gameObject.AddComponent<NavMeshAgent>();
-        nav.radius = collider.radius;
-        nav.height = collider.height;
-        nav.baseOffset = 0;
-        nav.speed = MOVESPEED;
-        nav.angularSpeed = 360;
-        nav.acceleration = MOVESPEED * 2.0f;
-        nav.stoppingDistance = 1;
-        nav.autoBraking = true;
-    }
+        base.Start();
 
-    void AddRigidbody()
-    {
-        rigidBody = gameObject.AddComponent<Rigidbody>();
-        rigidBody.mass = 1.0f;
-        rigidBody.drag = 0;
-        rigidBody.angularDrag = 0.05f;
-        rigidBody.useGravity = true;
-        rigidBody.isKinematic = false;
-        rigidBody.interpolation = RigidbodyInterpolation.None;
-        rigidBody.collisionDetectionMode = CollisionDetectionMode.Discrete;
-        //rigidBody.constraints = (RigidbodyConstraints)(2 | 8 | 112);
-        rigidBody.constraints = (RigidbodyConstraints)( 112);
-        //rigidBody.constraints = (RigidbodyConstraints)(16 | 64);
-    }
-
-    void Start()
-    {
         target = StaticManager.sPlayer;
         StaticManager.sHeadInfo_Canvas.AddMonsterHeadInfo(this);
         AddNavMeshAgent();
@@ -73,16 +46,10 @@ public class Monster : Character
         followCircle = gameObject.AddComponent<DebugDrawCircle>();
         followCircle.SetRadius(monsterTab.followrange);
     }
-
-    void SetAniBool(string _name)
+    new public void Update()
     {
-        anim.SetBool("Idle", _name == "Idle");
-        anim.SetBool("Walk", _name == "Walk");
-        anim.SetBool("Attack", _name == "Attack");
-    }
+        base.Update();
 
-    public override void UpdateEx()
-    {
         if (StaticManager.sPlayer == null)
             return;
 
@@ -128,13 +95,42 @@ public class Monster : Character
                     AutoAttack();
                 }
                 break;
-          
-                
             default:
                 break;
         }
-
-        
+    }
+    void AddNavMeshAgent()
+    {
+        CapsuleCollider collider = gameObject.GetComponent<CapsuleCollider>();
+        nav = gameObject.AddComponent<NavMeshAgent>();
+        nav.radius = collider.radius;
+        nav.height = collider.height;
+        nav.baseOffset = 0;
+        nav.speed = MOVESPEED;
+        nav.angularSpeed = 360;
+        nav.acceleration = MOVESPEED * 2.0f;
+        nav.stoppingDistance = 1;
+        nav.autoBraking = true;
+    }
+    void AddRigidbody()
+    {
+        rigidBody = gameObject.AddComponent<Rigidbody>();
+        rigidBody.mass = 1.0f;
+        rigidBody.drag = 0;
+        rigidBody.angularDrag = 0.05f;
+        rigidBody.useGravity = true;
+        rigidBody.isKinematic = false;
+        rigidBody.interpolation = RigidbodyInterpolation.None;
+        rigidBody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        //rigidBody.constraints = (RigidbodyConstraints)(2 | 8 | 112);
+        rigidBody.constraints = (RigidbodyConstraints)(112);
+        //rigidBody.constraints = (RigidbodyConstraints)(16 | 64);
+    }
+    void SetAniBool(string _name)
+    {
+        anim.SetBool("Idle", _name == "Idle");
+        anim.SetBool("Walk", _name == "Walk");
+        anim.SetBool("Attack", _name == "Attack");
     }
     CharacterType ScanTarget()
     {

@@ -57,7 +57,7 @@ public class SceneManager : MonoBehaviour
                     {
                         Character _char = Character.New(_mtab);
                         _char.gameObject.SetActive(true);
-                        _char.bornPosition = _char.transform.position = new Vector3(_data.x, _data.y, _data.z);
+                        _char.transform.position = new Vector3(_data.x, _data.y, _data.z);
                         currScene.spaces[i] = (int)Time.time;
                         currScene.monsterCount[(int)_mtab.mtype]--;
                     }
