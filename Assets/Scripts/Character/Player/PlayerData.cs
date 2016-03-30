@@ -256,6 +256,8 @@ public partial class Player : Character
 
         CurrPlayerLvTab = PlayerLvTab.Get(Level);
 
+        if (HP == 0)
+            ReLive();
         // StaticManager.sHUD_Canvas.SetHPInfo(HP, MAXHP);
     }
     public String GetPropertyString()
@@ -284,6 +286,12 @@ public partial class Player : Character
         SP = (uint)MAXSP;
         EXP = 0;
         MONEY = 0;
+    }
+    public void ReLive()
+    {
+        HP = (uint)MAXHP;
+        MP = (uint)MAXMP;
+        SP = (uint)MAXSP;
     }
     //等级属性
     PlayerLevelProperty playerLevelProperty;
