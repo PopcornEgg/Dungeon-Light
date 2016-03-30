@@ -16,7 +16,7 @@ public partial class Player : Character
 
         characterSkill.hasSkills.AddSkill(0);//测试
         
-        attackAbleLayer = LayerMask.GetMask("Monster");
+        attackAbleLayerMask = LayerMask.GetMask("Monster");
         StaticManager.sPlayer = this;
         CType = CharacterType.Player;
         anim = GetComponent<Animator>();
@@ -49,7 +49,7 @@ public partial class Player : Character
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//从摄像机发出到点击坐标的射线
             RaycastHit hitInfo;
-            if (Physics.Raycast(ray, out hitInfo, 100.0f, DropedItem.dropedItemLayer))
+            if (Physics.Raycast(ray, out hitInfo, 100.0f, DropedItem.dropedItemLayerMask))
             {
                 Debug.DrawLine(ray.origin, hitInfo.point);//划出射线，只有在scene视图中才能看到
                 GameObject gameObj = hitInfo.collider.gameObject;

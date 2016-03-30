@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-
 public class BaseInsSkill
 {
     public Character owner;
@@ -45,19 +44,25 @@ public class BaseInsSkill
         {
             if (skillTab.damageDelayTime + insTime <= Time.time && damageTimes == 0)
             {
-                for (int i = 0; i < skillTab.skillDamage.Length; i++)
-                {
-                    SkillTab.SkillDamage sdamage = skillTab.skillDamage[i];
-                    if (sdamage != null)
-                    {
-                        int bv = owner.property[(int)sdamage.type];
-                        _damages += sdamage.radix[idx] + (int)(sdamage.coefficient[idx] * (float)bv);
-                    }
-                }
 
-                Character[] targets = skillTab.skillRange.GetInRangeTargets(owner, target);
-                if (targets != null)
+                if (owner.CType == CharacterType.Player)
                 {
+                    int ss = 0;
+                }
+              
+                Character[] targets = skillTab.skillRange.GetInRangeTargets(owner, target);
+                if (targets != null && targets.Length > 0)
+                {
+                    for (int i = 0; i < skillTab.skillDamage.Length; i++)
+                    {
+                        SkillTab.SkillDamage sdamage = skillTab.skillDamage[i];
+                        if (sdamage != null)
+                        {
+                            float bv = owner.characterProperties.Get(sdamage.type);
+                            _damages += sdamage.radix[idx] + (int)(sdamage.coefficient[idx] * bv);
+                        }
+                    }
+
                     for (int i = 0; i < targets.Length; i++)
                     {
                         targets[i].TakeDamage((UInt32)_damages);

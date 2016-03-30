@@ -1,10 +1,10 @@
-﻿Shader "Outline"
+﻿Shader "outline"
  {  
     Properties 
 	{  
         _Color ("Main Color", Color) = (1,1,1,1)  
         _OutlineColor ("Outline Color", Color) = (.9,1,0,1)  
-        _Outline ("Outline width", Range (0.0, 0.03)) = .005  
+        _Outline ("Outline width", Range (0.0, 0.03)) = .001
         _MainTex ("Base (RGB)", 2D) = "white" { }  
     }  
     CGINCLUDE  

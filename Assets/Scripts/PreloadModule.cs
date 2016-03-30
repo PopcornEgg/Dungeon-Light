@@ -8,7 +8,8 @@ public class PreloadModule : MonoBehaviour {
     {
         if (!isPreloaded)
         {
-            DropedItem.dropedItemLayer = LayerMask.GetMask("DropedItem");
+            DropedItem.dropedItemLayerMask = LayerMask.GetMask("DropedItem");
+            DropedItem.dropedItemLayer = LayerMask.NameToLayer("DropedItem");
             preloadTabs();
             isPreloaded = true;
         }

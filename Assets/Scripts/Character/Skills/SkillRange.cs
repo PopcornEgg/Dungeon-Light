@@ -105,7 +105,7 @@ public class CircleSkillRange : BaseSkillRange
         List<Character> lsChar = new List<Character>();
         Vector3 orgPos = new Vector3(owner.transform.position.x, owner.transform.position.y, owner.transform.position.z) + 
             owner.transform.forward * startDistance;
-        RaycastHit[] shootHits = Physics.SphereCastAll(orgPos, radius, owner.transform.forward, 0, owner.attackAbleLayer);
+        RaycastHit[] shootHits = Physics.SphereCastAll(orgPos, radius, owner.transform.forward, 0, owner.attackAbleLayerMask);
 
         if (shootHits != null)
         {

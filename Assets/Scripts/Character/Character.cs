@@ -116,7 +116,7 @@ public class Character : MonoBehaviour
     public UInt32 Level { get { return level; } set { level = value; } }
 
     //基础属性信息
-    public int[] property = new int[(int)PropertyType.MAX];
+    int[] property = new int[(int)PropertyType.MAX];
     public UInt32 HP {get { return (UInt32)property[(int)PropertyType.HP]; }set { property[(int)PropertyType.HP] = (int)value; }}
     public UInt32 MP { get { return (UInt32)property[(int)PropertyType.MP]; } set { property[(int)PropertyType.MP] = (int)value; } }
     public UInt32 SP { get { return (UInt32)property[(int)PropertyType.SP]; } set { property[(int)PropertyType.SP] = (int)value; } }
@@ -150,7 +150,7 @@ public class Character : MonoBehaviour
     public Rigidbody rigidBody = null;
 
     //可攻击layer
-    public int attackAbleLayer = -1;
+    public int attackAbleLayerMask = -1;
 
     public Vector3 bornPosition;
 

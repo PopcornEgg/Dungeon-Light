@@ -28,7 +28,7 @@ public class Monster : Character
     new public void Awake()
     {
         base.Awake();
-        attackAbleLayer = LayerMask.GetMask("Player");
+        attackAbleLayerMask = LayerMask.GetMask("Player");
         CType = CharacterType.Monster;
         characterSkill.hasSkills.AddSkill(0);//测试
     }

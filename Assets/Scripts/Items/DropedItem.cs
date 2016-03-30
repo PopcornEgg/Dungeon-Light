@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class DropedItem : MonoBehaviour
 {
+    public static int dropedItemLayerMask;
     public static int dropedItemLayer;
 
     float rotationSpeed = 100.0f;
@@ -11,9 +12,24 @@ public class DropedItem : MonoBehaviour
     public BaseItem itemData;
     void Start()
     {
-        //HeadInfoHeight = HIH
-        headInfoHeight = transform.FindChild("HIH").transform.position.y ;
+        //HeadInfoHeight == HIH
+        headInfoHeight = transform.FindChild("HIH").transform.position.y * transform.localScale.y;
         StaticManager.sHeadInfo_Canvas.AddItemHeadInfo(this);
+
+        Shader sd = ShaderManager.Get("outline");
+        MeshRenderer md = transform.GetComponentInChildren<MeshRenderer>();
+        if(sd != null && md != null)
+        {
+            //设置描边
+            md.material.shader = sd;
+            //设置layer
+            md.gameObject.layer = dropedItemLayer;
+            //打开碰撞检测
+            md.GetComponent<BoxCollider>().enabled = true;
+            //关闭阴影
+            md.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            md.receiveShadows = false;
+        }
     }
 
     void Update()
