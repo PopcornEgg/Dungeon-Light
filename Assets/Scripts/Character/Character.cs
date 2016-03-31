@@ -157,7 +157,7 @@ public class Character : MonoBehaviour
     //可攻击layer
     public int attackAbleLayerMask = -1;
 
-    public Vector3 bornPosition;
+    public Vector3 bornPosition = Vector3.zero;
 
     public void Awake()
     {
@@ -180,7 +180,6 @@ public class Character : MonoBehaviour
     }
     public void Start()
     {
-        bornPosition = transform.position;
     }
     public void Update()
     {

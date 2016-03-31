@@ -3,31 +3,22 @@ using System.Collections;
 
 public class CameraFollow : MonoBehaviour
 {
-    //public Transform target;            // The position that that camera will be following.
-    public float smoothing = 5f;        // The speed with which the camera will be following.
-
-
-    Vector3 offset;                     // The initial offset from the target.
-    Player player;
+    public float smoothing = 5f;
+    public Vector3 offsetPosition = new Vector3(0, 4.81f, -6.81f);
+    Character target;
     void Awake()
     {
         StaticManager.sCameraFollow = this;
     }
     void Start ()
     {
-        // Calculate the initial offset.
-        //offset = transform.position - target.position;
-        player = StaticManager.sPlayer;
-        offset = transform.position - player.bornPosition;
+        target = StaticManager.sPlayer;
     }
 
 
     void FixedUpdate ()
     {
-        // Create a postion the camera is aiming for based on the offset from the target.
-        Vector3 targetCamPos = player.transform.position + offset;
-
-        // Smoothly interpolate between the camera's current position and it's target position.
+        Vector3 targetCamPos = target.transform.position + offsetPosition;
         transform.position = Vector3.Lerp (transform.position, targetCamPos, smoothing * Time.deltaTime);
     }
 }

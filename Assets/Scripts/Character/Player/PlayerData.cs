@@ -15,7 +15,8 @@ public class PlayerBaseDataSave
     String Name;
     UInt32 level;
     UInt32 sex;
-    public int[] property;
+    int[] property;
+    float[] bornPosition = new float[3];
 
     public static void Save(Player player)
     {
@@ -25,6 +26,9 @@ public class PlayerBaseDataSave
         buffer.level = player.Level;
         buffer.sex = player.Sex;
         buffer.property = player.Property;
+        buffer.bornPosition[0] = player.transform.position.x;
+        buffer.bornPosition[1] = player.transform.position.y;
+        buffer.bornPosition[2] = player.transform.position.z;
 
         Utils.BinarySerialize.Serialize<PlayerBaseDataSave>(buffer, playerbasedatasave);
     }
@@ -38,6 +42,7 @@ public class PlayerBaseDataSave
             player.Level = buffer.level;
             player.Sex = buffer.sex;
             player.Property = buffer.property;
+            player.bornPosition = new Vector3(buffer.bornPosition[0], buffer.bornPosition[1], buffer.bornPosition[2]); 
         }
         else
         {

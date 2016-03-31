@@ -36,6 +36,7 @@ public class Monster : Character
     {
         base.Start();
 
+        bornPosition = transform.position;
         target = StaticManager.sPlayer;
         StaticManager.sHeadInfo_Canvas.AddMonsterHeadInfo(this);
         AddNavMeshAgent();

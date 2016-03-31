@@ -26,7 +26,7 @@ public partial class Player : Character
     {
         base.Start();
         //测试坐标
-        transform.position = new Vector3(32, 0.5f, 18);
+        transform.position = bornPosition;
     }
     public void SetMoveDir(Vector2 v)
     {
