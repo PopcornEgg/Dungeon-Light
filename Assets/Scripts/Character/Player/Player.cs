@@ -4,6 +4,7 @@ using System.Collections;
 //player逻辑处理部分
 public partial class Player : Character
 {
+    public Transform RWeaponPosition;
     Vector3 movement;
     Vector2 moveDir;
 
@@ -27,6 +28,12 @@ public partial class Player : Character
         base.Start();
         //测试坐标
         transform.position = bornPosition;
+
+        //test
+        //RWeaponPosition
+        //GameObject obj = PrefabsManager.Get("Items/Weapons/Blaster Sword");
+        GameObject gameobj = GameObject.Instantiate<GameObject>(PrefabsManager.Get("Items/Weapons/Blaster Sword"));
+        gameobj.transform.SetParent(RWeaponPosition, false);
     }
     public void SetMoveDir(Vector2 v)
     {

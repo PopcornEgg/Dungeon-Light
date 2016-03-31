@@ -2,7 +2,8 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class HUD_Canvas : MonoBehaviour {
+public class HUD_Canvas : MonoBehaviour
+{
 
     Canvas canvas;
     Slider HP_Slider;
@@ -43,7 +44,7 @@ public class HUD_Canvas : MonoBehaviour {
         Exp_Slider.value = (float)player.EXP / player.MAXHP;
     }
 
-    public void SetUp( )
+    public void SetUp()
     {
         if (StaticManager.sPlayer.AIState == CharacterAnimState.Die)
             return;
@@ -92,5 +93,12 @@ public class HUD_Canvas : MonoBehaviour {
         {
             _propertyPanel.gameObject.SetActive(_propertyPanel.gameObject.activeSelf ? false : true);
         }
+    }
+    public void OnClick_PlayerRandomJump()
+    {
+        SceneTab _sceneTab = StaticManager.sSceneManager.currScene._sceneTab;
+        int idx = UnityEngine.Random.Range(0, _sceneTab.levelTab.Count);
+        LevelTab.Data data = _sceneTab.levelTab.lsTabs[idx];
+        StaticManager.sPlayer.transform.position = new Vector3(data.x, data.y, data.z);
     }
 }
