@@ -213,7 +213,12 @@ public class Monster : Character
         HeadInfo_Canvas.DelMonsterHeadInfo(this.UID);
         SceneManager.Self.MonsterDie(this);
         killer.AddExp((uint)monsterTab.exp);
-        Destroy(gameObject, 3.0f);
+        Destroy(gameObject, 2.0f);
+    }
+
+    void OnDestroy()
+    {
+        HeadInfo_Canvas.DelMonsterHeadInfo(this.UID);
     }
 
     public override void InitProperty()

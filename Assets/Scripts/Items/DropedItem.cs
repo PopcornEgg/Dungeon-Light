@@ -37,6 +37,10 @@ public class DropedItem : MonoBehaviour
         //自旋转
         transform.Rotate(Vector3.up, Time.deltaTime * rotationSpeed);
     }
+    void OnDestroy()
+    {
+        HeadInfo_Canvas.DelItemHeadInfo(itemData.UId);
+    }
     public void OnPickuped()
     {
         if(itemData == null)
