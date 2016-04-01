@@ -18,7 +18,8 @@ public class SetUp_Panel : MonoBehaviour {
     {
         this.gameObject.SetActive(false);
         Time.timeScale = 1;
-        Application.LoadLevel(Application.loadedLevel);
+        Player.Self.ReLive();
+        //Application.LoadLevel(Application.loadedLevel);
     }
 
     public void OnExit()

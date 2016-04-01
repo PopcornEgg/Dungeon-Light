@@ -316,6 +316,11 @@ public partial class Player : Character
         HP = (uint)MAXHP;
         MP = (uint)MAXMP;
         SP = (uint)MAXSP;
+
+        transform.position = Vector3.zero;
+
+        AIState = CharacterAnimState.Idle;
+        anim.SetTrigger("Relive");
     }
     //等级属性
     PlayerLevelProperty playerLevelProperty;

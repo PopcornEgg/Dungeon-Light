@@ -70,7 +70,7 @@ public partial class Player : Character
     }
     void FixedUpdate()
     {
-//#if !MOBILE_INPUT
+#if !MOBILE_INPUT
 
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
@@ -80,7 +80,7 @@ public partial class Player : Character
         if (Input.GetKeyUp(KeyCode.J)){
             Attack();
         }
-//#endif
+#endif
 
         if (moveDir != null && AIState == CharacterAnimState.Idle || AIState == CharacterAnimState.Walk)
             OnMoving(moveDir.x, moveDir.y);
