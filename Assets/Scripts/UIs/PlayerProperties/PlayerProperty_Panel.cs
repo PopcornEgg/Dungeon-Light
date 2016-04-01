@@ -26,8 +26,6 @@ public class PlayerProperty_Panel : MonoBehaviour {
 
     bool isInited = false;
 
-    Player player;
-
     //左边
     Text Name;
     PropertyEquip_Item[] equipItems = new PropertyEquip_Item[(int)ItemEquipType.MAX];
@@ -38,7 +36,8 @@ public class PlayerProperty_Panel : MonoBehaviour {
 
     void Start ()
     {
-        player = StaticManager.sPlayer;
+        if (Player.Self == null)
+            return;
 
         //左边
         Transform BodyEquip = transform.FindChild("BodyEquip");
@@ -69,8 +68,8 @@ public class PlayerProperty_Panel : MonoBehaviour {
     }
     public void RefreshBodyEquip()
     {
-        Name.text = string.Format("LV.{0}   {1}", player.Level, player.Name);
-        BaseItem[] bodyItems = player.bodyEuiqpItems;
+        Name.text = string.Format("LV.{0}   {1}", Player.Self.Level, Player.Self.Name);
+        BaseItem[] bodyItems = Player.Self.bodyEuiqpItems;
         for (int i = 0; i < bodyItems.Length; i++)
         {
             UInt64 _uid = bodyItems[i] != null ? bodyItems[i].UId : 0;
@@ -83,7 +82,7 @@ public class PlayerProperty_Panel : MonoBehaviour {
     }
     public void RefreshInformation()
     {
-        propertyInfo.text = player.GetPropertyString();
+        propertyInfo.text = Player.Self.GetPropertyString();
     }
 
     void Update()

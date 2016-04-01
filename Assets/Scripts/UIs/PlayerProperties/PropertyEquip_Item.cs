@@ -27,7 +27,7 @@ public class PropertyEquip_Item : MonoBehaviour
 
     void Awake()
     {
-        playerPropertyPanel = StaticManager.sSecond_Canvas.playerPropertyPanel;
+        playerPropertyPanel = Second_Canvas.playerPropertyPanel;
         imgIcon = transform.FindChild("Icon").GetComponent<Image>();
     }
     void Start()
@@ -36,7 +36,7 @@ public class PropertyEquip_Item : MonoBehaviour
         Button btn = transform.GetComponent<Button>();
         btn.onClick.AddListener(delegate ()
         {
-            StaticManager.sPlayer.UseBodyItem(Idx);
+            Player.Self.UseBodyItem(Idx);
         });
     }
 }

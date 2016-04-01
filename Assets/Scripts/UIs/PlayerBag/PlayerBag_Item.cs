@@ -29,7 +29,7 @@ public class PlayerBag_Item : MonoBehaviour
 
     void Awake()
     {
-        playerBagPanel = StaticManager.sSecond_Canvas.playerBagPanel;
+        playerBagPanel = Second_Canvas.playerBagPanel;
         imgIcon = transform.FindChild("Icon").GetComponent<Image>();
         txtCount = transform.FindChild("Count").GetComponent<Text>();
     }
@@ -39,7 +39,7 @@ public class PlayerBag_Item : MonoBehaviour
         //windows点击鼠标右键
         Button btn = transform.GetComponent<Button>();
         btn.onClick.AddListener(delegate () {
-            StaticManager.sPlayer.UseBagItem(Idx);
+            Player.Self.UseBagItem(Idx);
         });
     }
 }

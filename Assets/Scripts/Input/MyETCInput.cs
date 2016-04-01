@@ -18,15 +18,15 @@ public class MyETCInput : MonoBehaviour {
 
     public void OnMoving(Vector2 v)
     {
-        StaticManager.sPlayer.SetMoveDir(v);
+        Player.Self.SetMoveDir(v);
     }
     public void OnMoveEnd()
     {
-        StaticManager.sPlayer.ClearMoveDir();
+        Player.Self.ClearMoveDir();
     }
 
     public void OnAttack()
     {
-        StaticManager.sPlayer.Attack();
+        Player.Self.Attack();
     }
 }

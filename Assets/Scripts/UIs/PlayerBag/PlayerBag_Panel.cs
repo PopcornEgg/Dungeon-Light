@@ -26,14 +26,12 @@ public class PlayerBag_Panel : MonoBehaviour
     RectTransform content;//内容
     GridLayoutGroup grid;
     ScrollRect scrollRect;
-    Player _player = null;
 
     PlayerBagOptimizer playerBagOptimizer = new PlayerBagOptimizer();
     PlayerBag_Item[] playerBagItems = new PlayerBag_Item[Player.bagSpace];
 
     void Awake()
     {
-        _player = StaticManager.sPlayer;
         //gameObject.SetActive(false);
     }
     void Start()
@@ -79,7 +77,7 @@ public class PlayerBag_Panel : MonoBehaviour
         if (!gameObject.activeSelf)
             return;
 
-        BaseItem[] bagItems = _player.bagItems;
+        BaseItem[] bagItems = Player.Self.bagItems;
         for (int i = 0; i < bagItems.Length; i++)
         {
             UInt64 _uid = bagItems[i] != null ? bagItems[i].UId : 0;

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PreloadModule : MonoBehaviour {
-
-    static bool isPreloaded = false;
+public class PreloadModule : MonoBehaviour
+{
+    public static bool isPreloaded = false;
     void Awake()
     {
         if (!isPreloaded)
@@ -14,7 +14,6 @@ public class PreloadModule : MonoBehaviour {
             isPreloaded = true;
         }
     }
-    
     void preloadTabs()
     {
         SceneTab.Read();

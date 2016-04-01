@@ -4,6 +4,7 @@ using System.Collections;
 
 public class HUD_Canvas : MonoBehaviour
 {
+    public static HUD_Canvas Self;
 
     Canvas canvas;
     Slider HP_Slider;
@@ -15,7 +16,6 @@ public class HUD_Canvas : MonoBehaviour
 
     void Awake()
     {
-        StaticManager.sHUD_Canvas = this;
     }
 
     void Start()
@@ -29,10 +29,12 @@ public class HUD_Canvas : MonoBehaviour
         currMP = MP_Slider.transform.FindChild("Text").GetComponent<Text>();
         Exp_Slider = MainInfo.FindChild("Exp_Slider").GetComponent<Slider>();
         currEXP = Exp_Slider.transform.FindChild("Text").GetComponent<Text>();
+
+        Self = this;
     }
     void FixedUpdate()
     {
-        Player player = StaticManager.sPlayer;
+        Player player = Player.Self;
         if (player == null)
             return;
 
@@ -46,10 +48,10 @@ public class HUD_Canvas : MonoBehaviour
 
     public void SetUp()
     {
-        if (StaticManager.sPlayer.AIState == CharacterAnimState.Die)
+        if (Player.Self.AIState == CharacterAnimState.Die)
             return;
 
-        SetUp_Panel _setUpPanel = StaticManager.sSecond_Canvas.setUpPanel;
+        SetUp_Panel _setUpPanel = Second_Canvas.setUpPanel;
         if (_setUpPanel != null)
         {
             if (_setUpPanel.gameObject.activeSelf)
@@ -62,7 +64,7 @@ public class HUD_Canvas : MonoBehaviour
     }
     public void DieSetUp()
     {
-        SetUp_Panel _setUpPanel = StaticManager.sSecond_Canvas.setUpPanel;
+        SetUp_Panel _setUpPanel = Second_Canvas.setUpPanel;
         if (_setUpPanel != null)
         {
             if (_setUpPanel.gameObject.activeSelf)
@@ -80,7 +82,7 @@ public class HUD_Canvas : MonoBehaviour
 
     public void OnClick_PlayerBag()
     {
-        PlayerBag_Panel _playerBagPanel = StaticManager.sSecond_Canvas.playerBagPanel;
+        PlayerBag_Panel _playerBagPanel = Second_Canvas.playerBagPanel;
         if (_playerBagPanel != null)
         {
             _playerBagPanel.gameObject.SetActive(_playerBagPanel.gameObject.activeSelf ? false : true);
@@ -88,7 +90,7 @@ public class HUD_Canvas : MonoBehaviour
     }
     public void OnClick_PlayerProperty()
     {
-        PlayerProperty_Panel _propertyPanel = StaticManager.sSecond_Canvas.playerPropertyPanel;
+        PlayerProperty_Panel _propertyPanel = Second_Canvas.playerPropertyPanel;
         if (_propertyPanel != null)
         {
             _propertyPanel.gameObject.SetActive(_propertyPanel.gameObject.activeSelf ? false : true);
@@ -96,9 +98,9 @@ public class HUD_Canvas : MonoBehaviour
     }
     public void OnClick_PlayerRandomJump()
     {
-        SceneTab _sceneTab = StaticManager.sSceneManager.currScene._sceneTab;
+        SceneTab _sceneTab = SceneManager.Self.currScene._sceneTab;
         int idx = UnityEngine.Random.Range(0, _sceneTab.levelTab.Count);
         LevelTab.Data data = _sceneTab.levelTab.lsTabs[idx];
-        StaticManager.sPlayer.transform.position = new Vector3(data.x, data.y, data.z);
+        Player.Self.transform.position = new Vector3(data.x, data.y, data.z);
     }
 }

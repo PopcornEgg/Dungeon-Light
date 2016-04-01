@@ -3,18 +3,12 @@ using System.Collections;
 
 public class Second_Canvas : MonoBehaviour {
 
-    SetUp_Panel _setUpPanel;
-    public SetUp_Panel setUpPanel { get { return _setUpPanel; } set { _setUpPanel = value; } }
-
-    PlayerBag_Panel _playerBagPanel;
-    public PlayerBag_Panel playerBagPanel { get { return _playerBagPanel; } set { _playerBagPanel = value; } }
-
-    PlayerProperty_Panel _playerPropertyPanel;
-    public PlayerProperty_Panel playerPropertyPanel { get { return _playerPropertyPanel; } set { _playerPropertyPanel = value; } }
+    public static SetUp_Panel setUpPanel;
+    public static PlayerBag_Panel playerBagPanel;
+    public static PlayerProperty_Panel playerPropertyPanel;
 
     void Awake()
     {
-        StaticManager.sSecond_Canvas = this;
     }
     void Start ()
     {
@@ -23,12 +17,12 @@ public class Second_Canvas : MonoBehaviour {
         playerPropertyPanel = transform.FindChild("Property_Panel").GetComponent<PlayerProperty_Panel>();
     }
 
-    public void RefreshPlayerBag()
+    public static void RefreshPlayerBag()
     {
         if (playerBagPanel != null)
             playerBagPanel.Refresh();
     }
-    public void RefreshPlayerProperty()
+    public static void RefreshPlayerProperty()
     {
         if (playerPropertyPanel != null)
         {

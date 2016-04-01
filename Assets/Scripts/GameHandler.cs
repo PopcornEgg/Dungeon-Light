@@ -17,7 +17,7 @@ public class GameHandler : MonoBehaviour
 
     void AutoSave()
     {
-        StaticManager.sPlayer.SaveAll();
+        Player.Self.SaveAll();
         Invoke("AutoSave", Config.AutoSaveTime);
     }
 }

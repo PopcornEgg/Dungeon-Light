@@ -37,8 +37,8 @@ public class Monster : Character
         base.Start();
 
         bornPosition = transform.position;
-        target = StaticManager.sPlayer;
-        StaticManager.sHeadInfo_Canvas.AddMonsterHeadInfo(this);
+        target = Player.Self;
+        HeadInfo_Canvas.AddMonsterHeadInfo(this);
         AddNavMeshAgent();
         AddRigidbody();
 
@@ -51,13 +51,13 @@ public class Monster : Character
     {
         base.Update();
 
-        if (StaticManager.sPlayer == null)
+        if (Player.Self == null)
             return;
 
         if (AIState == CharacterAnimState.Die)
             return;
 
-        if (StaticManager.sPlayer.AIState == CharacterAnimState.Die)
+        if (Player.Self.AIState == CharacterAnimState.Die)
         {
             nav.enabled = false;
             SetAniBool("Idle");
@@ -159,7 +159,7 @@ public class Monster : Character
 //             Vector3 despos = new Vector3(StaticManager.sPlayer.transform.position.x,
 //                 transform.position.y,
 //                 StaticManager.sPlayer.transform.position.z);
-            nav.SetDestination(StaticManager.sPlayer.transform.position);
+            nav.SetDestination(Player.Self.transform.position);
             //anim.SetBool("Walk", true);
         }
         else
@@ -210,8 +210,8 @@ public class Monster : Character
         AIState = CharacterAnimState.Die;
         anim.SetTrigger("Die");
         DropedItem.Drop(new Vector3(transform.position.x, 0, transform.position.z), TabId);
-        StaticManager.sHeadInfo_Canvas.DelMonsterHeadInfo(this.UID);
-        StaticManager.sSceneManager.MonsterDie(this);
+        HeadInfo_Canvas.DelMonsterHeadInfo(this.UID);
+        SceneManager.Self.MonsterDie(this);
         killer.AddExp((uint)monsterTab.exp);
         Destroy(gameObject, 3.0f);
     }

@@ -64,7 +64,6 @@ public static class PropertyNames
 
 public class Character : MonoBehaviour
 {
-    static Dictionary<string, GameObject> dicLoadedCharacter = new Dictionary<string, GameObject>();
     public static Character New(UInt32 id)
     {
         MonsterTab _mtab = MonsterTab.Get(id);
@@ -76,17 +75,14 @@ public class Character : MonoBehaviour
     {
         if(_mtab.type == CharacterType.Monster)
         {
-            GameObject obj = null;
-            if (!dicLoadedCharacter.TryGetValue(_mtab.model, out obj))
+            GameObject gameobj = PrefabsManager.Instantiate(PrefabsType.Monsters, _mtab.model);
+            if(gameobj != null)
             {
-                obj = Resources.Load<GameObject>("Prefabs/Monsters/" + _mtab.model);
-                dicLoadedCharacter.Add(_mtab.model, obj);
+                gameobj.SetActive(false);
+                Monster _monster = gameobj.AddComponent<Monster>();
+                _monster.monsterTab = _mtab;
+                return _monster;
             }
-            GameObject gameobj = GameObject.Instantiate<GameObject>(obj);
-            gameobj.SetActive(false);
-            Monster _monster = gameobj.AddComponent<Monster>();
-            _monster.monsterTab = _mtab;
-            return _monster;
         }
         else if(_mtab.type == CharacterType.NPC)
         {

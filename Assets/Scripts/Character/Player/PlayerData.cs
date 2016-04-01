@@ -164,9 +164,11 @@ public partial class Player : Character
                 bagItems[bagIdx] = buffer;
             }
         }
-        StaticManager.sSecond_Canvas.RefreshPlayerBag();
-        StaticManager.sSecond_Canvas.RefreshPlayerProperty();
+        Second_Canvas.RefreshPlayerBag();
+        Second_Canvas.RefreshPlayerProperty();
         playerEquipProperty.IsDirty = true;
+
+        ChangeWeaponModel(bodyIdx);
     }
     public void SaveBagItems()
     {
@@ -193,6 +195,7 @@ public partial class Player : Character
     static String bodyItemsSavePath = Application.persistentDataPath + "/bodyitems.data";
     PlayerEquipProperty playerEquipProperty;
     public BaseItem[] bodyEuiqpItems = new BaseItem[(int)ItemEquipType.MAX];
+    public Transform rightWeaponNode;
     public void UseBodyItem(int idx)
     {
         //是否装备
@@ -207,9 +210,11 @@ public partial class Player : Character
         AddBagItem(bodyEuiqpItems[idx]);
         bodyEuiqpItems[idx] = null;
 
-        StaticManager.sSecond_Canvas.RefreshPlayerBag();
-        StaticManager.sSecond_Canvas.RefreshPlayerProperty();
+        Second_Canvas.RefreshPlayerBag();
+        Second_Canvas.RefreshPlayerProperty();
         playerEquipProperty.IsDirty = true;
+
+        ChangeWeaponModel(idx);
     }
     public void SaveBodyItems()
     {
@@ -229,7 +234,21 @@ public partial class Player : Character
                 }
             }
         }
-        //PlayerPrefs
+    }
+    public void ChangeWeaponModel(int bodyIdx)
+    {
+        if(bodyEuiqpItems[bodyIdx] == null)
+        {
+            //test
+            //RWeaponPosition
+            //GameObject obj = PrefabsManager.Get("Items/Weapons/Blaster Sword");
+            GameObject gameobj = PrefabsManager.Instantiate(PrefabsType.Items, "Weapons/Blaster Sword");
+            gameobj.transform.SetParent(rightWeaponNode, false);
+        }
+        else
+        {
+
+        }
     }
     #endregion
 

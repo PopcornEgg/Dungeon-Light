@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class SceneManager : MonoBehaviour
 {
+    public static SceneManager Self;
     System.Random random = new System.Random();
     public class Scene
     {
@@ -39,11 +40,20 @@ public class SceneManager : MonoBehaviour
 
     void Start()
     {
-        StaticManager.sSceneManager = this;
         currScene = new Scene(0);
+        Self = this;
+
+        GameObject gameobj = PrefabsManager.Instantiate(PrefabsType.Players, "Player");
+        gameobj.SetActive(true);
     }
     void Update()
     {
+        if (!PreloadModule.isPreloaded)
+            return;
+
+        if (Player.Self == null)
+            return;
+        
         for(int i=0; i< currScene.sceneTab.levelTab.Count; i++)
         {
             LevelTab.Data _data = currScene.sceneTab.levelTab.lsTabs[i];
@@ -69,6 +79,5 @@ public class SceneManager : MonoBehaviour
     {
         currScene.monsterCount[(int)_char.monsterTab.mtype]++;
     }
-    delegate bool CheckMonsterCount(); 
 }
 

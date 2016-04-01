@@ -30,7 +30,7 @@ public class ItemTab
     //掉落外观
     public readonly string icon;
     //掉落外观
-    public readonly string dropModel;
+    public readonly string model;
     //掉落高度
     public readonly float dropHeight;
     //掉落缩放
@@ -57,7 +57,7 @@ public class ItemTab
 
         //显示数据
         icon = tr.GetString(i, "icon");
-        dropModel = tr.GetString(i, "dropmodel");
+        model = tr.GetString(i, "model");
         dropHeight = tr.GetItemFloat(i, "dropheight");
         dropScale = tr.GetItemFloat(i, "dropscale");
     }

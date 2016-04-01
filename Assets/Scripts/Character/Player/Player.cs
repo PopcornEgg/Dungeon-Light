@@ -4,7 +4,8 @@ using System.Collections;
 //player逻辑处理部分
 public partial class Player : Character
 {
-    public Transform RWeaponPosition;
+    static public Player Self = null;
+
     Vector3 movement;
     Vector2 moveDir;
 
@@ -14,11 +15,8 @@ public partial class Player : Character
     new public void Awake()
     {
         base.Awake();
-
         characterSkill.hasSkills.AddSkill(0);//测试
-        
         attackAbleLayerMask = LayerMask.GetMask("Monster");
-        StaticManager.sPlayer = this;
         CType = CharacterType.Player;
         anim = GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody>();
@@ -28,12 +26,9 @@ public partial class Player : Character
         base.Start();
         //测试坐标
         transform.position = bornPosition;
+        HeadInfo_Canvas.AddPlayerHeadInfo(this);
 
-        //test
-        //RWeaponPosition
-        //GameObject obj = PrefabsManager.Get("Items/Weapons/Blaster Sword");
-        GameObject gameobj = GameObject.Instantiate<GameObject>(PrefabsManager.Get("Items/Weapons/Blaster Sword"));
-        gameobj.transform.SetParent(RWeaponPosition, false);
+        Self = this;
     }
     public void SetMoveDir(Vector2 v)
     {
@@ -138,6 +133,6 @@ public partial class Player : Character
     }
     void ShowOver()
     {
-        StaticManager.sHUD_Canvas.DieSetUp();
+        HUD_Canvas.Self.DieSetUp();
     }
 }

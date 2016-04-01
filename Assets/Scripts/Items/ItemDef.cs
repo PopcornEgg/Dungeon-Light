@@ -13,7 +13,8 @@ public enum ItemType
 //装备使用的位置
 public enum ItemEquipType
 {
-    Head = 0,
+    Weapon = 0,
+    Head,
     Body,
     Hand,
     Leg,

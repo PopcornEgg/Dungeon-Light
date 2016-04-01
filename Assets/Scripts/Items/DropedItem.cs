@@ -14,7 +14,7 @@ public class DropedItem : MonoBehaviour
     {
         //HeadInfoHeight == HIH
         headInfoHeight = transform.FindChild("HIH").transform.position.y * transform.localScale.y;
-        StaticManager.sHeadInfo_Canvas.AddItemHeadInfo(this);
+        HeadInfo_Canvas.AddItemHeadInfo(this);
 
         Shader sd = ShaderManager.Get("outline");
         MeshRenderer md = transform.GetComponentInChildren<MeshRenderer>();
@@ -43,15 +43,15 @@ public class DropedItem : MonoBehaviour
             Debug.LogError("BaseItem itemData == null");
         else
         {
-            if (StaticManager.sPlayer.AddBagItem(itemData))
+            if (Player.Self.AddBagItem(itemData))
             {
-                StaticManager.sSecond_Canvas.RefreshPlayerBag();
+                Second_Canvas.RefreshPlayerBag();
             }
                 
         }
 
         //先从headinfo里移除
-        StaticManager.sHeadInfo_Canvas.DelItemHeadInfo(itemData.UId);
+        HeadInfo_Canvas.DelItemHeadInfo(itemData.UId);
         DestroyImmediate(this.gameObject);
     }
 
@@ -103,16 +103,7 @@ public class DropedItem : MonoBehaviour
             if (_itab == null)
                 continue;
 
-            GameObject obj = null;
-            if (!dicDropItems.TryGetValue(_itab.dropModel, out obj))
-            {
-                obj = Resources.Load<GameObject>("Prefabs/Items/" + _itab.dropModel);
-                dicDropItems.Add(_itab.dropModel, obj);
-
-                //Instantiate(dropList[Random.Range(0, dropList.Length)], transform.position, transform.rotation);
-            }
-
-            GameObject gameobj = GameObject.Instantiate<GameObject>(obj);
+            GameObject gameobj = PrefabsManager.Instantiate(PrefabsType.Items, _itab.model);
             Vector3 realpos = spawnPos + dropPositions[i] + new Vector3(0, _itab.dropHeight, 0);
             spawnPos.y = Terrain.activeTerrain.SampleHeight(realpos) + _itab.dropHeight;
             gameobj.transform.position = realpos;

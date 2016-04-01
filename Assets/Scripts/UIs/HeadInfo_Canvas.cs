@@ -4,68 +4,111 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-//怪物头顶信息
-public class UIMonsterHeadInfo
-{
-    public UInt64 uid;
-    public GameObject gobj;
-    public Slider hpslider;
-    public Text Name;
-    public Text Level;
-    public Character owner;
-}
-
-//掉落道具头顶信息
-public class UIItemHeadInfo
+//头顶信息基类
+public class BaseHeadInfo
 {
     public UInt64 uid;
     public GameObject gobj;
     public Text Name;
-    public DropedItem owner;
-}
+    public int headinfoTempIdx = 0;
 
+    public virtual void Init() { }
+}
 //玩家头顶信息
-public class UIPlayerHeadInfo
+public class UIPlayerHeadInfo : BaseHeadInfo
 {
-    public UInt64 uid;
-    public GameObject gobj;
     public Slider hpslider;
-    public Text Name;
     public Text Level;
     public Character owner;
+    public UIPlayerHeadInfo()
+    {
+        headinfoTempIdx = 0;
+    }
+    public override void Init() {
+        hpslider = gobj.transform.FindChild("Slider").GetComponent<Slider>();
+        Name = gobj.transform.FindChild("Name").GetComponent<Text>();
+        Level = gobj.transform.FindChild("Level").GetComponent<Text>();
+    }
+}
+//怪物头顶信息
+public class UIMonsterHeadInfo : BaseHeadInfo
+{
+    public Slider hpslider;
+    public Text Level;
+    public Character owner;
+    public UIMonsterHeadInfo()
+    {
+        headinfoTempIdx = 1;
+    }
+    public override void Init() {
+        hpslider = gobj.transform.FindChild("Slider").GetComponent<Slider>();
+        Name = gobj.transform.FindChild("Name").GetComponent<Text>();
+        Level = gobj.transform.FindChild("Level").GetComponent<Text>();
+    }
+}
+//掉落道具头顶信息
+public class UIItemHeadInfo : BaseHeadInfo
+{
+    public DropedItem owner;
+    public UIItemHeadInfo()
+    {
+        headinfoTempIdx = 2;
+    }
+    public override void Init() {
+        Name = gobj.transform.FindChild("Name").GetComponent<Text>();
+    }
 }
 public class HeadInfo_Canvas : MonoBehaviour
 {
-    public GameObject playerHeadinfoTemp;
-    public GameObject monsterHeadinfoTemp;
-    public GameObject itemHeadinfoTemp;
+    //public GameObject playerHeadinfoTemp;
+    //public GameObject monsterHeadinfoTemp;
+    //public GameObject itemHeadinfoTemp;
 
-    UIPlayerHeadInfo uhiplayer = new UIPlayerHeadInfo();
-    Dictionary<UInt64, UIMonsterHeadInfo> dicMonsterHeadInfo = new Dictionary<UInt64, UIMonsterHeadInfo>();
-    Dictionary<UInt64, UIItemHeadInfo> dicItemHeadInfo = new Dictionary<UInt64, UIItemHeadInfo>();
-    void Awake()
-    {
-        StaticManager.sHeadInfo_Canvas = this;
-    }
-	void Start () {
+    public GameObject[] headinfoTemps;
 
-        uhiplayer.owner = StaticManager.sPlayer;
-        uhiplayer.uid = uhiplayer.owner.UID;
-        uhiplayer.gobj = Instantiate<GameObject>(playerHeadinfoTemp);
-        uhiplayer.gobj.SetActive(true);
-        uhiplayer.gobj.transform.SetParent(this.transform, false);
-        uhiplayer.hpslider = uhiplayer.gobj.transform.FindChild("Slider").GetComponent<Slider>();
-        uhiplayer.Name = uhiplayer.gobj.transform.FindChild("Name").GetComponent<Text>();
-        uhiplayer.Level = uhiplayer.gobj.transform.FindChild("Level").GetComponent<Text>();
-    }
+    static List<BaseHeadInfo> lsWaittingInited = new List<BaseHeadInfo>();
+    static UIPlayerHeadInfo uhiplayer;
+    static Dictionary<UInt64, UIMonsterHeadInfo> dicMonsterHeadInfo = new Dictionary<UInt64, UIMonsterHeadInfo>();
+    static Dictionary<UInt64, UIItemHeadInfo> dicItemHeadInfo = new Dictionary<UInt64, UIItemHeadInfo>();
 	
-	void Update () {
+	void Update ()
+    {
+        if(lsWaittingInited.Count > 0)
+        {
+            foreach (BaseHeadInfo _headInfo in lsWaittingInited)
+            {
+                _headInfo.gobj = Instantiate<GameObject>(headinfoTemps[_headInfo.headinfoTempIdx]);
+                _headInfo.gobj.transform.SetParent(this.transform, false);
+                _headInfo.Init();
+                _headInfo.gobj.SetActive(true);
+            }
+            lsWaittingInited.Clear();
+        }
 
         ShowMonsterHeadInfo();
         ShowPlayerHeadInfo();
         ShowItemHeadInfo();
     }
+    void ShowPlayerHeadInfo()
+    {
+        if (uhiplayer == null)
+            return;
 
+        //得到头顶的世界坐标
+        Vector3 position = new Vector3(uhiplayer.owner.transform.position.x,
+            uhiplayer.owner.transform.position.y + uhiplayer.owner.modelHeight,
+            uhiplayer.owner.transform.position.z);
+
+        //根据头顶的3D坐标换算成它在2D屏幕中的坐标
+        position = Camera.main.WorldToScreenPoint(position);
+        //显示
+        uhiplayer.gobj.transform.position = new Vector3(position.x, position.y, 0);
+
+        //显示数值
+        uhiplayer.hpslider.value = (float)uhiplayer.owner.HP / (float)uhiplayer.owner.MAXHP;
+        uhiplayer.Name.text = uhiplayer.owner.Name;
+        uhiplayer.Level.text = uhiplayer.owner.Level.ToString();
+    }
     void ShowMonsterHeadInfo()
     {
         foreach(UIMonsterHeadInfo uhi in dicMonsterHeadInfo.Values)
@@ -83,24 +126,6 @@ public class HeadInfo_Canvas : MonoBehaviour
             uhi.Level.text = uhi.owner.Level.ToString();
         }
     }
-    void ShowPlayerHeadInfo()
-    {
-        //得到头顶的世界坐标
-        Vector3 position = new Vector3(uhiplayer.owner.transform.position.x, 
-            uhiplayer.owner.transform.position.y + uhiplayer.owner.modelHeight, 
-            uhiplayer.owner.transform.position.z);
-
-        //根据头顶的3D坐标换算成它在2D屏幕中的坐标
-        position = Camera.main.WorldToScreenPoint(position);
-        //显示
-        uhiplayer.gobj.transform.position = new Vector3(position.x, position.y, 0);
-
-        //显示数值
-        uhiplayer.hpslider.value = (float)uhiplayer.owner.HP / (float)uhiplayer.owner.MAXHP;
-        uhiplayer.Name.text = uhiplayer.owner.Name;
-        uhiplayer.Level.text = uhiplayer.owner.Level.ToString();
-    }
-
     void ShowItemHeadInfo()
     {
         foreach (UIItemHeadInfo uhi in dicItemHeadInfo.Values)
@@ -118,22 +143,23 @@ public class HeadInfo_Canvas : MonoBehaviour
             uhi.Name.text = uhi.owner.itemData.Name;
         }
     }
-
-    public void AddMonsterHeadInfo(Character _o)
+    public static void AddPlayerHeadInfo(Character _o)
+    {
+        uhiplayer = new UIPlayerHeadInfo();
+        uhiplayer.uid = _o.UID;
+        uhiplayer.owner = _o;
+        lsWaittingInited.Add(uhiplayer);
+    }
+    public static void AddMonsterHeadInfo(Character _o)
     {
         UIMonsterHeadInfo uhi = new UIMonsterHeadInfo();
         uhi.uid = _o.UID;
         uhi.owner = _o;
-        uhi.gobj = Instantiate<GameObject>(monsterHeadinfoTemp);
-        uhi.gobj.SetActive(true);
-        uhi.gobj.transform.SetParent(this.transform, false);
-        uhi.hpslider = uhi.gobj.transform.FindChild("Slider").GetComponent<Slider>();
-        uhi.Name = uhi.gobj.transform.FindChild("Name").GetComponent<Text>();
-        uhi.Level = uhi.gobj.transform.FindChild("Level").GetComponent<Text>();
         dicMonsterHeadInfo.Add(uhi.uid, uhi);
+        lsWaittingInited.Add(uhi);
     }
 
-    public void DelMonsterHeadInfo(UInt64 uid)
+    public static void DelMonsterHeadInfo(UInt64 uid)
     {
         UIMonsterHeadInfo uhi;
         if(dicMonsterHeadInfo.TryGetValue(uid, out uhi))
@@ -142,19 +168,15 @@ public class HeadInfo_Canvas : MonoBehaviour
             dicMonsterHeadInfo.Remove(uid);
         }
     }
-
-    public void AddItemHeadInfo(DropedItem _o)
+    public static void AddItemHeadInfo(DropedItem _o)
     {
         UIItemHeadInfo uhi = new UIItemHeadInfo();
         uhi.uid = _o.itemData.UId;
         uhi.owner = _o;
-        uhi.gobj = Instantiate<GameObject>(itemHeadinfoTemp);
-        uhi.gobj.SetActive(true);
-        uhi.gobj.transform.SetParent(this.transform, false);
-        uhi.Name = uhi.gobj.transform.FindChild("Name").GetComponent<Text>();
         dicItemHeadInfo.Add(uhi.uid, uhi);
+        lsWaittingInited.Add(uhi);
     }
-    public void DelItemHeadInfo(UInt64 uid)
+    public static void DelItemHeadInfo(UInt64 uid)
     {
         UIItemHeadInfo uhi;
         if (dicItemHeadInfo.TryGetValue(uid, out uhi))
