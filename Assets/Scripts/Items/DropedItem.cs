@@ -16,19 +16,30 @@ public class DropedItem : MonoBehaviour
         headInfoHeight = transform.FindChild("HIH").transform.position.y * transform.localScale.y;
         HeadInfo_Canvas.AddItemHeadInfo(this);
 
-        Shader sd = ShaderManager.Get("outline");
-        MeshRenderer md = transform.GetComponentInChildren<MeshRenderer>();
-        if(sd != null && md != null)
+        if (itemData.Type == ItemType.EQUIP)
         {
-            //设置描边
-            md.material.shader = sd;
-            //设置layer
-            md.gameObject.layer = dropedItemLayer;
-            //打开碰撞检测
-            md.GetComponent<BoxCollider>().enabled = true;
-            //关闭阴影
-            md.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-            md.receiveShadows = false;
+            Shader sd = ShaderManager.Get("outline");
+            MeshRenderer md = transform.GetComponentInChildren<MeshRenderer>();
+            if (sd != null && md != null)
+            {
+                //设置描边
+                md.material.shader = sd;
+                //设置layer
+                md.gameObject.layer = dropedItemLayer;
+                //打开碰撞检测
+                md.GetComponent<BoxCollider>().enabled = true;
+                //关闭阴影
+                md.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                md.receiveShadows = false;
+            }
+        }
+        else if (itemData.Type == ItemType.MEDICINE)
+        {
+            gameObject.layer = dropedItemLayer;
+        }
+        else if (itemData.Type == ItemType.MONEY)
+        {
+
         }
     }
 
@@ -51,7 +62,6 @@ public class DropedItem : MonoBehaviour
             {
                 Second_Canvas.RefreshPlayerBag();
             }
-                
         }
 
         //先从headinfo里移除
@@ -111,8 +121,10 @@ public class DropedItem : MonoBehaviour
             Vector3 realpos = spawnPos + dropPositions[i] + new Vector3(0, _itab.dropHeight, 0);
             spawnPos.y = Terrain.activeTerrain.SampleHeight(realpos) + _itab.dropHeight;
             gameobj.transform.position = realpos;
-            gameobj.transform.localScale = new Vector3(_itab.dropScale, _itab.dropScale, _itab.dropScale);
-            gameobj.AddComponent<DropedItem>().itemData = BaseItem.newItem(_itab); 
+            gameobj.transform.localScale = new Vector3(_itab.dropScale * gameobj.transform.localScale.x, 
+                _itab.dropScale * gameobj.transform.localScale.y,
+                _itab.dropScale * gameobj.transform.localScale.z);
+            gameobj.AddComponent<DropedItem>().itemData = BaseItem.newItem(_itab);
         }
     }
 

@@ -21,6 +21,8 @@ public class ItemTab
     public readonly int level;
     //品质
     public readonly int quality;
+    //叠加
+    public readonly int overlay;
     #endregion
 
     //攻防属性
@@ -46,6 +48,7 @@ public class ItemTab
         price = tr.GetItemInt32(i, "price");
         level = tr.GetItemInt32(i, "level");
         quality = tr.GetItemInt32(i, "quality");
+        overlay = tr.GetItemInt32(i, "overlay");
 
         propertyEx[(int)PropertyTypeEx.MAXHP] = tr.GetItemFloat(i, "maxhp");
         propertyEx[(int)PropertyTypeEx.MAXMP] = tr.GetItemFloat(i, "maxmp");

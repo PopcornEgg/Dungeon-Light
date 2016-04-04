@@ -85,6 +85,10 @@ public class PlayerBag_Panel : MonoBehaviour
             {
                 playerBagItems[i].baseItem = bagItems[i];
             }
+            else if(_uid != 0 && playerBagItems[i].baseItem.TabData.overlay > 0)
+            {
+                playerBagItems[i].RefreshCount();
+            }
         }
     }
 }

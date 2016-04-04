@@ -40,7 +40,7 @@ public class Monster : Character
         target = Player.Self;
         HeadInfo_Canvas.AddMonsterHeadInfo(this);
         AddNavMeshAgent();
-        AddRigidbody();
+        //AddRigidbody();
 
         scanCircle = gameObject.AddComponent<DebugDrawCircle>();
         scanCircle.SetRadius(monsterTab.scanrange);

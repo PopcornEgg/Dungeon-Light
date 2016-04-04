@@ -17,8 +17,8 @@ public class PlayerBag_Item : MonoBehaviour
             bool isshow = (_baseItem != null);
             if (isshow)
             {
-                txtCount.text = string.Format("x{0}", _baseItem.GetCount());
-                imgIcon.sprite = SpriteManager.GetIconEquip(_baseItem.TabData.icon);
+                txtCount.text = string.Format("x{0}", _baseItem.OverlayCount);
+                imgIcon.sprite = SpriteManager.GetIcon(_baseItem.TabData.icon);
             }
             txtCount.gameObject.SetActive(isshow);
             imgIcon.gameObject.SetActive(isshow);
@@ -41,5 +41,10 @@ public class PlayerBag_Item : MonoBehaviour
         btn.onClick.AddListener(delegate () {
             Player.Self.UseBagItem(Idx);
         });
+    }
+
+    public void RefreshCount()
+    {
+        txtCount.text = string.Format("x{0}", _baseItem.OverlayCount);
     }
 }

@@ -94,7 +94,18 @@ public partial class Player : Character
     }
     public bool AddBagItem(BaseItem _item)
     {
-        for(int i=0;i< bagItems.Length; i++)
+        if(_item.TabData.overlay > 0)
+        {
+            for (int i = 0; i < bagItems.Length; i++)
+            {
+                if (bagItems[i] != null && bagItems[i].TabId == _item.TabId && bagItems[i].OverlayCount < _item.TabData.overlay)
+                {
+                    bagItems[i].OverlayCount++;
+                    return true;
+                }
+            }
+        }
+        for (int i = 0; i < bagItems.Length; i++)
         {
             if (bagItems[i] == null)
             {
@@ -122,6 +133,11 @@ public partial class Player : Character
             case ItemType.EQUIP:
                 {
                     UseBagEquip((EquipItem)_item, idx);
+                    break;
+                }
+            case ItemType.MEDICINE:
+                {
+                    UseBagMedicine((MedicineItem)_item, idx);
                     break;
                 }
             default:
@@ -169,6 +185,19 @@ public partial class Player : Character
         playerEquipProperty.IsDirty = true;
 
         ChangeWeaponModel(bodyIdx);
+    }
+    public void UseBagMedicine(MedicineItem _item, int bagIdx)
+    {
+        int bodyIdx = (int)_item.EquipType;
+        HP += (uint)_item.TabData.propertyEx[(int)PropertyTypeEx.MAXHP];
+        HP = HP > (uint)MAXHP ? (uint)MAXHP : HP;
+        MP += (uint)_item.TabData.propertyEx[(int)PropertyTypeEx.MAXMP];
+        MP = MP > (uint)MAXMP ? (uint)MAXMP : MP;
+        SP += (uint)_item.TabData.propertyEx[(int)PropertyTypeEx.MAXSP];
+        SP = SP > (uint)MAXSP ? (uint)MAXSP : SP;
+        if (--bagItems[bagIdx].OverlayCount <= 0)
+            bagItems[bagIdx] = null;
+        Second_Canvas.RefreshPlayerBag();
     }
     public void SaveBagItems()
     {
@@ -320,7 +349,8 @@ public partial class Player : Character
         transform.position = Vector3.zero;
 
         AIState = CharacterAnimState.Idle;
-        anim.SetTrigger("Relive");
+        if(anim != null)
+            anim.SetTrigger("Relive");
     }
     //等级属性
     PlayerLevelProperty playerLevelProperty;

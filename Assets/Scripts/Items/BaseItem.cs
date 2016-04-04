@@ -37,6 +37,9 @@ public abstract class BaseItem
     //品质
     public int Quality { get { return tabData.quality; } }
 
+    int overlayCount = 1;
+    public int OverlayCount { get { return overlayCount; } set { overlayCount = value; } }
+
     public void InitItem(ItemTab _tab)
     {
         this.uId = Utils.GuidMaker.GenerateUInt64();
@@ -44,10 +47,6 @@ public abstract class BaseItem
         this.tabData = _tab;
     }
 
-    public virtual int GetCount()
-    {
-        return 0;
-    }
     public virtual void InitItemEx() { }
 
     static public BaseItem newItem(ItemTab _tab)
@@ -65,10 +64,12 @@ public abstract class BaseItem
                 }
             case ItemType.MEDICINE:
                 {
+                    _item = new MedicineItem();
                     break;
                 }
             default:
                 {
+                    _item = new MoneyItem();
                     break;
                 }
         }

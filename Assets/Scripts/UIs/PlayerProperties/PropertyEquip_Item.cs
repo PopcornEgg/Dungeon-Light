@@ -18,7 +18,7 @@ public class PropertyEquip_Item : MonoBehaviour
             bool isshow = _baseItem != null;
             if (isshow)
             {
-                imgIcon.sprite = SpriteManager.GetIconEquip(_baseItem.TabData.icon);
+                imgIcon.sprite = SpriteManager.GetIcon(_baseItem.TabData.icon);
             }
             imgIcon.gameObject.SetActive(isshow);
         }

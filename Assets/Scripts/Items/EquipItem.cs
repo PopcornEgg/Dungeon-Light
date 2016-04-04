@@ -16,11 +16,6 @@ public class EquipItem : BaseItem
     //品质属性
     public QualityProperty[] qualityPropertys = new QualityProperty[QualityProperty.QualityPropertyCount];
 
-    public override int GetCount()
-    {
-        return 1;
-    }
-
     override public void InitItemEx()
     {
         //生成品质属性
