@@ -11,8 +11,12 @@ public class SceneManager : MonoBehaviour
     public class Scene
     {
         public SceneTab _sceneTab;
+        //记录怪物种类最大个数
         public int[] monsterCount = new int[(int)MonsterType.Max];
+        //间隔时间
         public int[] spaces;
+        //间隔时间
+        public bool[] isCreated;
 
         public SceneTab sceneTab {
             get { return _sceneTab; }
@@ -20,9 +24,11 @@ public class SceneManager : MonoBehaviour
             {
                 _sceneTab = value;
                 spaces = new int[_sceneTab.levelTab.Count];
+                isCreated = new bool[_sceneTab.levelTab.Count];
                 for (int i = 0; i < spaces.Length; i++)
                 {
                     spaces[i] = Int32.MaxValue;
+                    isCreated[i] = false;
                 }
                 monsterCount[0] = _sceneTab.normal;
                 monsterCount[1] = _sceneTab.enchanted;
@@ -63,12 +69,15 @@ public class SceneManager : MonoBehaviour
                 MonsterTab _mtab = MonsterTab.Get(_data.monsterid);
                 if(_mtab != null)
                 {
-                    if(currScene.monsterCount[(int)_mtab.mtype] > 0 && (currScene.spaces[i] + _data.space) <= Time.time)
+                    if(currScene.monsterCount[(int)_mtab.mtype] > 0 && 
+                        (currScene.spaces[i] + _data.space) <= Time.time &&
+                        !currScene.isCreated[i])
                     {
-                        Character _char = Character.New(_mtab);
+                        Character _char = Character.New(_mtab, i);
                         _char.gameObject.SetActive(true);
                         _char.transform.position = new Vector3(_data.x, _data.y, _data.z);
                         currScene.spaces[i] = (int)Time.time;
+                        currScene.isCreated[i] = true;
                         currScene.monsterCount[(int)_mtab.mtype]--;
                     }
                 }
@@ -78,6 +87,7 @@ public class SceneManager : MonoBehaviour
     public void MonsterDie(Monster _char)
     {
         currScene.monsterCount[(int)_char.monsterTab.mtype]++;
+        currScene.isCreated[_char.createdPositionIdx] = false;
     }
 }
 

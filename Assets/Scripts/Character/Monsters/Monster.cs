@@ -19,6 +19,7 @@ public enum MonsterType
 public class Monster : Character
 {
     public MonsterTab monsterTab;
+    public int createdPositionIdx = -1;
 
     NavMeshAgent nav;
     Character target = null;

@@ -71,7 +71,7 @@ public class Character : MonoBehaviour
             return New(_mtab);
         return null;
     }
-    public static Character New(MonsterTab _mtab)
+    public static Character New(MonsterTab _mtab, int dataEx = -1)
     {
         if(_mtab.type == CharacterType.Monster)
         {
@@ -81,6 +81,7 @@ public class Character : MonoBehaviour
                 gameobj.SetActive(false);
                 Monster _monster = gameobj.AddComponent<Monster>();
                 _monster.monsterTab = _mtab;
+                _monster.createdPositionIdx = dataEx;
                 return _monster;
             }
         }
