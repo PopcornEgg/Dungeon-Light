@@ -40,7 +40,7 @@ public class Monster : Character
         target = Player.Self;
         HeadInfo_Canvas.AddMonsterHeadInfo(this);
         AddNavMeshAgent();
-        //AddRigidbody();
+        AddRigidbody();
 
         scanCircle = gameObject.AddComponent<DebugDrawCircle>();
         scanCircle.SetRadius(monsterTab.scanrange);
@@ -191,7 +191,9 @@ public class Monster : Character
     {
         if (InsSkillRetType.OK == characterSkill.InstanceSkill(nextSkillTab, null))
         {
-            transform.LookAt(target.transform.position);
+            transform.LookAt(new Vector3(target.transform.position.x, 
+                transform.position.y, 
+                target.transform.position.z));
         }
     }
 
