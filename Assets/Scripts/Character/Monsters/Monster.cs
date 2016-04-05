@@ -18,7 +18,7 @@ public enum MonsterType
 
 public class Monster : Character
 {
-    public MonsterTab monsterTab;
+    public CharacterTab monsterTab;
     public int createdPositionIdx = -1;
 
     NavMeshAgent nav;
@@ -67,13 +67,6 @@ public class Monster : Character
             SetAniBool("Idle");
             return;
         }
-
-        if (monsterTab.mtype == MonsterType.Elitist)
-        {
-            int sss = 0;
-            sss++;
-        }
-
         switch (AIState)
         {
             case CharacterAnimState.Idle:

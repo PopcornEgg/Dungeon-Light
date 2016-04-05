@@ -41,6 +41,7 @@ public class PrefabsManager
         new PrefabsData(PrefabsType.Players),
         new PrefabsData(PrefabsType.Monsters),
         new PrefabsData(PrefabsType.Items),
+        new PrefabsData(PrefabsType.NPCs),
     };
     static GameObject Get(PrefabsType _type, String _name)
     {

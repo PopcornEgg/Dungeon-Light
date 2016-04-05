@@ -90,7 +90,7 @@ public class MonsterBaseProperty : CommonProperty
         if (IsDirty)
         {
             Clear();
-            MonsterTab monsterTab = monster.monsterTab;
+            CharacterTab monsterTab = monster.monsterTab;
             for (int j = 0; j < (int)PropertyTypeEx.MAX; j++)
             {
                 propertyEx[j] += monsterTab.propertyEx[j];

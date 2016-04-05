@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 
 //public class ItemTab : BaseTab<uint>
-public class MonsterTab
+public class CharacterTab
 {
     const int maxSkillCount = 5;
     static System.Random random = new System.Random();
@@ -51,7 +51,7 @@ public class MonsterTab
     public readonly float scale;
     #endregion
 
-    public MonsterTab(int i, TabReader tr)
+    public CharacterTab(int i, TabReader tr)
     {
         //属性数据
         tabid = tr.GetItemUInt32(i, "tabid");
@@ -101,21 +101,21 @@ public class MonsterTab
         scale = tr.GetItemFloat(i, "scale");
     }
     //静态
-    public static Dictionary<uint, MonsterTab> dicTabs = new Dictionary<uint, MonsterTab>();
+    public static Dictionary<uint, CharacterTab> dicTabs = new Dictionary<uint, CharacterTab>();
 
     public static void Read()
     {
-        TabReader tr = new TabReader("Tables/monstertab", true);
+        TabReader tr = new TabReader("Tables/charactertab", true);
         for (int i = 0; i < tr.recordCount; i++)
         {
-            MonsterTab _item = new MonsterTab(i, tr);
+            CharacterTab _item = new CharacterTab(i, tr);
             dicTabs.Add(_item.tabid, _item);
         }
     }
 
-    public static MonsterTab Get(uint tabid)
+    public static CharacterTab Get(uint tabid)
     {
-        MonsterTab _item;
+        CharacterTab _item;
         if (dicTabs.TryGetValue(tabid, out _item))
             return _item;
         return null;

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class DropedItem : MonoBehaviour
 {
-    public static int dropedItemLayerMask;
-    public static int dropedItemLayer;
+    public static int layerMask;
+    public static int layer;
 
     float rotationSpeed = 100.0f;
     public float headInfoHeight = 0.0f;
@@ -13,6 +13,7 @@ public class DropedItem : MonoBehaviour
     void Start()
     {
         //HeadInfoHeight == HIH
+        gameObject.tag = "Item";
         headInfoHeight = transform.FindChild("HIH").transform.position.y * transform.localScale.y;
         HeadInfo_Canvas.AddItemHeadInfo(this);
 
@@ -25,7 +26,7 @@ public class DropedItem : MonoBehaviour
                 //设置描边
                 md.material.shader = sd;
                 //设置layer
-                md.gameObject.layer = dropedItemLayer;
+                md.gameObject.layer = layer;
                 //打开碰撞检测
                 md.GetComponent<BoxCollider>().enabled = true;
                 //关闭阴影
@@ -35,12 +36,14 @@ public class DropedItem : MonoBehaviour
         }
         else if (itemData.Type == ItemType.MEDICINE)
         {
-            gameObject.layer = dropedItemLayer;
+            gameObject.layer = layer;
         }
         else if (itemData.Type == ItemType.MONEY)
         {
 
         }
+
+        Destroy(gameObject, 30.0f);
     }
 
     void Update()
@@ -51,6 +54,11 @@ public class DropedItem : MonoBehaviour
     void OnDestroy()
     {
         HeadInfo_Canvas.DelItemHeadInfo(itemData.UId);
+    }
+
+    void DoDisappear()
+    {
+        DestroyImmediate(gameObject);
     }
     public void OnPickuped()
     {
@@ -99,7 +107,7 @@ public class DropedItem : MonoBehaviour
     }
     public static void Drop(Vector3 spawnPos, uint tid)
     {
-        MonsterTab _mtab = MonsterTab.Get(tid);
+        CharacterTab _mtab = CharacterTab.Get(tid);
         if (_mtab == null)
             return;
 

@@ -66,27 +66,35 @@ public class Character : MonoBehaviour
 {
     public static Character New(UInt32 id)
     {
-        MonsterTab _mtab = MonsterTab.Get(id);
+        CharacterTab _mtab = CharacterTab.Get(id);
         if (_mtab != null)
             return New(_mtab);
         return null;
     }
-    public static Character New(MonsterTab _mtab, int dataEx = -1)
+    public static Character New(CharacterTab _chartab, int dataEx = -1)
     {
-        if(_mtab.type == CharacterType.Monster)
+        if(_chartab.type == CharacterType.Monster)
         {
-            GameObject gameobj = PrefabsManager.Instantiate(PrefabsType.Monsters, _mtab.model);
+            GameObject gameobj = PrefabsManager.Instantiate(PrefabsType.Monsters, _chartab.model);
             if(gameobj != null)
             {
                 gameobj.SetActive(false);
                 Monster _monster = gameobj.AddComponent<Monster>();
-                _monster.monsterTab = _mtab;
+                _monster.monsterTab = _chartab;
                 _monster.createdPositionIdx = dataEx;
                 return _monster;
             }
         }
-        else if(_mtab.type == CharacterType.NPC)
+        else if(_chartab.type == CharacterType.NPC)
         {
+            GameObject gameobj = PrefabsManager.Instantiate(PrefabsType.NPCs, _chartab.model);
+            if (gameobj != null)
+            {
+                gameobj.SetActive(false);
+                NPC _npc = gameobj.AddComponent<NPC>();
+                _npc.npcTab = _chartab;
+                return _npc;
+            }
             return null;
         }
         return null;
@@ -177,6 +185,7 @@ public class Character : MonoBehaviour
     }
     public void Start()
     {
+        gameObject.tag = "Character";
     }
     public void Update()
     {

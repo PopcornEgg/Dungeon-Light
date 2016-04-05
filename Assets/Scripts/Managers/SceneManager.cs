@@ -61,7 +61,7 @@ public class SceneManager : MonoBehaviour
         for (int i = 0; i < currScene.sceneTab.levelTab.Count; i++)
         {
             LevelTab.Data _data = currScene.sceneTab.levelTab.lsTabs[i];
-            MonsterTab _mtab = MonsterTab.Get(_data.monsterid);
+            CharacterTab _mtab = CharacterTab.Get(_data.monsterid);
             if (_mtab != null)
             {
                 if(_mtab.mtype == MonsterType.Enchanted) { EnchantedPositions.Add(new Vector3(_data.x, _data.y, _data.z + 3)); }
@@ -69,6 +69,8 @@ public class SceneManager : MonoBehaviour
                 else if (_mtab.mtype == MonsterType.Boss) { BossPositions.Add(new Vector3(_data.x, _data.y, _data.z + 3)); }
             }
         }
+
+        Invoke("CreateNPCs", 1.0f);
     }
     void Update()
     {
@@ -84,21 +86,47 @@ public class SceneManager : MonoBehaviour
             int rate = random.Next(0, 100);
             if(rate <= _data.rate)
             {
-                MonsterTab _mtab = MonsterTab.Get(_data.monsterid);
-                if(_mtab != null)
+                CharacterTab _chartab = CharacterTab.Get(_data.monsterid);
+                if(_chartab != null)
                 {
-                    if(currScene.monsterCount[(int)_mtab.mtype] > 0 && 
+                    if(currScene.monsterCount[(int)_chartab.mtype] > 0 && 
                         (currScene.spaces[i] + _data.space) <= Time.time &&
                         !currScene.isCreated[i])
                     {
-                        Character _char = Character.New(_mtab, i);
+                        Character _char = Character.New(_chartab, i);
                         _char.gameObject.SetActive(true);
                         _char.transform.position = new Vector3(_data.x, _data.y, _data.z);
                         currScene.spaces[i] = (int)Time.time;
                         currScene.isCreated[i] = true;
-                        currScene.monsterCount[(int)_mtab.mtype]--;
+                        currScene.monsterCount[(int)_chartab.mtype]--;
                     }
                 }
+            }
+        }
+    }
+    void CreateNPCs()
+    {
+        if (!PreloadModule.isPreloaded)
+        {
+            Invoke("CreateNPCs", 1.0f);
+            return;
+        }
+
+        if (Player.Self == null)
+        {
+            Invoke("CreateNPCs", 1.0f);
+            return;
+        }
+
+        for (int i = 0; i < currScene.sceneTab.levelTab.Count; i++)
+        {
+            LevelTab.Data _data = currScene.sceneTab.levelTab.lsTabs[i];
+            CharacterTab _chartab = CharacterTab.Get(_data.monsterid);
+            if (_chartab != null && _chartab.type == CharacterType.NPC)
+            {
+                Character _char = Character.New(_chartab);
+                _char.gameObject.SetActive(true);
+                _char.transform.position = new Vector3(_data.x, _data.y, _data.z);
             }
         }
     }

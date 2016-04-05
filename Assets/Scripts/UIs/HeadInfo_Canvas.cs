@@ -58,6 +58,20 @@ public class UIItemHeadInfo : BaseHeadInfo
         Name = gobj.transform.FindChild("Name").GetComponent<Text>();
     }
 }
+//NPC头顶名字
+public class UINPCHeadInfo : BaseHeadInfo
+{
+    public Character owner;
+    public UINPCHeadInfo()
+    {
+        headinfoTempIdx = 3;
+    }
+    public override void Init()
+    {
+        Name = gobj.transform.FindChild("Name").GetComponent<Text>();
+    }
+}
+
 public class HeadInfo_Canvas : MonoBehaviour
 {
     //public GameObject playerHeadinfoTemp;
@@ -70,8 +84,9 @@ public class HeadInfo_Canvas : MonoBehaviour
     static UIPlayerHeadInfo uhiplayer;
     static Dictionary<UInt64, UIMonsterHeadInfo> dicMonsterHeadInfo = new Dictionary<UInt64, UIMonsterHeadInfo>();
     static Dictionary<UInt64, UIItemHeadInfo> dicItemHeadInfo = new Dictionary<UInt64, UIItemHeadInfo>();
-	
-	void Update ()
+    static Dictionary<UInt64, UINPCHeadInfo> dicNPCHeadInfo = new Dictionary<UInt64, UINPCHeadInfo>();
+
+    void Update ()
     {
         if(lsWaittingInited.Count > 0)
         {
@@ -88,6 +103,7 @@ public class HeadInfo_Canvas : MonoBehaviour
         ShowMonsterHeadInfo();
         ShowPlayerHeadInfo();
         ShowItemHeadInfo();
+        ShowNPCHeadInfo();
     }
     void ShowPlayerHeadInfo()
     {
@@ -143,6 +159,20 @@ public class HeadInfo_Canvas : MonoBehaviour
             uhi.Name.text = uhi.owner.itemData.Name;
         }
     }
+    void ShowNPCHeadInfo()
+    {
+        foreach (UINPCHeadInfo uhi in dicNPCHeadInfo.Values)
+        {
+            //得到头顶的世界坐标
+            Vector3 position = new Vector3(uhi.owner.transform.position.x, uhi.owner.transform.position.y + uhi.owner.modelHeight, uhi.owner.transform.position.z);
+            //根据头顶的3D坐标换算成它在2D屏幕中的坐标
+            position = Camera.main.WorldToScreenPoint(position);
+            //显示
+            uhi.gobj.transform.position = new Vector3(position.x, position.y, 0);
+
+            uhi.Name.text = uhi.owner.Name;
+        }
+    }
     public static void AddPlayerHeadInfo(Character _o)
     {
         uhiplayer = new UIPlayerHeadInfo();
@@ -183,6 +213,23 @@ public class HeadInfo_Canvas : MonoBehaviour
         {
             DestroyImmediate(uhi.gobj);
             dicItemHeadInfo.Remove(uid);
+        }
+    }
+    public static void AddNPCHeadInfo(Character _o)
+    {
+        UINPCHeadInfo uhi = new UINPCHeadInfo();
+        uhi.uid = _o.UID;
+        uhi.owner = _o;
+        dicNPCHeadInfo.Add(uhi.uid, uhi);
+        lsWaittingInited.Add(uhi);
+    }
+    public static void DelNPCHeadInfo(UInt64 uid)
+    {
+        UINPCHeadInfo uhi;
+        if (dicNPCHeadInfo.TryGetValue(uid, out uhi))
+        {
+            DestroyImmediate(uhi.gobj);
+            dicNPCHeadInfo.Remove(uid);
         }
     }
 }

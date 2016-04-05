@@ -47,24 +47,23 @@ public partial class Player : Character
         base.Update();
 
         //拾取道具
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonUp(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);//从摄像机发出到点击坐标的射线
             RaycastHit hitInfo;
-            if (Physics.Raycast(ray, out hitInfo, 100.0f, DropedItem.dropedItemLayerMask))
+            if (Physics.Raycast(ray, out hitInfo, 100.0f, DropedItem.layerMask | NPC.layerMask))
             {
-                Debug.DrawLine(ray.origin, hitInfo.point);//划出射线，只有在scene视图中才能看到
+                //Debug.DrawLine(ray.origin, hitInfo.point);//划出射线，只有在scene视图中才能看到
                 GameObject gameObj = hitInfo.collider.gameObject;
-                /*
-                Debug.Log("click object name is " + gameObj.name);
-                if (gameObj.tag == "Player")//当射线碰撞目标为boot类型的物品 ，执行拾取操作
+                if(gameObj.tag == "Item")
                 {
-                    Debug.Log("pick up!");
+                    DropedItem _ditem = gameObj.GetComponentInParent<DropedItem>();
+                    if (_ditem != null)
+                        _ditem.OnPickuped();
                 }
-                */
-                DropedItem _ditem = gameObj.GetComponentInParent<DropedItem>();
-                if (_ditem != null )
-                    _ditem.OnPickuped();
+                else if (gameObj.tag == "Character")
+                {
+                }
             }
         }
     }

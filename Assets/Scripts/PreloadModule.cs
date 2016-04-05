@@ -8,8 +8,9 @@ public class PreloadModule : MonoBehaviour
     {
         if (!isPreloaded)
         {
-            DropedItem.dropedItemLayerMask = LayerMask.GetMask("DropedItem");
-            DropedItem.dropedItemLayer = LayerMask.NameToLayer("DropedItem");
+            DropedItem.layerMask = LayerMask.GetMask("DropedItem");
+            DropedItem.layer = LayerMask.NameToLayer("DropedItem");
+            NPC.layerMask = LayerMask.GetMask("NPC");
             preloadTabs();
             isPreloaded = true;
         }
@@ -18,7 +19,7 @@ public class PreloadModule : MonoBehaviour
     {
         SceneTab.Read();
         ItemTab.Read();
-        MonsterTab.Read();
+        CharacterTab.Read();
         DropListTab.Read();
         SkillTab.Read();
         PlayerLvTab.Read();
