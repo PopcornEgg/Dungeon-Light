@@ -31,7 +31,6 @@ public class Monster : Character
         base.Awake();
         attackAbleLayerMask = LayerMask.GetMask("Player");
         CType = CharacterType.Monster;
-        characterSkill.hasSkills.AddSkill(0);//测试
     }
     new public void Start()
     {
@@ -47,6 +46,10 @@ public class Monster : Character
         scanCircle.SetRadius(monsterTab.scanrange);
         followCircle = gameObject.AddComponent<DebugDrawCircle>();
         followCircle.SetRadius(monsterTab.followrange);
+
+        //加入技能
+        for (int j = 0; j < monsterTab.skilllist.Length; j++)
+            characterSkill.hasSkills.AddSkill((uint)monsterTab.skilllist[j]);
     }
     new public void Update()
     {
@@ -63,6 +66,12 @@ public class Monster : Character
             nav.enabled = false;
             SetAniBool("Idle");
             return;
+        }
+
+        if (monsterTab.mtype == MonsterType.Elitist)
+        {
+            int sss = 0;
+            sss++;
         }
 
         switch (AIState)

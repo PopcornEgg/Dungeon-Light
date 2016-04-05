@@ -6,6 +6,7 @@ using System;
 //public class ItemTab : BaseTab<uint>
 public class MonsterTab
 {
+    const int maxSkillCount = 5;
     static System.Random random = new System.Random();
 
     #region ***属性数据***
@@ -30,10 +31,15 @@ public class MonsterTab
     //经验
     public readonly int exp;
 
+    //技能列表
+    public readonly int[] skilllist;
+
     //掉落列表id
     public readonly int[] droplist;
+
     //掉落概率（综合1万）
     public readonly int[] droprate;
+
     #endregion
 
     #region*** 外观数据***
@@ -67,8 +73,14 @@ public class MonsterTab
 
         exp = tr.GetItemInt32(i, "exp");
 
-        //读取列表
+        //技能列表
         string[] sp;
+        sp = tr.GetString(i, "skilllist").Split('|');
+        skilllist = new int[sp.Length];
+        for (int j = 0; j < sp.Length; j++)
+            skilllist[j] = Convert.ToInt32(sp[j]);
+
+        //读取列表
         sp = tr.GetString(i, "droplist").Split('|');
         droplist = new int[sp.Length];
         for (int j = 0; j < sp.Length; j++)

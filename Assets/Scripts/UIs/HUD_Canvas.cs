@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class HUD_Canvas : MonoBehaviour
 {
@@ -102,5 +103,23 @@ public class HUD_Canvas : MonoBehaviour
         int idx = UnityEngine.Random.Range(0, _sceneTab.levelTab.Count);
         LevelTab.Data data = _sceneTab.levelTab.lsTabs[idx];
         Player.Self.transform.position = new Vector3(data.x, data.y, data.z);
+    }
+    public void OnClick_PlayerEnchantedJump()
+    {
+        List<Vector3> lsPos = SceneManager.Self.EnchantedPositions;
+        if(lsPos.Count > 0)
+            Player.Self.transform.position = lsPos[UnityEngine.Random.Range(0, lsPos.Count)];
+    }
+    public void OnClick_PlayerElitistJump()
+    {
+        List<Vector3> lsPos = SceneManager.Self.ElitistPositions;
+        if (lsPos.Count > 0)
+            Player.Self.transform.position = lsPos[UnityEngine.Random.Range(0, lsPos.Count)];
+    }
+    public void OnClick_PlayerBossJump()
+    {
+        List<Vector3> lsPos = SceneManager.Self.BossPositions;
+        if (lsPos.Count > 0)
+            Player.Self.transform.position = lsPos[UnityEngine.Random.Range(0, lsPos.Count)];
     }
 }

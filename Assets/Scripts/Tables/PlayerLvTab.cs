@@ -18,7 +18,7 @@ public class PlayerLvTab
     public readonly int ap;
     public readonly int add;
     public readonly int apd;
-    public readonly int movespeed;
+    public readonly float movespeed;
     //经验
     public readonly int exp;
 
@@ -34,7 +34,7 @@ public class PlayerLvTab
         ap = tr.GetItemInt32(i, "ap");
         add = tr.GetItemInt32(i, "add");
         apd = tr.GetItemInt32(i, "apd");
-        movespeed = tr.GetItemInt32(i, "movespeed");
+        movespeed = tr.GetItemFloat(i, "movespeed");
 
         exp = tr.GetItemInt32(i, "exp");
     }

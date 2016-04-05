@@ -44,6 +44,11 @@ public class SceneManager : MonoBehaviour
     public Scene currScene;
     public Dictionary<UInt64, Character> dicMonsters = new Dictionary<UInt64, Character>();
 
+    //测试用
+    public List<Vector3> EnchantedPositions = new List<Vector3>();
+    public List<Vector3> ElitistPositions = new List<Vector3>();
+    public List<Vector3> BossPositions = new List<Vector3>();
+
     void Start()
     {
         currScene = new Scene(0);
@@ -51,6 +56,19 @@ public class SceneManager : MonoBehaviour
 
         GameObject gameobj = PrefabsManager.Instantiate(PrefabsType.Players, "Player");
         gameobj.SetActive(true);
+
+        //测试用
+        for (int i = 0; i < currScene.sceneTab.levelTab.Count; i++)
+        {
+            LevelTab.Data _data = currScene.sceneTab.levelTab.lsTabs[i];
+            MonsterTab _mtab = MonsterTab.Get(_data.monsterid);
+            if (_mtab != null)
+            {
+                if(_mtab.mtype == MonsterType.Enchanted) { EnchantedPositions.Add(new Vector3(_data.x, _data.y, _data.z + 3)); }
+                else if (_mtab.mtype == MonsterType.Elitist) { ElitistPositions.Add(new Vector3(_data.x, _data.y, _data.z + 3)); }
+                else if (_mtab.mtype == MonsterType.Boss) { BossPositions.Add(new Vector3(_data.x, _data.y, _data.z + 3)); }
+            }
+        }
     }
     void Update()
     {

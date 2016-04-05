@@ -1,9 +1,8 @@
-#id	类型(0=怪物[0~9999]，1=NPC[10000~19999])	名字	怪物类型（0=普通，1=强化，2=精英，3=boss，NPC无效）	等级	扫描范围	追踪范围	MAXHP	MAXMP	AD	AP	ADD	APD	MOVESPEED	经验	掉落表索引id	掉落概率（综合1万）	外观	高度	缩放
-$tabid	type	name	mtype	level	scanrange	followrange	maxhp	maxmp	ad	ap	add	apd	movespeed	exp	droplist	droprate	model	height	scale
-0	0	骷髅	0	1	5	7	100	100	2	2	2	2	2	10	0|1|2|3|4	2000|2000|2000|1500|1000|500	skeleton	1	1
-1	0	鲶鱼校尉	1	2	6	8	200	100	5	5	3	3	3	20	0|1|2|3|5	2000|2000|2000|1500|1000|500	nianyuxiaowei	1	1
-2	0	盘丝洞侍女	1	3	7	9	500	100	10	10	4	4	4	30	0|1|2|3|6	2000|2000|2000|1500|1000|500	pansidong_shinv	1	1
-3	0	盘丝洞蜈蚣	1	4	8	10	800	100	15	11	5	5	5	50	0|1|2|3|7	2000|2000|2000|1500|1000|500	pansidong_wugong	1	1
-4	0	盘丝洞卫士	2	5	9	11	1500	100	30	12	6	6	6	100	0|1|2|3|8	2000|2000|2000|1500|1000|500	pansidong_weishi	1	1
-5	0	盘丝洞魔君蜈蚣	2	6	10	12	2000	100	50	13	7	7	7	200	0|1|2|3|9	2000|2000|2000|1500|1000|500	pansidong_mojunwugong	1	1
-6	0	盘丝洞蜘蛛女王	3	7	11	13	5000	100	100	14	8	8	8	500	0|1|2|3|10	2000|2000|2000|1500|1000|500	pansidong_zizhuer	1	1
+#id	类型(0=怪物[0~9999]，1=NPC[10000~19999])	名字	怪物类型（0=普通，1=强化，2=精英，3=boss，NPC无效）	等级	扫描范围	追踪范围	MAXHP	MAXMP	AD	AP	ADD	APD	MOVESPEED	经验	技能id列表	掉落表索引id	掉落概率（总和1万）	外观	高度	缩放
+$tabid	type	name	mtype	level	scanrange	followrange	maxhp	maxmp	ad	ap	add	apd	movespeed	exp	skilllist	droplist	droprate	model	height	scale
+0	0	骷髅	0	1	5	7	100	100	2	2	2	2	2	10	0	0|1|2|3|4	2000|2000|2000|2000|1500	skeleton	1	1
+1	0	鲶鱼校尉	1	2	6	8	200	100	5	5	3	3	3	20	0|1	0|1|2|3|5	2000|2000|2000|2000|1500	nianyuxiaowei	1	1
+2	0	盘丝洞侍女	1	3	7	9	500	100	10	10	4	4	4	30	1	0|1|2|3|6	2000|2000|2000|2000|1500	pansidong_shinv	1	1
+3	0	盘丝洞蜈蚣	2	4	8	10	800	100	15	11	5	5	5	50	2	0|1|2|3|7	2000|2000|2000|2000|1500	pansidong_wugong	1	1
+4	0	盘丝洞卫士	2	5	9	11	1500	100	30	12	6	6	6	100	2	0|1|2|3|8	2000|2000|2000|2000|1500	pansidong_weishi	1	1
+5	0	盘丝洞魔君蜈蚣	3	6	10	12	2000	100	50	13	7	7	7	200	3	0|1|2|3|9	2000|2000|2000|2000|1500	pansidong_mojunwugong	1	1

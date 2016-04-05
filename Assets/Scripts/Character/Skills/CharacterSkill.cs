@@ -33,6 +33,7 @@ public class HasSkills
         if (!dicHasSkills.ContainsKey(_skillid))
         {
             SkillData _sd = new SkillData();
+            _sd.skillId = _skillid;
             dicHasSkills.Add(_skillid, _sd);
             lsHasSkills.Add(_sd);
             return 1;
