@@ -27,7 +27,6 @@ public class NPC : Character
     new public void Update()
     {
         base.Update();
-
     }
 
     void AddRigidbody()

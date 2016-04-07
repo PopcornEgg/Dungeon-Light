@@ -25,7 +25,7 @@ public class NPCShopTab
     public readonly uint[] idlist;
     public readonly uint[] price;
     public readonly ShopBuyType[] buytype;
-    public readonly uint[] buycount;
+    public readonly int[] buycount;
 
     public NPCShopTab(int i, TabReader tr)
     {
@@ -35,22 +35,22 @@ public class NPCShopTab
         string[] sp = tr.GetString(i, "idlist").Split('|');
         idlist = new uint[sp.Length];
         for (int j = 0; j < sp.Length; j++)
-            idlist[i] = Convert.ToUInt32(sp[j]);
+            idlist[j] = Convert.ToUInt32(sp[j]);
 
         sp = tr.GetString(i, "price").Split('|');
         price = new uint[sp.Length];
         for (int j = 0; j < sp.Length; j++)
-            price[i] = Convert.ToUInt32(sp[j]);
+            price[j] = Convert.ToUInt32(sp[j]);
 
         sp = tr.GetString(i, "buytype").Split('|');
         buytype = new ShopBuyType[sp.Length];
         for (int j = 0; j < sp.Length; j++)
-            buytype[i] = (ShopBuyType)Convert.ToUInt32(sp[j]);
+            buytype[j] = (ShopBuyType)Convert.ToUInt32(sp[j]);
 
         sp = tr.GetString(i, "buycount").Split('|');
-        buycount = new uint[sp.Length];
+        buycount = new int[sp.Length];
         for (int j = 0; j < sp.Length; j++)
-            buycount[i] = Convert.ToUInt32(sp[j]);
+            buycount[j] = Convert.ToInt32(sp[j]);
     }
     public static List< NPCShopTab > lsTabs = new List< NPCShopTab>();
 

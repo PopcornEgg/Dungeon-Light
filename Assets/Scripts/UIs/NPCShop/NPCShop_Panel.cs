@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class ShopItemData
 {
-    public int tabId;
+    public uint tabId;
     public int leftCount;
 }
 public class NPCShop_Panel : MonoBehaviour
@@ -68,7 +68,7 @@ public class NPCShop_Panel : MonoBehaviour
             Refresh();
     }
 
-    int GetItemLeftCount(uint itemid, int initCount)
+    public int GetItemLeftCount(uint itemid, int initCount)
     {
         ShopItemData sidata;
         if (!shopItemDatas.TryGetValue(itemid, out sidata))
@@ -78,6 +78,14 @@ public class NPCShop_Panel : MonoBehaviour
             sidata.leftCount = initCount;
         }
         return sidata.leftCount;
+    }
+    public void SubItemLeftCount(uint itemid, int _count)
+    {
+        ShopItemData sidata;
+        if (shopItemDatas.TryGetValue(itemid, out sidata))
+        {
+            sidata.leftCount -= _count;
+        }
     }
     public void Refresh()
     {
@@ -89,15 +97,16 @@ public class NPCShop_Panel : MonoBehaviour
         {
             if(i < nstab.idlist.Length)
             {
-                listItems[i].Set()
+                ItemTab _item = ItemTab.Get(nstab.idlist[i]);
+                listItems[i].Set(true, _item.icon, GetItemLeftCount(nstab.idlist[i], nstab.buycount[i]));
             }
             else
             {
-
+                listItems[i].Set(false);
             }
         }
     }
-    public void Show( bool isShow, ShopType _type = ShopType.Null)
+    public void Show( bool isShow, ShopType _type = ShopType.Max)
     {
         if(isShow)
             shopType = _type;

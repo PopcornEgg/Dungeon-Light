@@ -23,6 +23,7 @@ public class PreloadModule : MonoBehaviour
         DropListTab.Read();
         SkillTab.Read();
         PlayerLvTab.Read();
+        NPCShopTab.Read();
 
         SpriteManager.Init(this.transform);
     }

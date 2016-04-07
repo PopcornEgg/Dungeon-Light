@@ -5,7 +5,6 @@ using System.Collections;
 public class NPCShop_Item : MonoBehaviour
 {
     public int Idx;
-    ShopItemData shopItemData;
     Image imgIcon;
     Text txtCount;
 
@@ -19,27 +18,40 @@ public class NPCShop_Item : MonoBehaviour
     {
         //windows点击鼠标右键
         Button btn = transform.GetComponent<Button>();
-        btn.onClick.AddListener(delegate () {
-            Player.Self.UseBagItem(Idx);
+        btn.onClick.AddListener(delegate () { 
+            if(imgIcon.gameObject.activeSelf)
+                Player.Self.BuyShopItem(Idx);
         });
     }
 
-    public void Set(ShopItemData _sidata, bool isbuycount)
+    public void Set(bool isshow, string _icon = "", int _lcount = -1)
     {
-        shopItemData = _sidata;
-        bool isshow = (_sidata != null);
         if (isshow)
         {
-            txtCount.gameObject.SetActive(isbuycount);
-            if(isbuycount)
-                txtCount.text = string.Format("x{0}", shopItemData.leftCount);
-            imgIcon.sprite = SpriteManager.GetIcon(shopItemData.icon);
+            if (_lcount >= 0)
+            {
+                txtCount.text = string.Format("x{0}", _lcount);
+                txtCount.gameObject.SetActive(true);
+            }
+            else
+                txtCount.gameObject.SetActive(false);
+            imgIcon.sprite = SpriteManager.GetIcon(_icon);
+            imgIcon.gameObject.SetActive(true);
         }
-        txtCount.gameObject.SetActive(isshow);
-        imgIcon.gameObject.SetActive(isshow);
+        else
+        {
+            txtCount.gameObject.SetActive(false);
+            imgIcon.gameObject.SetActive(false);
+        }
     }
-    public void RefreshCount()
+    public void RefreshCount(int _lcount = -1)
     {
-        txtCount.text = string.Format("x{0}", shopItemData.leftCount);
+        if (_lcount >= 0)
+        {
+            txtCount.text = string.Format("x{0}", _lcount);
+            txtCount.gameObject.SetActive(true);
+        }
+        else
+            txtCount.gameObject.SetActive(false);
     }
 }

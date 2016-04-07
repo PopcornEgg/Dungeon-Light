@@ -382,24 +382,17 @@ public partial class Player : Character
     #region NPC商店*********************************************************************************
     public void BuyShopItem(int idx)
     {
-        BaseItem _item = bagItems[idx];
-        if (_item == null)
-            return;
-
-        switch (_item.Type)
+        NPCShopTab nstab = NPCShopTab.Get((uint)NPCShop_Panel.shopType);
+        if(nstab != null)
         {
-            case ItemType.EQUIP:
-                {
-                    UseBagEquip((EquipItem)_item, idx);
-                    break;
-                }
-            case ItemType.MEDICINE:
-                {
-                    UseBagMedicine((MedicineItem)_item, idx);
-                    break;
-                }
-            default:
-                break;
+            BaseItem newitem = BaseItem.newItem(nstab.idlist[idx]);
+            if (Player.Self.AddBagItem(newitem))
+            {
+                Second_Canvas.RefreshPlayerBag();
+                //减少数量
+                if(nstab.buycount[idx] != -1)
+                    Second_Canvas.npcShopPanel.SubItemLeftCount(nstab.idlist[idx], 1);
+            }
         }
     }
     #endregion

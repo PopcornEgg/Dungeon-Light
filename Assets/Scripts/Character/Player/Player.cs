@@ -63,6 +63,9 @@ public partial class Player : Character
                 }
                 else if (gameObj.tag == "Character")
                 {
+                    NPC _npc = gameObj.GetComponentInParent<NPC>();
+                    if (_npc != null)
+                        Second_Canvas.npcShopPanel.Show(true, (ShopType)_npc.npcTab.mtype);
                 }
             }
         }
