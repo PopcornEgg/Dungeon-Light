@@ -68,14 +68,14 @@ public class NPCShop_Panel : MonoBehaviour
             Refresh();
     }
 
-    int GetItemLeftCount(uint itemid, int idx)
+    int GetItemLeftCount(uint itemid, int initCount)
     {
         ShopItemData sidata;
         if (!shopItemDatas.TryGetValue(itemid, out sidata))
         {
             NPCShopTab nstab = NPCShopTab.Get((uint)shopType);
             sidata = new ShopItemData();
-            sidata.leftCount = nstab.buycount == 0 ? -1 : (int)nstab.buycount;
+            sidata.leftCount = initCount;
         }
         return sidata.leftCount;
     }
