@@ -5,24 +5,7 @@ using System.Collections;
 public class NPCShop_Item : MonoBehaviour
 {
     public int Idx;
-    BaseItem _baseItem;
-
-    public BaseItem baseItem
-    {
-        get { return _baseItem; }
-        set
-        {
-            _baseItem = value;
-            bool isshow = (_baseItem != null);
-            if (isshow)
-            {
-                txtCount.text = string.Format("x{0}", _baseItem.OverlayCount);
-                imgIcon.sprite = SpriteManager.GetIcon(_baseItem.TabData.icon);
-            }
-            txtCount.gameObject.SetActive(isshow);
-            imgIcon.gameObject.SetActive(isshow);
-        }
-    }
+    ShopItemData shopItemData;
     Image imgIcon;
     Text txtCount;
 
@@ -41,8 +24,22 @@ public class NPCShop_Item : MonoBehaviour
         });
     }
 
+    public void Set(ShopItemData _sidata, bool isbuycount)
+    {
+        shopItemData = _sidata;
+        bool isshow = (_sidata != null);
+        if (isshow)
+        {
+            txtCount.gameObject.SetActive(isbuycount);
+            if(isbuycount)
+                txtCount.text = string.Format("x{0}", shopItemData.leftCount);
+            imgIcon.sprite = SpriteManager.GetIcon(shopItemData.icon);
+        }
+        txtCount.gameObject.SetActive(isshow);
+        imgIcon.gameObject.SetActive(isshow);
+    }
     public void RefreshCount()
     {
-        txtCount.text = string.Format("x{0}", _baseItem.OverlayCount);
+        txtCount.text = string.Format("x{0}", shopItemData.leftCount);
     }
 }

@@ -8,7 +8,7 @@ public enum ShopType
     General = 0,
     Equip,
 
-    Null,
+    Max = 20,
 }
 public enum ShopBuyType
 {
@@ -64,6 +64,9 @@ public class NPCShopTab
         }
     }
 
+    public static int Count {
+        get { return lsTabs.Count; }
+    }
     public static NPCShopTab Get(uint tabid)
     {
         if(tabid < lsTabs.Count)

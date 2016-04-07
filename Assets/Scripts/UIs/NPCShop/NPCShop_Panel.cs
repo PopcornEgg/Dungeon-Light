@@ -1,20 +1,29 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
+public class ShopItemData
+{
+    public int tabId;
+    public int leftCount;
+}
 public class NPCShop_Panel : MonoBehaviour
 {
     public static int shopSpace = 50;
-    bool isInited = false;
-    ShopType shopType;
+    public static ShopType shopType;
 
     public GameObject itemObj;
     RectTransform content;//内容
     GridLayoutGroup grid;
     ScrollRect scrollRect;
 
-    NPCShop_Item[] shopItems = new NPCShop_Item[shopSpace];
+    NPCShop_Item[] listItems = new NPCShop_Item[shopSpace];
+    bool isInited = false;
+
+
+    Dictionary<uint, ShopItemData> shopItemDatas = new Dictionary<uint, ShopItemData>();
 
     void Awake()
     {
@@ -43,8 +52,8 @@ public class NPCShop_Panel : MonoBehaviour
         for (int i = 0; i < shopSpace; i++)
         {
             GameObject cobj = Instantiate<GameObject>(itemObj);
-            shopItems[i] = cobj.AddComponent<NPCShop_Item>();
-            shopItems[i].Idx = i;
+            listItems[i] = cobj.AddComponent<NPCShop_Item>();
+            listItems[i].Idx = i;
             cobj.transform.SetParent(content, false);
             cobj.SetActive(true);
         }
@@ -58,13 +67,34 @@ public class NPCShop_Panel : MonoBehaviour
         if (isInited)
             Refresh();
     }
+
+    int GetItemLeftCount(uint itemid, int idx)
+    {
+        ShopItemData sidata;
+        if (!shopItemDatas.TryGetValue(itemid, out sidata))
+        {
+            NPCShopTab nstab = NPCShopTab.Get((uint)shopType);
+            sidata = new ShopItemData();
+            sidata.leftCount = nstab.buycount == 0 ? -1 : (int)nstab.buycount;
+        }
+        return sidata.leftCount;
+    }
     public void Refresh()
     {
         if (!gameObject.activeSelf)
             return;
 
-        for (int i = 0; i < shopItems.Length; i++)
+        NPCShopTab nstab = NPCShopTab.Get((uint)shopType);
+        for (int i = 0; i < listItems.Length; i++)
         {
+            if(i < nstab.idlist.Length)
+            {
+                listItems[i].Set()
+            }
+            else
+            {
+
+            }
         }
     }
     public void Show( bool isShow, ShopType _type = ShopType.Null)

@@ -378,4 +378,29 @@ public partial class Player : Character
         }
     }
     #endregion
+
+    #region NPC商店*********************************************************************************
+    public void BuyShopItem(int idx)
+    {
+        BaseItem _item = bagItems[idx];
+        if (_item == null)
+            return;
+
+        switch (_item.Type)
+        {
+            case ItemType.EQUIP:
+                {
+                    UseBagEquip((EquipItem)_item, idx);
+                    break;
+                }
+            case ItemType.MEDICINE:
+                {
+                    UseBagMedicine((MedicineItem)_item, idx);
+                    break;
+                }
+            default:
+                break;
+        }
+    }
+    #endregion
 }
