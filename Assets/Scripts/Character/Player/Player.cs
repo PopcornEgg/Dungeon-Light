@@ -72,7 +72,7 @@ public partial class Player : Character
     }
     void FixedUpdate()
     {
-#if !MOBILE_INPUT
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
 
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
@@ -106,16 +106,27 @@ public partial class Player : Character
         anim.SetBool("Run", h != 0f || v != 0f);
     }
 
+
+    float lastTestT = 0;
     public void Attack()
     {
+        Debug.Log("STime: " + (Time.time - lastTestT));
+
+        lastTestT = Time.time;
+
+        Debug.Log("AIState: " + AIState.ToString());
+
         if (AIState == CharacterAnimState.Die || AIState == CharacterAnimState.Attack)
             return;
 
-        if (InsSkillRetType.OK == characterSkill.InstanceSkill(0, null))
+        InsSkillRetType isrt = characterSkill.InstanceSkill(0, null);
+        if (InsSkillRetType.OK == isrt)
         {
             AIState = CharacterAnimState.Attack;
             anim.SetTrigger("Attack");
         }
+
+        Debug.Log("InsSkillRetType: " + isrt.ToString());
     }
     public override void SkillEnd(uint _skillid)
     {
