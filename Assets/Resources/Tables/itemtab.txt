@@ -1,7 +1,9 @@
 #C:\Users\Administrator\AppData\LocalLow\DefaultCompany\Dungeon Light
 #id	类型(0=金钱[0~9999]，1=药水[10000~19999],2=装备[20000~29999])	装备类型	名字	售价	装备等级/需求等级	品质	叠加	MAXHP	MAXMP	AD	AP	ADD	APD	MOVESPEED	道具图标	掉落外观	掉落高度偏移	掉落缩放
 $tabid	type	ietype	name	price	level	quality	overlay	maxhp	maxmp	ad	ap	add	apd	movespeed	icon	model	dropheight	dropscale
-0	0	0	小金币	5	1	0	100	20	0	0	0	0	0	0	medicine_hp_0	Medicines/medicine_hp_0	0.75	1
+0	0	0	小金币	500	1	0	0	0	0	0	0	0	0	0	money_0	Moneys/money_0	0.75	1
+1	0	0	中金币	1000	1	0	0	0	0	0	0	0	0	0	money_1	Moneys/money_1	0.75	1
+2	0	0	大金币	2000	1	0	0	0	0	0	0	0	0	0	money_2	Moneys/money_2	0.75	1
 10000	1	0	小红药	5	1	0	100	20	0	0	0	0	0	0	medicine_hp_0	Medicines/medicine_hp_0	0.75	1
 10001	1	0	中红药	10	5	0	100	50	0	0	0	0	0	0	medicine_hp_1	Medicines/medicine_hp_1	0.75	1
 10002	1	0	大红药	20	10	0	100	100	0	0	0	0	0	0	medicine_hp_2	Medicines/medicine_hp_2	0.75	1

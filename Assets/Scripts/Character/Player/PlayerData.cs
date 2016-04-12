@@ -66,6 +66,11 @@ public partial class Player : Character
         LoadBagItems();
         LoadBodyItems();
     }
+
+    public void AddMoney(uint gold)
+    {
+        MONEY += gold;
+    }
     #endregion
 
     #region 背包*********************************************************************************

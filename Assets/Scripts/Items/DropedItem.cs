@@ -66,7 +66,11 @@ public class DropedItem : MonoBehaviour
             Debug.LogError("BaseItem itemData == null");
         else
         {
-            if (Player.Self.AddBagItem(itemData))
+            if(itemData.TabData.type == ItemType.MONEY)
+            {
+
+            }
+            else if (Player.Self.AddBagItem(itemData))
             {
                 Second_Canvas.RefreshPlayerBag();
             }
