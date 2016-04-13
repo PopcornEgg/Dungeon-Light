@@ -14,6 +14,7 @@ public class HUD_Canvas : MonoBehaviour
     Text currMP;
     Slider Exp_Slider;
     Text currEXP;
+    Text currMoney;
 
     void Awake()
     {
@@ -31,6 +32,8 @@ public class HUD_Canvas : MonoBehaviour
         Exp_Slider = MainInfo.FindChild("Exp_Slider").GetComponent<Slider>();
         currEXP = Exp_Slider.transform.FindChild("Text").GetComponent<Text>();
 
+        currMoney = MainInfo.transform.FindChild("Money").GetComponent<Text>();
+
         Self = this;
     }
     void FixedUpdate()
@@ -45,6 +48,7 @@ public class HUD_Canvas : MonoBehaviour
         MP_Slider.value = (float)player.MP / player.MAXMP;
         currEXP.text = string.Format("{0}/{1}", player.EXP, player.CurrPlayerLvTab.exp);
         Exp_Slider.value = (float)player.EXP / player.MAXHP;
+        currMoney.text = "金币：" + player.MONEY;
     }
 
     public void SetUp()

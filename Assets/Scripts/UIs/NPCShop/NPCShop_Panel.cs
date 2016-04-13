@@ -42,11 +42,12 @@ public class NPCShop_Panel : MonoBehaviour
         //设置item高宽
         RectTransform rtfViewport = list.FindChild("Viewport").GetComponent<RectTransform>();
         float itemWH = (rtfViewport.rect.width - grid.spacing.x * (float)(grid.constraintCount - 1) - grid.padding.left - grid.padding.right) / grid.constraintCount;
-        grid.cellSize = new Vector2(itemWH, itemWH);
+        float itemWHH = itemWH + 10;
+        grid.cellSize = new Vector2(itemWH, itemWHH);
 
         //设置content高度
         int rowCount = shopSpace / grid.constraintCount;
-        float contentWH = itemWH * rowCount + grid.spacing.y * (float)(rowCount - 1) + grid.padding.top + grid.padding.bottom;
+        float contentWH = itemWHH * rowCount + grid.spacing.y * (float)(rowCount - 1) + grid.padding.top + grid.padding.bottom;
         content.sizeDelta = new Vector2(0, contentWH);
 
         for (int i = 0; i < shopSpace; i++)
@@ -98,7 +99,7 @@ public class NPCShop_Panel : MonoBehaviour
             if(i < nstab.idlist.Length)
             {
                 ItemTab _item = ItemTab.Get(nstab.idlist[i]);
-                listItems[i].Set(true, _item.icon, GetItemLeftCount(nstab.idlist[i], nstab.buycount[i]));
+                listItems[i].Set(true, _item.icon, nstab.price[i], GetItemLeftCount(nstab.idlist[i], nstab.buycount[i]));
             }
             else
             {

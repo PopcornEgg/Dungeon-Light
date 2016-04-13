@@ -7,11 +7,14 @@ public class NPCShop_Item : MonoBehaviour
     public int Idx;
     Image imgIcon;
     Text txtCount;
+    Text txtPrice;
 
     void Awake()
     {
-        imgIcon = transform.FindChild("Icon").GetComponent<Image>();
-        txtCount = transform.FindChild("Count").GetComponent<Text>();
+        Transform Img = transform.FindChild("Img");
+        imgIcon = Img.FindChild("Icon").GetComponent<Image>();
+        txtCount = Img.FindChild("Count").GetComponent<Text>();
+        txtPrice = transform.FindChild("Price").GetComponent<Text>();
     }
 
     void Start()
@@ -24,7 +27,7 @@ public class NPCShop_Item : MonoBehaviour
         });
     }
 
-    public void Set(bool isshow, string _icon = "", int _lcount = -1)
+    public void Set(bool isshow, string _icon = "", uint _price = 0, int _lcount = -1)
     {
         if (isshow)
         {
@@ -37,11 +40,14 @@ public class NPCShop_Item : MonoBehaviour
                 txtCount.gameObject.SetActive(false);
             imgIcon.sprite = SpriteManager.GetIcon(_icon);
             imgIcon.gameObject.SetActive(true);
+            txtPrice.text = _price.ToString();
+            txtPrice.gameObject.SetActive(true);
         }
         else
         {
             txtCount.gameObject.SetActive(false);
             imgIcon.gameObject.SetActive(false);
+            txtPrice.gameObject.SetActive(false);
         }
     }
     public void RefreshCount(int _lcount = -1)

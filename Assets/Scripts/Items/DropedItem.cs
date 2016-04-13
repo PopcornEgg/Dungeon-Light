@@ -68,7 +68,7 @@ public class DropedItem : MonoBehaviour
         {
             if(itemData.TabData.type == ItemType.MONEY)
             {
-
+                Player.Self.AddMoney((uint)itemData.TabData.price);
             }
             else if (Player.Self.AddBagItem(itemData))
             {
